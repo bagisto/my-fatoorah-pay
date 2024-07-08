@@ -3,7 +3,7 @@
 namespace Webkul\Myfatoorah\Payment;
 
 use Webkul\Payment\Payment\Payment;
-
+use Webkul\Checkout\Facades\Cart;
 class Myfatoorah extends Payment
 {
    /**
@@ -17,8 +17,6 @@ class Myfatoorah extends Payment
      */
     public function getRedirectUrl()
     {
-        $cart = $this->getCart();
-        
-        return route('myfatoorah.checkout',$cart);
+        return route('myfatoorah.checkout');
     }
 }

@@ -1,4 +1,4 @@
-<script src="{{$jsDomain}}/applepay/v2/applepay.js"></script>
+<script src="{{$jsEnvironment}}/applepay/v2/applepay.js"></script>
 <script>
 var mfApConfig = {
     sessionId: "{{$mfSession->SessionId}}", // Here you add the "SessionId" you receive from the InitiateSession endpoint.

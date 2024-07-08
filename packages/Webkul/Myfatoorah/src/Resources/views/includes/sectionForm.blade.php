@@ -1,4 +1,4 @@
-<script src="{{$jsDomain}}/cardview/v2/session.js"></script>
+<script src="{{$jsEnvironment}}/cardview/v2/session.js"></script>
 <script>
     var config = {
         countryCode: "{{$mfSession->CountryCode}}", // Here, add your Country Code.
@@ -22,10 +22,10 @@
                 borderRadius: "8px",
                 boxShadow: "",
                 placeHolder: {
-                    holderName:   "{{__('myfatoorah.holderName')}}",
-                    cardNumber:   "{{__('myfatoorah.cardNumber')}}",
-                    expiryDate:   "{{__('myfatoorah.expiryDate')}}",
-                    securityCode: "{{__('myfatoorah.securityCode')}}",
+                    holderName:   " @lang('my_fatoorah::app.checkout.holderName')",
+                    cardNumber:   " @lang('my_fatoorah::app.checkout.cardNumber')",
+                    expiryDate:   " @lang('my_fatoorah::app.checkout.expiryDate')",
+                    securityCode: " @lang('my_fatoorah::app.checkout.securityCode')",
                 }
             },
             label: {
@@ -35,10 +35,10 @@
                 fontWeight: "normal",
                 fontFamily: "sans-serif",
                 text: {
-                    holderName:   "{{__('myfatoorah.cardHolderNameLabel')}}",
-                    cardNumber:   "{{__('myfatoorah.cardNumberLabel')}}",
-                    expiryDate:   "{{__('myfatoorah.expiryDateLabel')}}",
-                    securityCode: "{{__('myfatoorah.securityCodeLabel')}}",
+                    holderName:   " @lang('my_fatoorah::app.checkout.cardHolderNameLabel')",
+                    cardNumber:   " @lang('my_fatoorah::app.checkout.cardNumberLabel')",
+                    expiryDate:   " @lang('my_fatoorah::app.checkout.expiryDateLabel')",
+                    securityCode: " @lang('my_fatoorah::app.checkout.securityCodeLabel')",
                 },
             },
             error: {
@@ -47,13 +47,13 @@
                 boxShadow: "0px",
             },
             text: {
-                saveCard: "{{__('myfatoorah.saveCard')}}",
-                addCard:  "{{__('myfatoorah.addCard')}}",
+                saveCard: " @lang('my_fatoorah::app.checkout.saveCard')",
+                addCard:  " @lang('my_fatoorah::app.checkout.addCard')",
                 deleteAlert: {
-                    tilte:   "{{__('myfatoorah.deleteAlert.title')}}",
-                    message: "{{__('myfatoorah.deleteAlert.message')}}",
-                    confirm: "{{__('myfatoorah.deleteAlert.confirm')}}",
-                    cancel:  "{{__('myfatoorah.deleteAlert.cancel')}}"
+                    tilte:   " @lang('my_fatoorah::app.checkout.deleteAlert.title')",
+                    message: " @lang('my_fatoorah::app.checkout.deleteAlert.message')",
+                    confirm: " @lang('my_fatoorah::app.checkout.deleteAlert.confirm')",
+                    cancel:  " @lang('my_fatoorah::app.checkout.deleteAlert.cancel')"
                 }
             }
         },

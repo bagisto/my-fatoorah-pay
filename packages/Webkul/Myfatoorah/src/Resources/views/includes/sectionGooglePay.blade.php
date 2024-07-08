@@ -1,4 +1,4 @@
-<script src="{{$jsDomain}}/googlepay/v1/googlepay.js"></script>
+<script src="{{$jsEnvironment}}/googlepay/v1/googlepay.js"></script>
 <script>
 var mfGpConfig = {
     sessionId: "{{$mfSession->SessionId}}", // Here you add the "SessionId" you receive from the InitiateSession endpoint.

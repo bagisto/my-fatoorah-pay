@@ -3,7 +3,10 @@
 namespace Webkul\Myfatoorah\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
+use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
+use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
+use Webkul\Myfatoorah\Providers\EventServiceProvider;
 
 class MyfatoorahServiceProvider extends ServiceProvider
 {
@@ -14,13 +17,16 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
+        Route::middleware('web')->group(__DIR__ . '/../Routes/route.php');
     
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'my_fatoorah');
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'myfatoorah');
 
-    }
+        $this->app->register(EventServiceProvider::class);
+
+        $this->app->bind(BaseRefundController::class,RefundController::class);
+    } 
 
     /**
      * Register services.

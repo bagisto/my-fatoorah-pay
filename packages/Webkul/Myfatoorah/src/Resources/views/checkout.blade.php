@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{app()->getLocale()}}">
     <head>
-        <title>{{__('myfatoorah.pageCheckout')}}</title>
+        <title>@lang('myfatoorah.pageCheckout')</title>
         <link rel="stylesheet" href="{{asset('vendor/myfatoorah/css/style.css')}}"/>
     </head>
     <body dir="{{App::isLocale('ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
-                {{__('myfatoorah.noPaymentGateways')}}
+             @lang('my_fatoorah::app.checkout.noPaymentGateways')
             </div>
         </div>
         <div class="mf-payment-methods-container" id="mf-paymentGateways" >
             <div class="mf-grey-text">
-                {{__('myfatoorah.howWouldYouLikeToPay')}}
+             @lang('my_fatoorah::app.checkout.howWouldYouLikeToPay')
             </div>
 
             <!-- Google Pay & Apple Pay -->
@@ -38,7 +38,7 @@
                         <span id="mf-or-cardsDivider">
                             {{!empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') : ''}}
                         </span>
-                        {{__('myfatoorah.payWith')}}
+                     @lang('my_fatoorah::app.checkout.payWith')
                     </span>
                 </div>
                 <div id="mf-cards">
@@ -54,7 +54,7 @@
                     <span id="mf-or-formDivider">
                         {{!empty($paymentMethods['cards'] ) || !empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') :''}}
                     </span>
-                    {{__('myfatoorah.insertCardDetails')}}
+                 @lang('my_fatoorah::app.checkout.insertCardDetails')
                 </span>
             </div>
             <div id="mf-form-element" style="width:99%; max-width:800px; padding: 0rem 0.2rem"></div>
@@ -63,7 +63,7 @@
                     border: none; border-radius: 8px;
                     padding: 7px 3px; background-color: #0293cc">
                 <span class="mf-pay-now-span">
-                    {{__('myfatoorah.payNow')}}
+                 @lang('my_fatoorah::app.checkout.payNow')
                 </span>
             </button>
             @endif
@@ -71,7 +71,7 @@
             <script src="{{asset('vendor/myfatoorah/js/checkout.js')}}"></script>
             <script>
                 function mfCallback(response) {
-                    window.location.href = "{{url('myfatoorah')}}?sid=" + response.sessionId + "&cartId={{Cart::getCart()->id}}";
+                    window.location.href = "{{url('myfatoorah')}}?sid=" + response.sessionId;
                 }
             </script>
 
