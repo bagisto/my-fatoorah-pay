@@ -35,7 +35,13 @@ Webkul\Myfatoorah\Providers\MyfatoorahServiceProvider::class,
 ],
 ~~~
 
-4. Perform a command, from the root of your terminal:
+4. Install library
+
+~~~
+composer require myfatoorah/library
+~~~
+
+5. Perform a command, from the root of your terminal:
 
 ~~~
 composer dump-autoload
@@ -52,3 +58,5 @@ npm i
 
 npm build
 ~~~
+
+Note: Current currency should be  USD/KWD
