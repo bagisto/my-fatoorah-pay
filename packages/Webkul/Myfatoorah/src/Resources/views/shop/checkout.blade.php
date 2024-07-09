@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{app()->getLocale()}}">
     <head>
-        <title>@lang('myfatoorah.pageCheckout')</title>
-        <link rel="stylesheet" href="{{asset('vendor/myfatoorah/css/style.css')}}"/>
+        <title>
+            @lang('my_fatoorah::app.checkout.pageCheckout')
+        </title>
     </head>
+        @bagistoVite([ 
+            'src/Resources/assets/css/app.css', 
+            'src/Resources/assets/css/style.css', 
+            'src/Resources/assets/js/app.js',
+            'src/Resources/assets/js/checkout.js',
+        ], 'myfatoorah')
     <body dir="{{App::isLocale('ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
@@ -26,7 +33,7 @@
                 <!-- Google Pay -->
                 @if(!empty($paymentMethods['gp']))
                 <div id="mf-sectionGP">
-                    <div id="mf-gp-element"></div>
+                    <div id="googlepay-card"></div>
                 </div>
                 @endif
             </div>
@@ -42,7 +49,7 @@
                     </span>
                 </div>
                 <div id="mf-cards">
-                    @include('myfatoorah::includes.sectionCards')
+                    <x-myfatoorah::cards :paymentMethods="$paymentMethods"/>
                 </div>
             </div>
             @endif
@@ -67,27 +74,39 @@
                 </span>
             </button>
             @endif
-
-            <script src="{{asset('vendor/myfatoorah/js/checkout.js')}}"></script>
+            
             <script>
                 function mfCallback(response) {
-                    window.location.href = "{{url('myfatoorah')}}?sid=" + response.sessionId;
+                    window.location.href = "{{url('myfatoorah')}}?sessionId=" + response.sessionId;
                 }
             </script>
 
             <!-- Google Pay Scripts -->
             @if(!empty($paymentMethods['gp']))
-            @include('myfatoorah::includes.sectionGooglePay')
+                <x-myfatoorah::googlePay 
+                    :paymentMethods="$paymentMethods"
+                    :jsEnvironment="$jsEnvironment"
+                    :mfSession='$mfSession'
+                />
             @endif
 
             <!-- Apple Pay Scripts -->
             @if(!empty($paymentMethods['ap']))
-            @include('myfatoorah::includes.sectionApplePay')
+                <x-myfatoorah::applePay 
+                    :paymentMethods="$paymentMethods"
+                    :jsEnvironment="$jsEnvironment"
+                    :mfSession='$mfSession' 
+                />
             @endif
 
             <!-- Payment Form Scripts -->
             @if(!empty($paymentMethods['form']))
-            @include('myfatoorah::includes.sectionForm')
+                <x-myfatoorah::form 
+                    :paymentMethods="$paymentMethods"
+                    :jsEnvironment="$jsEnvironment"
+                    :mfSession='$mfSession' 
+                    :userDefinedField="$userDefinedField"
+                />
             @endif
         </div>
     </body>

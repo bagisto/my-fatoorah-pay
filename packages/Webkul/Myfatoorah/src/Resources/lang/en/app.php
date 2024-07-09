@@ -49,10 +49,11 @@ return [
         'securityCodeLabel'    => 'Security Code',
         'saveCard'             => 'Save card number for future payments',
         'addCard'              => 'Use another card',
-        'deleteAlert.title'    => 'Delete Card',
-        'deleteAlert.message'  => 'Are you sure you want to remove this card?',
-        'deleteAlert.confirm'  => 'Yes',
-        'deleteAlert.cancel'   => 'No',
-        'Kindly review your MyFatoorah admin configuration due to a wrong entry.'   => 'Kindly review your MyFatoorah admin configuration due to a wrong entry.',
+        'deleteAlert' => [
+            'title'    => 'Delete Card',
+            'message'  => 'Are you sure you want to remove this card?',
+            'confirm'  => 'Yes',
+            'cancel'   => 'No',
+        ]
     ],
 ];

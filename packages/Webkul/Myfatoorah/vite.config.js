@@ -30,6 +30,8 @@ export default defineConfig(({ mode }) => {
                 input: [
                     "src/Resources/assets/css/app.css",
                     "src/Resources/assets/js/app.js",
+                    "src/Resources/assets/css/style.css",
+                    "src/Resources/assets/js/checkout.js",
                 ],
                 refresh: true,
             }),

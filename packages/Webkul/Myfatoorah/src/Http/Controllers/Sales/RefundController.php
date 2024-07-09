@@ -37,10 +37,6 @@ class RefundController extends BaseRefundController
     public function store(int $orderId)
     {
         $order = $this->orderRepository->findOrFail($orderId);
-        
-        $orderTransection = $this->orderTransactionRepository->where('order_id',$orderId)->latest()->first();
-        
-        
 
         if (! $order->canRefund()) {
             session()->flash('error', trans('admin::app.sales.refunds.create.creation-error'));
@@ -86,7 +82,7 @@ class RefundController extends BaseRefundController
         }
 
         $this->refundRepository->create(array_merge($data, ['order_id' => $orderId]));
-
+        
         $orderTransection = $this->orderTransactionRepository->where('order_id',$orderId)->latest()->first();
 
         $this->myFatoorahController->refund($orderTransection);

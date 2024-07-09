@@ -20,4 +20,28 @@
             background-image: url("../images/icon-temp-active.svg");
         }
     }
+    
+    @media (max-width: 440px) {
+        .mf-card-container {
+            margin: 0.25rem 0rem;
+            height: 40px !important;
+        }
+    
+        .mf-payment-methods-container {
+            padding: 15px 7px;
+            margin: 0.2rem auto;
+        }
+    
+        .mf-payment-logo {
+            margin-inline-end: 0.5rem !important;
+            margin-inline-start: 0rem !important;
+            margin-top: 0 !important;
+            width: 30px !important;
+        }
+    
+        .mf-payment-text {
+            font-weight: 500 !important;
+            line-height: 15px;
+        }
+    }
 }

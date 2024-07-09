@@ -11,7 +11,7 @@ Route::controller(MyFatoorahController::class)->group(function () {
 
     Route::get('myfatoorah/callback','callback')->name('myfatoorah.callback');
     
-    Route::get('myfatoorah/checkout','checkout1')->name('myfatoorah.checkout');
+    Route::get('myfatoorah/checkout','checkout')->name('myfatoorah.checkout');
     
     Route::post('myfatoorah/webhook','webhook')->name('myfatoorah.webhook');
     
