@@ -10,11 +10,11 @@
     </x-slot>
 
     @bagistoVite([ 
-                'src/Resources/assets/css/app.css', 
-                'src/Resources/assets/css/style.css', 
-                'src/Resources/assets/js/app.js',
-                'src/Resources/assets/js/checkout.js',
-            ], 'myfatoorah')
+        'src/Resources/assets/css/app.css', 
+        'src/Resources/assets/css/style.css', 
+        'src/Resources/assets/js/app.js',
+        'src/Resources/assets/js/checkout.js',
+    ], 'myfatoorah')
 
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
@@ -37,7 +37,7 @@
                 <!-- Google Pay -->
                 @if(!empty($paymentMethods['gp']))
                 <div id="mf-sectionGP">
-                    <div id="mf-gp-element"></div>
+                    <div id="googlepay-card"></div>
                 </div>
                 @endif
             </div>

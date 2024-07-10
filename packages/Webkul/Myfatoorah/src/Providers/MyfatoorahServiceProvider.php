@@ -2,12 +2,12 @@
 
 namespace Webkul\Myfatoorah\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
 use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
-use Webkul\Myfatoorah\Providers\EventServiceProvider;
+use Webkul\Myfatoorah\Commands\RegisterApplePay;
 
 class MyfatoorahServiceProvider extends ServiceProvider
 {
@@ -18,20 +18,20 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::middleware('web')->group(__DIR__ . '/../Routes/route.php');
+        Route::middleware('web')->group(__DIR__.'/../Routes/route.php');
 
         Blade::anonymousComponentPath(__DIR__.'/../Resources/views/shop/components', 'myfatoorah');
-    
-        $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'my_fatoorah');
 
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'myfatoorah');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'my_fatoorah');
+
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'myfatoorah');
 
         $this->app->register(EventServiceProvider::class);
 
-        $this->app->bind(BaseRefundController::class,RefundController::class);
-    } 
+        $this->app->bind(BaseRefundController::class, RefundController::class);
+    }
 
-    /** 
+    /**
      * Register services.
      *
      * @return void
@@ -39,6 +39,8 @@ class MyfatoorahServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+
+        $this->commands([RegisterApplePay::class]);
     }
 
     /**

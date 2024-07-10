@@ -4,6 +4,7 @@ return [
     [
         'key'    => 'sales.payment_methods.myfatoorah',
         'name'   => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.title',
+        'info'   => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.description',
         'sort'   => 5,
         'fields' => [
             [
@@ -32,26 +33,26 @@ return [
                     ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.sau',
                         'value' => 'SAU',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.are',
                         'value' => 'ARE',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.qat',
                         'value' => 'QAT',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.bhr',
                         'value' => 'BHR',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.omn',
                         'value' => 'OMN',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.jod',
                         'value' => 'JOD',
-                    ],[
+                    ], [
                         'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.egy',
                         'value' => 'EGY',
                     ],
-                    
+
                 ],
 
             ], [
@@ -73,7 +74,6 @@ return [
                 'channel_based' => true,
                 'locale_based'  => true,
             ],
-
         ],
     ],
 ];

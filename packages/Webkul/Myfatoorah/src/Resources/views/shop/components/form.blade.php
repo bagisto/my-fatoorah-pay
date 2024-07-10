@@ -20,10 +20,10 @@
                 borderRadius: "8px",
                 boxShadow: "",
                 placeHolder: {
-                    holderName:   " {{ trans('my_fatoorah::app.checkout.holderName') }}",
-                    cardNumber:   " {{ trans('my_fatoorah::app.checkout.cardNumber') }}",
-                    expiryDate:   " {{ trans('my_fatoorah::app.checkout.expiryDate') }}",
-                    securityCode: " {{ trans('my_fatoorah::app.checkout.securityCode') }}",
+                    holderName:   " {{ trans('my_fatoorah::app.shop.components.form.holderName') }}",
+                    cardNumber:   " {{ trans('my_fatoorah::app.shop.components.form.cardNumber') }}",
+                    expiryDate:   " {{ trans('my_fatoorah::app.shop.components.form.expiryDate') }}",
+                    securityCode: " {{ trans('my_fatoorah::app.shop.components.form.securityCode') }}",
                 }
             },
             label: {
@@ -33,10 +33,10 @@
                 fontWeight: "normal",
                 fontFamily: "sans-serif",
                 text: {
-                    holderName:   " {{ trans('my_fatoorah::app.checkout.cardHolderNameLabel') }}",
-                    cardNumber:   " {{ trans('my_fatoorah::app.checkout.cardNumberLabel') }}",
-                    expiryDate:   " {{ trans('my_fatoorah::app.checkout.expiryDateLabel') }}",
-                    securityCode: " {{ trans('my_fatoorah::app.checkout.securityCodeLabel') }}",
+                    holderName:   " {{ trans('my_fatoorah::app.shop.components.form.cardHolderNameLabel') }}",
+                    cardNumber:   " {{ trans('my_fatoorah::app.shop.components.form.cardNumberLabel') }}",
+                    expiryDate:   " {{ trans('my_fatoorah::app.shop.components.form.expiryDateLabel') }}",
+                    securityCode: " {{ trans('my_fatoorah::app.shop.components.form.securityCodeLabel') }}",
                 },
             },
             error: {
@@ -45,13 +45,13 @@
                 boxShadow: "0px",
             },
             text: {
-                saveCard: " {{ trans('my_fatoorah::app.checkout.saveCard') }}",
-                addCard:  " {{ trans('my_fatoorah::app.checkout.addCard') }}",
+                saveCard: " {{ trans('my_fatoorah::app.shop.components.form.saveCard') }}",
+                addCard:  " {{ trans('my_fatoorah::app.shop.components.form.addCard') }}",
                 deleteAlert: {
-                    tilte:   " {{ trans('my_fatoorah::app.checkout.deleteAlert.title') }}",
-                    message: " {{ trans('my_fatoorah::app.checkout.deleteAlert.message') }}",
-                    confirm: " {{ trans('my_fatoorah::app.checkout.deleteAlert.confirm') }}",
-                    cancel:  " {{ trans('my_fatoorah::app.checkout.deleteAlert.cancel') }}"
+                    tilte:   " {{ trans('my_fatoorah::app.shop.components.form.deleteAlert.title') }}",
+                    message: " {{ trans('my_fatoorah::app.shop.components.form.deleteAlert.message') }}",
+                    confirm: " {{ trans('my_fatoorah::app.shop.components.form.deleteAlert.confirm') }}",
+                    cancel:  " {{ trans('my_fatoorah::app.shop.components.form.deleteAlert.cancel') }}"
                 }
             }
         },

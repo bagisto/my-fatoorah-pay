@@ -2,7 +2,7 @@
 <html lang="{{app()->getLocale()}}">
     <head>
         <title>
-            @lang('my_fatoorah::app.checkout.pageCheckout')
+            @lang('my_fatoorah::app.shop.checkout.pageCheckout')
         </title>
     </head>
         @bagistoVite([ 
@@ -14,12 +14,12 @@
     <body dir="{{App::isLocale('ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
-             @lang('my_fatoorah::app.checkout.noPaymentGateways')
+             @lang('my_fatoorah::app.shop.checkout.noPaymentGateways')
             </div>
         </div>
         <div class="mf-payment-methods-container" id="mf-paymentGateways" >
             <div class="mf-grey-text">
-             @lang('my_fatoorah::app.checkout.howWouldYouLikeToPay')
+             @lang('my_fatoorah::app.shop.checkout.howWouldYouLikeToPay')
             </div>
 
             <!-- Google Pay & Apple Pay -->
@@ -45,7 +45,7 @@
                         <span id="mf-or-cardsDivider">
                             {{!empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') : ''}}
                         </span>
-                     @lang('my_fatoorah::app.checkout.payWith')
+                     @lang('my_fatoorah::app.shop.checkout.payWith')
                     </span>
                 </div>
                 <div id="mf-cards">
@@ -61,7 +61,7 @@
                     <span id="mf-or-formDivider">
                         {{!empty($paymentMethods['cards'] ) || !empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') :''}}
                     </span>
-                 @lang('my_fatoorah::app.checkout.insertCardDetails')
+                 @lang('my_fatoorah::app.shop.checkout.insertCardDetails')
                 </span>
             </div>
             <div id="mf-form-element" style="width:99%; max-width:800px; padding: 0rem 0.2rem"></div>
@@ -70,7 +70,7 @@
                     border: none; border-radius: 8px;
                     padding: 7px 3px; background-color: #0293cc">
                 <span class="mf-pay-now-span">
-                 @lang('my_fatoorah::app.checkout.payNow')
+                 @lang('my_fatoorah::app.shop.checkout.payNow')
                 </span>
             </button>
             @endif

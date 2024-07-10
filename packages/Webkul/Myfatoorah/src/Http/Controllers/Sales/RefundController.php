@@ -2,14 +2,13 @@
 
 namespace Webkul\Myfatoorah\Http\Controllers\Sales;
 
-use Webkul\Admin\DataGrids\Sales\OrderRefundDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\OrderTransactionRepository;
 use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
 use Webkul\Myfatoorah\Http\Controllers\MyFatoorahController;
+use Webkul\Sales\Repositories\OrderItemRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\OrderTransactionRepository;
+use Webkul\Sales\Repositories\RefundRepository;
 
 class RefundController extends BaseRefundController
 {
@@ -24,10 +23,7 @@ class RefundController extends BaseRefundController
         protected RefundRepository $refundRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
         protected MyFatoorahController $myFatoorahController
-    ) {
-    }
-
-
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -82,15 +78,13 @@ class RefundController extends BaseRefundController
         }
 
         $this->refundRepository->create(array_merge($data, ['order_id' => $orderId]));
-        
-        $orderTransection = $this->orderTransactionRepository->where('order_id',$orderId)->latest()->first();
+
+        $orderTransection = $this->orderTransactionRepository->where('order_id', $orderId)->latest()->first();
 
         $this->myFatoorahController->refund($orderTransection);
-        
+
         session()->flash('success', trans('admin::app.sales.refunds.create.create-success'));
 
         return redirect()->route('admin.sales.refunds.index');
     }
-
-
 }
