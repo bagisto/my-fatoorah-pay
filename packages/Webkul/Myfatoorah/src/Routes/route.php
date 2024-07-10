@@ -21,7 +21,6 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
 
         Route::get('myfatoorah/getpaymentmethod', 'getPaymentMethods')->name('shop.checkout.onepage.myfatoorah.getpament.methods');
 
-        Route::get('myfatoorah/registerApplePay/{domain}','registerApplePay')->name('myfatoorah.register.applePay');
     });
 });
 
