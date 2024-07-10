@@ -4,7 +4,7 @@
     :hasFeature=false
 >
     <x-slot:title>
-        @lang('my_fatoorah::app.checkout.pageError')
+        @lang('my_fatoorah::app.shop.checkout.pageError')
     </x-slot>
     @bagistoVite([ 
         'src/Resources/assets/css/app.css', 

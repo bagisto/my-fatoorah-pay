@@ -25,25 +25,25 @@
             <!-- Google Pay & Apple Pay -->
             <div id="mf-sectionButtons">
                 <!-- Apple Pay -->
-                @if(!empty($paymentMethods['ap']))
+                @if(! empty($paymentMethods['ap']))
                 <div id="mf-sectionAP">
                     <div id="mf-ap-element" style="height: 40px;"></div>
                 </div>
                 @endif
                 <!-- Google Pay -->
-                @if(!empty($paymentMethods['gp']))
+                @if(! empty($paymentMethods['gp']))
                 <div id="mf-sectionGP">
                     <div id="googlepay-card"></div>
                 </div>
                 @endif
             </div>
 
-            @if(!empty($paymentMethods['cards'] ))
+            @if(! empty($paymentMethods['cards'] ))
             <div id="mf-sectionCard">
                 <div class="mf-divider card-divider" id="mf-payWith-cardDivider">
                     <span class="mf-divider-span" id="mf-payWith-divider">
                         <span id="mf-or-cardsDivider">
-                            {{!empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') : ''}}
+                            {{! empty($paymentMethods['ap'] ) || ! empty($paymentMethods['gp'] ) ? __('myfatoorah.or') : ''}}
                         </span>
                      @lang('my_fatoorah::app.shop.checkout.payWith')
                     </span>
@@ -55,11 +55,11 @@
             @endif
 
             <!-- Payment Form -->
-            @if(!empty($paymentMethods['form']))
+            @if(! empty($paymentMethods['form']))
             <div class="mf-divider">
                 <span class="mf-divider-span">
                     <span id="mf-or-formDivider">
-                        {{!empty($paymentMethods['cards'] ) || !empty($paymentMethods['ap'] ) || !empty($paymentMethods['gp'] ) ? __('myfatoorah.or') :''}}
+                        {{! empty($paymentMethods['cards'] ) || ! empty($paymentMethods['ap'] ) || ! empty($paymentMethods['gp'] ) ? trans('my_fatoorah::app.shop.checkout.or') :''}}
                     </span>
                  @lang('my_fatoorah::app.shop.checkout.insertCardDetails')
                 </span>
@@ -82,7 +82,7 @@
             </script>
 
             <!-- Google Pay Scripts -->
-            @if(!empty($paymentMethods['gp']))
+            @if(! empty($paymentMethods['gp']))
                 <x-myfatoorah::googlePay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
@@ -91,7 +91,7 @@
             @endif
 
             <!-- Apple Pay Scripts -->
-            @if(!empty($paymentMethods['ap']))
+            @if(! empty($paymentMethods['ap']))
                 <x-myfatoorah::applePay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
@@ -100,7 +100,7 @@
             @endif
 
             <!-- Payment Form Scripts -->
-            @if(!empty($paymentMethods['form']))
+            @if(! empty($paymentMethods['form']))
                 <x-myfatoorah::form 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"

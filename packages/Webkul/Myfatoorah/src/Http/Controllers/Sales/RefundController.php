@@ -81,7 +81,7 @@ class RefundController extends BaseRefundController
 
         $orderTransection = $this->orderTransactionRepository->where('order_id', $orderId)->latest()->first();
 
-        $this->myFatoorahController->refund($orderTransection);
+        $this->myFatoorahController->refund($orderTransection, $refundAmount);
 
         session()->flash('success', trans('admin::app.sales.refunds.create.create-success'));
 

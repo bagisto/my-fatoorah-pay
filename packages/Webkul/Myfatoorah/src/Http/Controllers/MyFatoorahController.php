@@ -290,7 +290,7 @@ class MyFatoorahController extends Controller
      * MyFatoorah Webhook
      *
      *
-     * @return void
+     * @return JsonResponse
      */
     public function webhook(Request $request)
     {
@@ -340,9 +340,9 @@ class MyFatoorahController extends Controller
      * MyFatoorah Refund
      *
      * @param  \Webkul\Sales\Contracts\Transaction  $transaction
-     * @return void
+     * @return bool
      */
-    public function refund($transaction)
+    public function refund($transaction, $refundAmount)
     {
         try {
             $order = $this->orderRepository->find($transaction->order_id);
@@ -352,7 +352,7 @@ class MyFatoorahController extends Controller
                 'KeyType'                 => 'InvoiceId',
                 'RefundChargeOnCustomer'  => false,
                 'ServiceChargeOnCustomer' => false,
-                'Amount'                  => $transaction->amount,
+                'Amount'                  => $refundAmount,
                 'CurrencyIso'             => $order->order_currency_code,
             ];
 
@@ -373,7 +373,6 @@ class MyFatoorahController extends Controller
      */
     private function changeTransactionStatus($data)
     {
-
         $invoiceId = $data['InvoiceId'];
 
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus($invoiceId, 'InvoiceId');
@@ -455,7 +454,7 @@ class MyFatoorahController extends Controller
 
         $invoice = null;
 
-        $orderStatus = $data->InvoiceStatus == 'Success' ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED;
+        $orderStatus = $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED;
 
         $order->update(['status' => $orderStatus]);
 
@@ -474,15 +473,5 @@ class MyFatoorahController extends Controller
 
         return view('myfatoorah::shop.error', compact('exMessage'));
 
-    }
-
-    public function registerApplePay($domain)
-    {
-        $result= Http::withHeaders([
-            "Authorization" => "Bearer ".$this->mfConfig['apiKey'],
-        ])->post($this->myFatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
-            "DomainName" =>$domain,
-        ]);
-        return $result;
     }
 }
