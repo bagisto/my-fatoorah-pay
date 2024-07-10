@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('mf-ap-element')?.remove();
 
     var mfGpElement = document.getElementById('mf-gp-element');
-    if (!mfGpElement) {
+    if (! mfGpElement) {
         document.getElementById('mf-or-cardsDivider')?.remove();
     }
 
@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var mfCardContainer = document.querySelectorAll('.mf-card-container');
     if (mfCardContainer.length === 0) {
         document.getElementById('mf-sectionCard')?.remove();
-        if (!mfGpElement) {
+        if (! mfGpElement) {
             document.getElementById('mf-or-formDivider')?.remove();
         }
 
-        if (!document.getElementById('mf-ap-element') && !document.getElementById('mf-gp-element') && !document.getElementById('mf-form-element')) {
+        if (! document.getElementById('mf-ap-element') && ! document.getElementById('mf-gp-element') && ! document.getElementById('mf-form-element')) {
             document.getElementById('mf-paymentGateways')?.remove();
             document.getElementById('mf-noPaymentGateways').style.display = 'block';
         }
