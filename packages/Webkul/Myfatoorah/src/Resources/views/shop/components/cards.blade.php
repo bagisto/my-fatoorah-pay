@@ -1,12 +1,12 @@
-@foreach($paymentMethods['cards'] as $mfCard)
-@php($mfCardTitle = App::isLocale('ar') ? $mfCard->PaymentMethodAr : $mfCard->PaymentMethodEn)
-    <div class="mf-card-container mf-div-{{$mfCard->PaymentMethodCode}}" onclick="mfCardSubmit('{{$mfCard->PaymentMethodId}}')">
+@foreach($paymentMethods['cards'] as $card)
+@php($cardTitle = App::isLocale('ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
+    <div class="mf-card-container mf-div-{{$card->PaymentMethodCode}}" onclick="mfCardSubmit('{{$card->PaymentMethodId}}')">
         <div class="mf-row-container">
-            <img class="mf-payment-logo" src="{{$mfCard->ImageUrl}}" alt="{{$mfCardTitle}}">
-            <span class="mf-payment-text mf-card-title">{{$mfCardTitle}}</span>
+            <img class="mf-payment-logo" src="{{$card->ImageUrl}}" alt="{{$cardTitle}}">
+            <span class="mf-payment-text mf-card-title">{{$cardTitle}}</span>
         </div>
         <span class="mf-payment-text">
-            {{ $mfCard->GatewayData['GatewayTotalAmount'] }} {{ $mfCard->GatewayData['GatewayCurrency'] }}
+            {{ $card->GatewayData['GatewayTotalAmount'] }} {{ $card->GatewayData['GatewayCurrency'] }}
         </span>
     </div>
 @endforeach
