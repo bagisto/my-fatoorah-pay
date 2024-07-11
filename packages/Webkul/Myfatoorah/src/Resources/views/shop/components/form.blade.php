@@ -1,6 +1,6 @@
 <script src="{{ $jsEnvironment }}/cardview/v2/session.js"></script>
 <script>
-    var config = {
+    let config = {
         countryCode: "{{ $mfSession->CountryCode }}",
         sessionId: "{{ $mfSession->SessionId }}",
         cardViewId: "mf-form-element",

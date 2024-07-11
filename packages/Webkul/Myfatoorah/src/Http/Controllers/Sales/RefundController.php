@@ -26,7 +26,8 @@ class RefundController extends BaseRefundController
         protected OrderTransactionRepository $orderTransactionRepository,
         protected PaymentController $PaymentController,
         protected MyFatoorahRefund $myFatoorahRefund
-    ) {}
+    ) {
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -84,7 +85,7 @@ class RefundController extends BaseRefundController
         $this->refundRepository->create(array_merge($data, ['order_id' => $orderId]));
 
         $orderTransection = $this->orderTransactionRepository->where('order_id', $orderId)->latest()->first();
-        
+
         if ($order->payment->method == 'myfatoorah') {
             $this->refund($orderTransection, $refundAmount);
         }
@@ -111,9 +112,10 @@ class RefundController extends BaseRefundController
                 'Amount'                  => $refundAmount,
                 'CurrencyIso'             => $this->orderRepository->find($transaction->order_id)->order_currency_code,
             ];
-            
+
             return $this->myFatoorahRefund->makeRefund($postFields) ? true : false;
         } catch (Exception $ex) {
+
             return false;
         }
     }

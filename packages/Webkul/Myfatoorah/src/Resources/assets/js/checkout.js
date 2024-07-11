@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //remove ap if registered
     document.getElementById('mf-ap-element')?.remove();
 
-    var mfGpElement = document.getElementById('mf-gp-element');
+    let mfGpElement = document.getElementById('mf-gp-element');
     if (! mfGpElement) {
         document.getElementById('mf-or-cardsDivider')?.remove();
     }
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //are there any cards left?
-    var mfCardContainer = document.querySelectorAll('.mf-card-container');
+    let mfCardContainer = document.querySelectorAll('.mf-card-container');
     if (mfCardContainer.length === 0) {
         document.getElementById('mf-sectionCard')?.remove();
         if (! mfGpElement) {

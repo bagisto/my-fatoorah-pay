@@ -171,7 +171,6 @@ class PaymentController extends Controller
         Cart::deActivateCart();
 
         return redirect()->route('shop.checkout.onepage.success');
-
     }
 
     /**
@@ -374,6 +373,5 @@ class PaymentController extends Controller
         Cart::deActivateCart();
 
         return view('myfatoorah::shop.error', compact('exMessage'));
-
     }
 }

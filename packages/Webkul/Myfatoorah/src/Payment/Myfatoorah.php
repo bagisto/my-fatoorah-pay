@@ -18,7 +18,7 @@ class Myfatoorah extends Payment
      */
     public function getRedirectUrl()
     {
-        if((bool)core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
+        if( (bool)core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
 
             return route('myfatoorah.checkout');
         }
@@ -26,10 +26,13 @@ class Myfatoorah extends Payment
         throw new \Exception(trans('my_fatoorah::app.shop.checkout.method-unavailable'));
     }
 
+    /**
+     * Get payment method image.
+     *
+     * @return string
+     */
     public function getImage()
     {
-        
-
         return @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
     }
 }

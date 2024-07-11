@@ -38,7 +38,6 @@ class RegisterApplePay extends Command
     
             $this->info($response['IsSuccess'] ? 'Apple Pay Registered Successfully' : $response['Message']);
         } else {
-
             $this->info('API Key Not Found');
         }
     }
@@ -52,17 +51,16 @@ class RegisterApplePay extends Command
      */
     public function registerApplePay($domain)
     {
-       $myfatoorah = new MyFatoorah( [
+        $myfatoorah = new MyFatoorah( [
             'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
             'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
             'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
         ]);
-            $result = Http::withHeaders([
-                "Authorization" => "Bearer ".core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-            ])->post($myfatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
-                "DomainName" =>$domain,
-            ]);
 
-            return $result;
+        return Http::withHeaders([
+            "Authorization" => "Bearer ".core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
+        ])->post($myfatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
+            "DomainName" =>$domain,
+        ]);
     }
 }
