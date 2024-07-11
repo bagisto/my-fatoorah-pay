@@ -35,20 +35,24 @@ return [
 
     'shop' => [
         'checkout' => [
-            'pageCheckout'         => 'MyFatoorah - Checkout',
-            'noPaymentGateways'    => 'There are no payment methods available on your account, please contact your account manager.',
-            'howWouldYouLikeToPay' => 'How would you like to pay?',
-            'or'                   => 'Or',
-            'payWith'              => 'Pay With',
-            'insertCardDetails'    => 'Insert Card Details',
-            'payNow'               => 'Pay Now',
-            'invoice-success'      => 'Invoice is paid.',
-            'invoice-failed'       => 'Invoice is not paid due to :error',
-            'method-unavailable'   => 'This Payment Method is InActive please try another one',
+            'page-title'              => 'MyFatoorah - Checkout',
+            'noPaymentGateways'       => 'There are no payment methods available on your account, please contact your account manager.',
+            'howWouldYouLikeToPay'    => 'How would you like to pay?',
+            'or'                      => 'Or',
+            'payWith'                 => 'Pay With',
+            'insertCardDetails'       => 'Insert Card Details',
+            'payNow'                  => 'Pay Now',
+            'invoice-success'         => 'Invoice is paid.',
+            'invoice-failed'          => 'Invoice is not paid due to :error',
+            'method-unavailable'      => 'This Payment Method is InActive please try another one',
+            'invalidWebhookData'      => 'Invalid Webhook Data',
+            'noWebhookSignature'      => 'Webhook Signature is not available.',
+            'noWebhookSecretKey'      => 'Webhook Secret Key is not available.',
+            'invalidWebhookSignature' => 'Invalid Webhook Signature.',
         ],
 
         'error' => [
-            'pageError' => 'MyFatoorah Error',
+            'page-title' => 'MyFatoorah Error',
         ],
 
         'components' => [

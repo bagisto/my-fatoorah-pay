@@ -43,23 +43,23 @@ class MyfatoorahServiceProvider extends ServiceProvider
         ];
 
         if(! empty($mfConfig['apiKey'])) {
-            $this->app->bind(MyFatoorah::class, function () use ($mfConfig) {
+            $this->app->bind(MyFatoorah::class, function() use ($mfConfig) {
                 return new MyFatoorah($mfConfig);
             });
     
-            $this->app->bind(MyFatoorahPaymentEmbedded::class, function () use ($mfConfig) {
+            $this->app->bind(MyFatoorahPaymentEmbedded::class, function() use ($mfConfig) {
                 return new MyFatoorahPaymentEmbedded($mfConfig);
             });
     
-            $this->app->bind(MyFatoorahPayment::class, function () use ($mfConfig) {
+            $this->app->bind(MyFatoorahPayment::class, function() use ($mfConfig) {
                 return new MyFatoorahPayment($mfConfig);
             });
     
-            $this->app->bind(MyFatoorahRefund::class, function () use ($mfConfig) {
+            $this->app->bind(MyFatoorahRefund::class, function() use ($mfConfig) {
                 return new MyFatoorahRefund($mfConfig);
             });
     
-            $this->app->bind(myFatoorahPaymentStatus::class, function () use ($mfConfig) {
+            $this->app->bind(myFatoorahPaymentStatus::class, function() use ($mfConfig) {
                 return new myFatoorahPaymentStatus($mfConfig);
             });
         }
@@ -89,8 +89,6 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-       
-
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/system.php', 'core'
         );

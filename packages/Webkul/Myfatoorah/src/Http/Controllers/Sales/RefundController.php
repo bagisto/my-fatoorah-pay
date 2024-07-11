@@ -31,6 +31,7 @@ class RefundController extends BaseRefundController
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $orderId
      * @return \Illuminate\Http\Response
      */
     public function store(int $orderId)
@@ -102,7 +103,6 @@ class RefundController extends BaseRefundController
     public function refund($transaction, $refundAmount)
     {
         try {
-
             $postFields = [
                 'Key'                     => json_decode($transaction->data)->InvoiceId,
                 'KeyType'                 => 'InvoiceId',
@@ -114,7 +114,6 @@ class RefundController extends BaseRefundController
             
             return $this->myFatoorahRefund->makeRefund($postFields) ? true : false;
         } catch (Exception $ex) {
-
             return false;
         }
     }

@@ -28,8 +28,8 @@ class Myfatoorah extends Payment
 
     public function getImage()
     {
-        $url = $this->getConfigData('image');
+        
 
-        return $url ? Storage::url($url) : @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
+        return @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
     }
 }

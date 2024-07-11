@@ -2,15 +2,18 @@
 <html lang="{{ app()->getLocale() }}">
     <head>
         <title>
-            @lang('my_fatoorah::app.shop.checkout.pageCheckout')
+            @lang('my_fatoorah::app.shop.checkout.page-title')
         </title>
-    </head>
+        
         @bagistoVite([ 
             'src/Resources/assets/css/app.css', 
             'src/Resources/assets/css/style.css', 
             'src/Resources/assets/js/app.js',
             'src/Resources/assets/js/checkout.js',
         ], 'myfatoorah')
+
+    </head>
+    
     <body dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">

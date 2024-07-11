@@ -66,7 +66,7 @@ return [
                 'name'          => 'save_card',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.save-card',
                 'type'          => 'boolean',
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ], [
                 'name'          => 'is_webhook_enabled',

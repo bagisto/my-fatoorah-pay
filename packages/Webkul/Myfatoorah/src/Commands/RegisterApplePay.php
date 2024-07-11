@@ -9,7 +9,6 @@ use MyFatoorah\Library\MyFatoorah;
 
 class RegisterApplePay extends Command
 {
-
     /**
      * The name and signature of the console command.
      *

@@ -11,18 +11,9 @@ MyFatoorah Payment Module enables get your business up and running in a few minu
   - Google Pay
   - Apple Pay
   - Custom methods based on your Myfatoorah account API key
-- **Card store option**: Option for admins to securely store customer card data for future payments.
+- **Card store option**: Option for admins to securely store customer card data at Myfatoorah payment portal for future payments.
 - **Refund option**: Supports both partial and total refunds, with some gateways offering instant refund capabilities.
-- **Webhook setup steps**: Easily set up Webhooks to receive real-time status updates for transactions, refunds, and deposits. Follow these steps for Webhook integration:
-  1. Access the Bagisto Admin Panel.
-  2. Navigate to the "Configuration" tab in the Sidebar.
-  3. Select the "Payment Methods" tab under the "Sales" section.
-  4. Enable the Myfatoorah Webhook and copy the link provided under the "Webhook Secret Key" field.
-  5. Go to your Myfatoorah Dashboard and go to > Interaction Settings > Webhook Settings.
-  6. Activate Webhook and paste the copied link from the Bagisto admin.
-  7. Enable the Secret Key and generate the Webhook Secret key. Copy the generated key.
-  8. Choose the relevant Webhook Events and save your settings.
-  9. Return to the Bagisto admin, paste the Webhook Secret key, and save your changes.
+- **Webhook setup steps**:Webhook option is also available with this module to get payment status for the respective purchages.
 - **Supported Countries**: Kuwait, Saudi Arabia, Qatar, Oman, Egypt, Jordan, Bahrain, United Arab Emirates.
 
 
@@ -82,20 +73,29 @@ npm i
 npm build
 ~~~
 
-**Myfatoorah official link**
-- https://myfatoorah.com/
   
 
-# Configuration:
+# Configuration
 
-1. API key
+1. How to get API key from the Myfatoorah payment portal.
    -
-   Step to get API key:
-   - Go to you Myfatoorah Dashboard
+   Myfatoorah payment portal url:- https://myfatoorah.com/ 
+   - Go to Myfatoorah Dashboard
    - Click on "Interagation Settings"
    - Click on "Api Key"
-  
-2. Register Apple Pay
+
+2. How to get webhooksecret key from Myfatoorah to link with Bagisto Myfatoorah module.
+   -
+   1. Access the Bagisto Admin Panel.
+   2. Navigate to the "Configuration" tab in the Sidebar.
+   3. Select the "Payment Methods" tab under the "Sales" section.
+   4. Enable the Myfatoorah Webhook and copy the link provided under the "Webhook Secret Key" field.
+   5. Go to your Myfatoorah Dashboard and go to > Interaction Settings > Webhook Settings.
+   6. Activate Webhook and paste the copied link from the Bagisto admin.
+   7. Choose the relevant Webhook Events.
+   8. Enable the Secret Key and generate the Webhook Secret key and save your settings.
+
+3. Apple Pay registration steps.
    -
 
    Host your domain verification file
@@ -110,7 +110,6 @@ npm build
       ~~~
       php artisan myfatoorah:register-apple-pay
       ~~~
-
 Note: 
 * Apple pay registration is required if you need "Apple Pay" payment option
   
