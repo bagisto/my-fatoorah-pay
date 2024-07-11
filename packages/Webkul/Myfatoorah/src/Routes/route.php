@@ -17,10 +17,6 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
 
         Route::post('myfatoorah/webhook', 'webhook')->name('myfatoorah.webhook');
 
-        Route::get('myfatoorah/redirect', 'redirect')->name('myfatoorah.redirect');
-
-        Route::get('myfatoorah/getpaymentmethod', 'getPaymentMethods')->name('shop.checkout.onepage.myfatoorah.getpament.methods');
-
     });
 });
 

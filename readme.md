@@ -5,10 +5,24 @@ MyFatoorah Payment Module enables get your business up and running in a few minu
 
 # Features
 
-* Admin can enable Setting for save your customer card data for future payment.
-* we support partial and total refund. Moreover, Instant refund is supported for some gateways.
-* Payment enquiry to get the status of any invoice or transaction
-* webhook to trigger an event to your endpoint to be updated with all the status changes for your transaction, refund, deposits...
+- **Module Activation**: Admin can easily enable the module through configuration settings.
+- **Payment Processing**: Users can securely make payments using this module, including the following supported payment methods:
+  - Debit Cards/Credit Cards
+  - Google Pay
+  - Apple Pay
+- **Customer Card Data Storage**: Option for admins to save customer card data for convenient future payments.
+- **Refund Support**: Supports both partial and total refunds; certain gateways also offer instant refund capabilities.
+- **Webhook Integration**: Webhook functionality to notify your endpoint of status changes for transactions, refunds, and deposits. If admin needs Webhook integration, follow these steps:
+  1. Go to the Bagisto Admin Panel.
+  2. Click on the "Configuration" tab from the Sidebar.
+  3. Click on the "Payment Methods" tab located in the "Sales" section.
+  4. Enable Myfatoorah Webhook and copy the link displayed under the "Webhook Secret Key" field.
+  5. Go to your Myfatoorah Dashboard and click on > Interaction Settings > Webhook Settings.
+  6. Enable Webhook and paste the link copied from Bagisto admin.
+  7. Enable Secret Key and generate the Webhook Secret key. Copy the Secret key.
+  8. Check the Webhook Events that you need and save.
+  9. Return to the Bagisto admin and paste the Webhook Secret key and save.
+
 
 
 # Requirements:

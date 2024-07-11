@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Http;
 use MyFatoorah\Library\API\MyFatoorahRefund;
 use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
 use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
@@ -38,33 +37,6 @@ class MyFatoorahController extends Controller
     const EXPIRED = 'Expired';
 
     /**
-     * @var array
-     */
-    public $mfConfig = [];
-
-    /**
-     * @var object
-     */
-    protected $myFatoorahPaymentEmbedded;
-
-    /**
-     * @var object
-     */
-    protected $myFatoorahPayment;
-
-    /**
-     * @var object
-     */
-    protected $myFatoorahRefund;
-
-    /**
-     * @var object
-     */
-    protected $myFatoorahPaymentStatus;
-
-    protected $myFatoorah;
-
-    /**
      * Initiate MyFatoorah Configuration and Instances
      */
     public function __construct(
@@ -72,22 +44,12 @@ class MyFatoorahController extends Controller
         protected OrderTransactionRepository $orderTransactionRepository,
         protected InvoiceRepository $invoiceRepository,
         protected CartRepository $cartRepository,
+        protected MyFatoorah $myFatoorah,
+        protected MyFatoorahPaymentEmbedded $myFatoorahPaymentEmbedded,
+        protected MyFatoorahPayment $myFatoorahPayment,
+        protected MyFatoorahRefund $myFatoorahRefund,
+        protected MyFatoorahPaymentStatus $myFatoorahPaymentStatus,
     ) {
-        $this->mfConfig = [
-            'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-            'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
-            'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
-        ];
-
-        $this->myFatoorahPaymentEmbedded = new MyFatoorahPaymentEmbedded($this->mfConfig);
-
-        $this->myFatoorahPayment = new MyFatoorahPayment($this->mfConfig);
-
-        $this->myFatoorahRefund = new MyFatoorahRefund($this->mfConfig);
-
-        $this->myFatoorahPaymentStatus = new MyFatoorahPaymentStatus($this->mfConfig);
-
-        $this->myFatoorah  = new MyFatoorah($this->mfConfig);
     }
 
     /**
@@ -167,33 +129,26 @@ class MyFatoorahController extends Controller
     public function callback()
     {
         try {
-            $paymentId = request('paymentId');
 
-            $data = $this->myFatoorahPaymentStatus->getPaymentStatus($paymentId, 'PaymentId');
+            $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
             $message = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
-
-            $orderStatus = $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED;
-
-            $customerId = $data->CustomerReference;
 
             $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
             $invoice = null;
 
-            if ($data->InvoiceStatus == Self::PAID
+            if (
+                $data->InvoiceStatus == Self::PAID
                 && $order->canInvoice()
                 && $this->invoiceRepository->where('order_id', $order->id)->count() == 0
             ) {
-
-                $prepareInvoiceData = $this->prepareInvoiceData($order);
-
-                $invoice = $this->invoiceRepository->create($prepareInvoiceData);
+                $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
                 $this->invoiceRepository->find($invoice->id)->update(['transaction_id' => $data->focusTransaction->TransactionId]);
             }
 
-            $order->update(['status' => $orderStatus]);
+            $order->update(['status' => $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
 
             $orderTransaction = $this->orderTransactionRepository->where('order_id', $order->id)->count();
 
@@ -258,25 +213,20 @@ class MyFatoorahController extends Controller
 
             $order = $order->latest()->first();
 
-            $orderId = $order->id;
-
-            $customerId = $cart->customer_id;
-
-            $userDefinedField = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $customerId ? "CK-$customerId" : '';
+            $userDefinedField = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
 
             $paymentMethods = $this->myFatoorahPaymentEmbedded->getCheckoutGateways($order->grand_total, $order->order_currency_code, core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
-
             if (empty($paymentMethods['all'])) {
                 throw new Exception('noPaymentGateways');
             }
 
             $mfSession = $this->myFatoorahPaymentEmbedded->getEmbeddedSession($userDefinedField);
 
-            $countryCode = $this->mfConfig['countryCode'];
+            $countryCode = core()->getConfigData('sales.payment_methods.myfatoorah.country_iso');
 
             $countries = MyFatoorah::getMFCountries();
 
-            $jsEnvironment = ($this->mfConfig['isTest']) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
+            $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
 
             return view('myfatoorah::shop.checkout', compact('mfSession', 'paymentMethods', 'jsEnvironment', 'userDefinedField'));
         } catch (Exception $ex) {
@@ -337,35 +287,6 @@ class MyFatoorahController extends Controller
     }
 
     /**
-     * MyFatoorah Refund
-     *
-     * @param  \Webkul\Sales\Contracts\Transaction  $transaction
-     * @return bool
-     */
-    public function refund($transaction, $refundAmount)
-    {
-        try {
-            $order = $this->orderRepository->find($transaction->order_id);
-
-            $postFields = [
-                'Key'                     => json_decode($transaction->data)->InvoiceId,
-                'KeyType'                 => 'InvoiceId',
-                'RefundChargeOnCustomer'  => false,
-                'ServiceChargeOnCustomer' => false,
-                'Amount'                  => $refundAmount,
-                'CurrencyIso'             => $order->order_currency_code,
-            ];
-
-            $result = $this->myFatoorahRefund->makeRefund($postFields);
-
-            return $result ? true : false;
-        } catch (Exception $ex) {
-
-            return false;
-        }
-    }
-
-    /**
      * Change Transaction Status
      *
      * @param  array
@@ -373,31 +294,25 @@ class MyFatoorahController extends Controller
      */
     private function changeTransactionStatus($data)
     {
-        $invoiceId = $data['InvoiceId'];
-
-        $data = $this->myFatoorahPaymentStatus->getPaymentStatus($invoiceId, 'InvoiceId');
+        $data = $this->myFatoorahPaymentStatus->getPaymentStatus($data['InvoiceId'], 'InvoiceId');
 
         $message = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
-
-        $orderStatus = $data->InvoiceStatus == 'Paid' ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED;
 
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
         $invoice = null;
 
-        if ($data->InvoiceStatus == 'Paid'
+        if (
+            $data->InvoiceStatus == Self::PAID
             && $order->canInvoice()
             && $this->invoiceRepository->where('order_id', $order->id)->count() == 0
         ) {
-
-            $prepareInvoiceData = $this->prepareInvoiceData($order);
-
-            $invoice = $this->invoiceRepository->create($prepareInvoiceData);
+            $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
             $this->invoiceRepository->find($invoice->id)->update(['transaction_id' => $data->focusTransaction->TransactionId]);
         }
 
-        $order->update(['status' => $orderStatus]);
+        $order->update(['status' => $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
 
         $orderTransaction = $this->orderTransactionRepository->where('order_id', $order->id)->count();
 
@@ -413,7 +328,7 @@ class MyFatoorahController extends Controller
             ]);
         }
 
-        return ['IsSuccess' => true, 'Message' => $message, 'Data' => $data];
+        return ['IsSuccess' => $data->InvoiceStatus == Self::PAID ? true : false, 'Message' => $message, 'Data' => $data];
     }
 
     /**
@@ -442,31 +357,24 @@ class MyFatoorahController extends Controller
      */
     public function callBackError()
     {
-        $paymentId = request('paymentId');
-
-        $data = $this->myFatoorahPaymentStatus->getPaymentStatus($paymentId, 'PaymentId');
+        $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
         $exMessage = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
 
-        $orderId = $data->CustomerReference;
+        $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
-        $order = $this->orderRepository->where('customer_id', $orderId)->latest()->first();
+        $order->update(['status' => $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
 
-        $invoice = null;
-
-        $orderStatus = $data->InvoiceStatus == Self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED;
-
-        $order->update(['status' => $orderStatus]);
-
-        $dd = $this->orderTransactionRepository->create([
+        $this->orderTransactionRepository->create([
             'order_id'       => $order->id,
             'transaction_id' => $data->InvoiceTransactions[0]->TransactionId,
             'status'         => $data->InvoiceStatus,
             'amount'         => $data->InvoiceValue,
             'payment_type'   => 'myfatoorah',
             'data'           => json_encode($data),
-            'invoice_id'     => $invoice ? $invoice->id : 00,
+            'invoice_id'     => 00,
         ]);
+
         Cart::activateCart($order->cart_id);
 
         Cart::deActivateCart();

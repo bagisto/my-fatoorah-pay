@@ -18,6 +18,18 @@ class Myfatoorah extends Payment
      */
     public function getRedirectUrl()
     {
-        return route('myfatoorah.checkout');
+        if((bool)core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
+
+            return route('myfatoorah.checkout');
+        }
+
+        throw new \Exception("This Payment Method is InActive please try another one");
+    }
+
+    public function getImage()
+    {
+        $url = $this->getConfigData('image');
+
+        return $url ? Storage::url($url) : @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{app()->getLocale()}}">
+<html lang="{{ app()->getLocale() }}">
     <head>
         <title>
             @lang('my_fatoorah::app.shop.checkout.pageCheckout')
@@ -11,7 +11,7 @@
             'src/Resources/assets/js/app.js',
             'src/Resources/assets/js/checkout.js',
         ], 'myfatoorah')
-    <body dir="{{App::isLocale('ar') ? 'rtl' : 'ltr'}}">
+    <body dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
              @lang('my_fatoorah::app.shop.checkout.noPaymentGateways')
@@ -66,7 +66,7 @@
             </div>
             <div id="mf-form-element" style="width:99%; max-width:800px; padding: 0rem 0.2rem"></div>
 
-            <button class="mf-btn mf-pay-now-btn" onclick="submit()" type="button" style="
+            <button class="mf-btn mf-pay-now-btn" onclick="paymentSubmit()" type="button" style="
                     border: none; border-radius: 8px;
                     padding: 7px 3px; background-color: #0293cc">
                 <span class="mf-pay-now-span">

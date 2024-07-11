@@ -7,7 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'        => 'MyFatoorah',
-                        'description'  => 'Get your business up and running in a few minutes. Our developer friendly secure and easy Module will give you more than 20 debit and credit cards in addition to the 10 most common currencies,',
+                        'description'  => 'Secure payment module with payment method support, card data storage, refund capabilities, and Webhook integration for real-time status updates',
                         'api-key'      => 'API Key',
                         'test-mode'    => 'Test Mode',
                         'currency-iso' => [
@@ -22,9 +22,11 @@ return [
                             'are'   => 'UAE Dirham',
 
                         ],
+                        'is-webhook-enabled' => 'Enable Webhook',
                         'save-card'          => 'Save Card',
                         'webhook-secret-key' => 'Webhook Secret Key',
                         'register-apple-pay' => 'Register Apple Pay',
+                        'status'             => 'Status',
                     ],
                 ],
             ],
@@ -34,39 +36,20 @@ return [
     'shop' => [
         'checkout' => [
             'pageCheckout'         => 'MyFatoorah - Checkout',
-            'pageError'            => 'MyFatoorah Error',
             'noPaymentGateways'    => 'There are no payment methods available on your account, please contact your account manager.',
             'howWouldYouLikeToPay' => 'How would you like to pay?',
             'or'                   => 'Or',
             'payWith'              => 'Pay With',
             'insertCardDetails'    => 'Insert Card Details',
             'payNow'               => 'Pay Now',
-            'holderName'           => 'Name On Card',
-            'cardNumber'           => 'Number',
-            'expiryDate'           => 'MM/YY',
-            'securityCode'         => 'CVV',
-            'cardHolderNameLabel'  => 'Card Holder Name',
-            'cardNumberLabel'      => 'Card Number',
-            'expiryDateLabel'      => 'Expiry Date',
-            'securityCodeLabel'    => 'Security Code',
-            'saveCard'             => 'Save card number for future payments',
-            'addCard'              => 'Use another card',
-            'deleteAlert'          => [
-                'title'    => 'Delete Card',
-                'message'  => 'Are you sure you want to remove this card?',
-                'confirm'  => 'Yes',
-                'cancel'   => 'No',
-            ],
+        ],
+
+        'error' => [
+            'pageError' => 'MyFatoorah Error',
         ],
 
         'components' => [
             'form' => [
-                'noPaymentGateways'    => 'There are no payment methods available on your account, please contact your account manager.',
-                'howWouldYouLikeToPay' => 'How would you like to pay?',
-                'or'                   => 'Or',
-                'payWith'              => 'Pay With',
-                'insertCardDetails'    => 'Insert Card Details',
-                'payNow'               => 'Pay Now',
                 'holderName'           => 'Name On Card',
                 'cardNumber'           => 'Number',
                 'expiryDate'           => 'MM/YY',

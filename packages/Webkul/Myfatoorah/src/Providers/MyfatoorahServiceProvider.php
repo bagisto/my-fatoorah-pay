@@ -5,12 +5,18 @@ namespace Webkul\Myfatoorah\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use MyFatoorah\Library\MyFatoorah;
+use MyFatoorah\Library\API\MyFatoorahRefund;
+use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
+use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
+use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
 use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
-use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
 use Webkul\Myfatoorah\Commands\RegisterApplePay;
+use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
 
 class MyfatoorahServiceProvider extends ServiceProvider
 {
+    
     /**
      * Bootstrap services.
      *
@@ -26,9 +32,35 @@ class MyfatoorahServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'myfatoorah');
 
-        $this->app->register(EventServiceProvider::class);
-
         $this->app->bind(BaseRefundController::class, RefundController::class);
+
+        $this->registerConfig();
+
+        $mfConfig = [
+            'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
+            'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
+            'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
+        ];
+
+        $this->app->bind(MyFatoorah::class, function () use ($mfConfig) {
+            return new MyFatoorah($mfConfig);
+        });
+
+        $this->app->bind(MyFatoorahPaymentEmbedded::class, function () use ($mfConfig) {
+            return new MyFatoorahPaymentEmbedded($mfConfig);
+        });
+
+        $this->app->bind(MyFatoorahPayment::class, function () use ($mfConfig) {
+            return new MyFatoorahPayment($mfConfig);
+        });
+
+        $this->app->bind(MyFatoorahRefund::class, function () use ($mfConfig) {
+            return new MyFatoorahRefund($mfConfig);
+        });
+
+        $this->app->bind(myFatoorahPaymentStatus::class, function () use ($mfConfig) {
+            return new myFatoorahPaymentStatus($mfConfig);
+        });
     }
 
     /**
@@ -38,8 +70,6 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerConfig();
-
         $this->commands([RegisterApplePay::class]);
     }
 
@@ -50,9 +80,12 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/paymentmethods.php', 'payment_methods'
-        );
+        if((bool) core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
+            
+            $this->mergeConfigFrom(
+                dirname(__DIR__).'/Config/paymentmethods.php', 'payment_methods'
+            );
+        }
 
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/system.php', 'core'

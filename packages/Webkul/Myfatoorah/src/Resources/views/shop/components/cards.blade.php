@@ -1,6 +1,6 @@
 @foreach($paymentMethods['cards'] as $card)
-@php($cardTitle = App::isLocale('ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
-    <div class="mf-card-container mf-div-{{$card->PaymentMethodCode}}" onclick="mfCardSubmit('{{$card->PaymentMethodId}}')">
+@php($cardTitle = app()->isLocale('ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
+    <div class="mf-card-container mf-div-{{$card->PaymentMethodCode}}" onclick="cardPayment('{{$card->PaymentMethodId}}')">
         <div class="mf-row-container">
             <img class="mf-payment-logo" src="{{$card->ImageUrl}}" alt="{{$cardTitle}}">
             <span class="mf-payment-text mf-card-title">{{$cardTitle}}</span>
@@ -12,7 +12,7 @@
 @endforeach
 
 <script>
-    function mfCardSubmit(pmid){
+    function cardPayment(pmid){
         window.location.href = "{{url('myfatoorah')}}?paymentMethodId=" + pmid;
     }
 </script>

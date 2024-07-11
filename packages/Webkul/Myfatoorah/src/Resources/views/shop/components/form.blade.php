@@ -6,7 +6,7 @@
         cardViewId: "mf-form-element",
         style: {
             hideCardIcons: false,
-            direction: "{{App::isLocale('ar') ? 'rtl' : 'ltr'}}",
+            direction: "{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}",
             cardHeight: {{ $userDefinedField ? 190 : 130 }},
             tokenHeight: 160,
             input: {
@@ -58,7 +58,7 @@
     };
     myFatoorah.init(config);
 
-    function submit() {
+    function paymentSubmit() {
         myFatoorah.submit()
             // On success
             .then(function (response) {
