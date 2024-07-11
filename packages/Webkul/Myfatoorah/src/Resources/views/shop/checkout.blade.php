@@ -43,7 +43,7 @@
                 <div class="mf-divider card-divider" id="mf-payWith-cardDivider">
                     <span class="mf-divider-span" id="mf-payWith-divider">
                         <span id="mf-or-cardsDivider">
-                            {{! empty($paymentMethods['ap'] ) || ! empty($paymentMethods['gp'] ) ? __('myfatoorah.or') : ''}}
+                            {{ (! empty($paymentMethods['ap'] )) || (! empty($paymentMethods['gp'] )) ? trans('myfatoorah.or') : ''}}
                         </span>
                      @lang('my_fatoorah::app.shop.checkout.payWith')
                     </span>

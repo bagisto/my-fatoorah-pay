@@ -88,7 +88,6 @@ class PaymentController extends Controller
     private function preparePayLoad($order)
     {
         if ($order) {
-
             foreach ($order->items as $item) {
                 $InvoiceItems[] = [
                     'ItemName'  => $item->name,
@@ -121,8 +120,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Get MyFatoorah Payment Information
-     * Provide the callback method with the paymentId
+     * Update transaction after Myfatoorah payment process
      *
      * @return redirect|view
      */
@@ -141,7 +139,7 @@ class PaymentController extends Controller
             if (
                 $data->InvoiceStatus == Self::PAID
                 && $order->canInvoice()
-                && $this->invoiceRepository->where('order_id', $order->id)->count() == 0
+                && (! $this->invoiceRepository->where('order_id', $order->id)->count())
             ) {
                 $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
@@ -152,7 +150,7 @@ class PaymentController extends Controller
 
             $orderTransaction = $this->orderTransactionRepository->where('order_id', $order->id)->count();
 
-            if ($orderTransaction == 0) {
+            if (! $orderTransaction) {
                 $this->orderTransactionRepository->create([
                     'order_id'       => $order->id,
                     'transaction_id' => $data->focusTransaction->TransactionId,
@@ -180,7 +178,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Prepare Invoice Data
+     * Prepare invoice data
      *
      * @param  object|array  $order
      */
@@ -196,7 +194,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * MyFatoorah Payment Methods
+     * MyFatoorah payment
      *
      * @return View
      */
@@ -207,7 +205,7 @@ class PaymentController extends Controller
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
 
-            if ($order->count() == 0) {
+            if (! $order->count()) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
             }
 
@@ -237,8 +235,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * MyFatoorah Webhook
-     *
+     * MyFatoorah webhook
      *
      * @return JsonResponse
      */
@@ -305,7 +302,7 @@ class PaymentController extends Controller
         if (
             $data->InvoiceStatus == Self::PAID
             && $order->canInvoice()
-            && $this->invoiceRepository->where('order_id', $order->id)->count() == 0
+            && (! $this->invoiceRepository->where('order_id', $order->id)->count())
         ) {
             $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
@@ -316,7 +313,7 @@ class PaymentController extends Controller
 
         $orderTransaction = $this->orderTransactionRepository->where('order_id', $order->id)->count();
 
-        if ($orderTransaction == 0) {
+        if (! $orderTransaction) {
             $this->orderTransactionRepository->create([
                 'order_id'       => $order->id,
                 'transaction_id' => $data->focusTransaction->TransactionId,
@@ -340,10 +337,10 @@ class PaymentController extends Controller
     {
         if ($status == Self::PAID) {
 
-            return 'Invoice is paid.';
+            return trans('myfatoorah::app.chckout.invoice-success');
         } elseif ($status == Self::FAILED) {
-
-            return 'Invoice is not paid due to '.$error;
+            
+            return trans('myfatoorah::app.chckout.invoice-failed', ['error' => $error]);
         } elseif ($status == Self::EXPIRED) {
 
             return $error;

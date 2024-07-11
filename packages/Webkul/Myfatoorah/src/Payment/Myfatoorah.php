@@ -23,7 +23,7 @@ class Myfatoorah extends Payment
             return route('myfatoorah.checkout');
         }
 
-        throw new \Exception("This Payment Method is InActive please try another one");
+        throw new \Exception(trans('my_fatoorah::app.shop.checkout.method-unavailable'));
     }
 
     public function getImage()

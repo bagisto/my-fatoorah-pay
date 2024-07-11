@@ -30,7 +30,7 @@ return [
                 'name'          => 'country_iso',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.title',
                 'type'          => 'select',
-                'channel_based' => false,
+                'channel_based' => true,
                 'validation'    => 'required',
                 'locale_based'  => false,
                 'options'       => [

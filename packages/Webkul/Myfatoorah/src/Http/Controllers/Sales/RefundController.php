@@ -93,9 +93,8 @@ class RefundController extends BaseRefundController
         return redirect()->route('admin.sales.refunds.index');
     }
 
-
     /**
-     * MyFatoorah Refund
+     * MyFatoorah refund
      *
      * @param  \Webkul\Sales\Contracts\Transaction  $transaction
      * @return bool

@@ -12,14 +12,14 @@ return [
                         'test-mode'          => 'Test Mode',
                         'currency-iso'       => [
                             'title' => 'Currency ISO',
-                            'kwt'   => 'Kuwaiti Dinar',
-                            'sau'   => 'Saudi Riyal',
-                            'qat'   => 'Qatari Riyal',
-                            'bhr'   => 'Bahraini Rinar',
-                            'omn'   => 'Omani Rial',
-                            'jod'   => 'Jordanian Dinar',
-                            'egy'   => 'Egyptian Pound',
-                            'are'   => 'UAE Dirham',
+                            'kwt'   => 'Kuwait',
+                            'sau'   => 'Saudi Arabia',
+                            'qat'   => 'Qatar',
+                            'bhr'   => 'Bahrain',
+                            'omn'   => 'Oman',
+                            'jod'   => 'Jordan',
+                            'egy'   => 'Egypt',
+                            'are'   => 'United Arab Emirates',
 
                         ],
                         'is-webhook-enabled' => 'Enable Webhook',
@@ -42,6 +42,9 @@ return [
             'payWith'              => 'Pay With',
             'insertCardDetails'    => 'Insert Card Details',
             'payNow'               => 'Pay Now',
+            'invoice-success'      => 'Invoice is paid.',
+            'invoice-failed'       => 'Invoice is not paid due to :error',
+            'method-unavailable'   => 'This Payment Method is InActive please try another one',
         ],
 
         'error' => [
@@ -69,4 +72,5 @@ return [
             ],
         ],
     ],
+    
 ];

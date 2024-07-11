@@ -1,28 +1,29 @@
-# MyFatoorah Payment Gateway v2.1.2:
+# Bagisto MyFatoorah Payment Gateway v2.1.2:
 
 MyFatoorah Payment Module enables get your business up and running in a few minutes. Our developer friendly secure and easy Module will give you more than 20 debit and credit cards in addition to the 10 most common currencies,
 
 
 # Features
 
-- **Module Activation**: Admin can easily enable the module through configuration settings.
-- **Payment Processing**: Users can securely make payments using this module, including the following supported payment methods:
+- **Enable Module**: Admins can easily enable/disable the module via configuration settings using their login credentials.
+- **Supported Payment Methods**: Users can securely make payments using various methods, including:
   - Debit Cards/Credit Cards
   - Google Pay
   - Apple Pay
-- **Customer Card Data Storage**: Option for admins to save customer card data for convenient future payments.
-- **Refund Support**: Supports both partial and total refunds; certain gateways also offer instant refund capabilities.
-- **Webhook Integration**: Webhook functionality to notify your endpoint of status changes for transactions, refunds, and deposits. If admin needs Webhook integration, follow these steps:
-  1. Go to the Bagisto Admin Panel.
-  2. Click on the "Configuration" tab from the Sidebar.
-  3. Click on the "Payment Methods" tab located in the "Sales" section.
-  4. Enable Myfatoorah Webhook and copy the link displayed under the "Webhook Secret Key" field.
-  5. Go to your Myfatoorah Dashboard and click on > Interaction Settings > Webhook Settings.
-  6. Enable Webhook and paste the link copied from Bagisto admin.
-  7. Enable Secret Key and generate the Webhook Secret key. Copy the Secret key.
-  8. Check the Webhook Events that you need and save.
-  9. Return to the Bagisto admin and paste the Webhook Secret key and save.
-
+  - Custom methods based on your Myfatoorah account API key
+- **Card store option**: Option for admins to securely store customer card data for future payments.
+- **Refund option**: Supports both partial and total refunds, with some gateways offering instant refund capabilities.
+- **Webhook setup steps**: Easily set up Webhooks to receive real-time status updates for transactions, refunds, and deposits. Follow these steps for Webhook integration:
+  1. Access the Bagisto Admin Panel.
+  2. Navigate to the "Configuration" tab in the Sidebar.
+  3. Select the "Payment Methods" tab under the "Sales" section.
+  4. Enable the Myfatoorah Webhook and copy the link provided under the "Webhook Secret Key" field.
+  5. Go to your Myfatoorah Dashboard and go to > Interaction Settings > Webhook Settings.
+  6. Activate Webhook and paste the copied link from the Bagisto admin.
+  7. Enable the Secret Key and generate the Webhook Secret key. Copy the generated key.
+  8. Choose the relevant Webhook Events and save your settings.
+  9. Return to the Bagisto admin, paste the Webhook Secret key, and save your changes.
+- **Supported Countries**: Kuwait, Saudi Arabia, Qatar, Oman, Egypt, Jordan, Bahrain, United Arab Emirates.
 
 
 # Requirements:
@@ -81,35 +82,36 @@ npm i
 npm build
 ~~~
 
+**Myfatoorah official link**
+- https://myfatoorah.com/
+  
+
 # Configuration:
 
-1. API key(required) => Go to you Myfatoorah Dashboard -> Home > Interagation Settings > Api Key
-2. Is Your MyFatoorah Account is for Testing
-3. Country ISO(required)
-4. Webhook Key =>Go to you Myfatoorah Dashboard -> Home > Interagation Settings > Webhook Settings
-   * Enable the Webhook
-   * Enter you domail with 'myfatoorah/webhook' for Example -> https://www.example.com/myfatoorah/webhook
-   * Enable Secret Key
-   * Genrate Secret 
-   * Select The Webhook Events 
-5. Register Apple Pay
-   
+1. API key
+   -
+   Step to get API key:
+   - Go to you Myfatoorah Dashboard
+   - Click on "Interagation Settings"
+   - Click on "Api Key"
+  
+2. Register Apple Pay
+   -
+
    Host your domain verification file
 
-   1- Create a folder in the root path and name it ".well-known"
+   - Create a folder in the root path and name it ".well-known"
    
-   2- Paste the domain verificatoin file inside the ".well-known" folder.
+   - Paste the domain verificatoin file inside the ".well-known" folder.
    
-   3- Test that the file is located in the correct place by opening the below URL
-   
-   https://{example.com}/.well-known/apple-developer-merchantid-domain-association
+   - Test that the file is located in the correct place by opening the below URL https://{example.com}/.well-known/apple-developer-merchantid-domain-association
   
-   Run the command
-   ~~~
-   php artisan myfatoorah:register-apple-pay
-   ~~~
+   - Run the command
+      ~~~
+      php artisan myfatoorah:register-apple-pay
+      ~~~
 
 Note: 
-* Current currency should be  USD/KWD
+* Apple pay registration is required if you need "Apple Pay" payment option
   
 
