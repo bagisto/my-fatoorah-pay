@@ -9,7 +9,7 @@ use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
-use Webkul\Myfatoorah\Http\Controllers\MyFatoorahController;
+use Webkul\Myfatoorah\Http\Controllers\PaymentController;
 use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
 
 class RefundController extends BaseRefundController
@@ -24,7 +24,7 @@ class RefundController extends BaseRefundController
         protected OrderItemRepository $orderItemRepository,
         protected RefundRepository $refundRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
-        protected MyFatoorahController $myFatoorahController,
+        protected PaymentController $PaymentController,
         protected MyFatoorahRefund $myFatoorahRefund
     ) {}
 

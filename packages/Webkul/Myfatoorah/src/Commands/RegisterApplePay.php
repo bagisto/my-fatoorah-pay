@@ -9,6 +9,11 @@ use MyFatoorah\Library\MyFatoorah;
 
 class RegisterApplePay extends Command
 {
+
+    public function __construct(protected MyFatoorah $myfatoorah)
+    {
+        parent::__construct();
+    }
     /**
      * The name and signature of the console command.
      *
@@ -52,17 +57,10 @@ class RegisterApplePay extends Command
      */
     public function registerApplePay($domain)
     {
-            $myFatoorahConfig = [
-                'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-                'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
-                'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
-            ];
-
-            $myFatoorah  = new MyFatoorah($myFatoorahConfig);
 
             $result = Http::withHeaders([
                 "Authorization" => "Bearer ".core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-            ])->post($myFatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
+            ])->post($this->myfatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
                 "DomainName" =>$domain,
             ]);
 

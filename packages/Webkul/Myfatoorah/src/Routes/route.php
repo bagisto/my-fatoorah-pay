@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Myfatoorah\Http\Controllers\MyFatoorahController;
+use Webkul\Myfatoorah\Http\Controllers\PaymentController;
 
 Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
 
-    Route::controller(MyFatoorahController::class)->group(function () {
+    Route::controller(PaymentController::class)->group(function () {
 
         Route::get('myfatoorah', 'index');
 

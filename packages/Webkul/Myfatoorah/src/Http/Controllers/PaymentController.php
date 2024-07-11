@@ -19,7 +19,7 @@ use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
 
-class MyFatoorahController extends Controller
+class PaymentController extends Controller
 {
 
     /**

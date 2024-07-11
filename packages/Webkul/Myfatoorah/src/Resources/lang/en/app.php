@@ -6,11 +6,11 @@ return [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
-                        'title'        => 'MyFatoorah',
-                        'description'  => 'Secure payment module with payment method support, card data storage, refund capabilities, and Webhook integration for real-time status updates',
-                        'api-key'      => 'API Key',
-                        'test-mode'    => 'Test Mode',
-                        'currency-iso' => [
+                        'title'              => 'MyFatoorah',
+                        'description'        => 'Secure payment module with payment method support, card data storage, refund capabilities, and Webhook integration for real-time status updates',
+                        'api-key'            => 'API Key',
+                        'test-mode'          => 'Test Mode',
+                        'currency-iso'       => [
                             'title' => 'Currency ISO',
                             'kwt'   => 'Kuwaiti Dinar',
                             'sau'   => 'Saudi Riyal',

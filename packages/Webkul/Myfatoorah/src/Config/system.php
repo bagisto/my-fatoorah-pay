@@ -11,7 +11,7 @@ return [
                 'name'          => 'status',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.status',
                 'type'          => 'boolean',
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ], [
                 'name'          => 'api_key',
@@ -24,7 +24,7 @@ return [
                 'name'          => 'test_mode',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.test-mode',
                 'type'          => 'boolean',
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ], [
                 'name'          => 'country_iso',
@@ -72,7 +72,7 @@ return [
                 'name'          => 'is_webhook_enabled',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.is-webhook-enabled',
                 'type'          => 'boolean',
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ], [
                 'name'          => 'webhook_secret_key',
@@ -81,13 +81,13 @@ return [
                 'depends'       => 'is_webhook_enabled:1',
                 'validation'    => 'required_if:is_webhook_enabled,1',
                 'info'          => url('myfatoorah/webhook'),
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ], [
                 'name'          => 'register_apple_pay',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.register-apple-pay',
                 'type'          => 'boolean',
-                'channel_based' => false,
+                'channel_based' => true,
                 'locale_based'  => false,
             ],
         ],
