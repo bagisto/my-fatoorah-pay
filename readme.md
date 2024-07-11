@@ -13,7 +13,7 @@ MyFatoorah Payment Module enables get your business up and running in a few minu
   - Custom methods based on your Myfatoorah account API key
 - **Card store option**: Option for admins to securely store customer card data at Myfatoorah payment portal for future payments.
 - **Refund option**: Supports both partial and total refunds, with some gateways offering instant refund capabilities.
-- **Webhook setup steps**:Webhook option is also available with this module to get payment status for the respective purchages.
+- **Webhook setup**:Webhook option is also available with this module to get payment status for the respective purchages.
 - **Supported Countries**: Kuwait, Saudi Arabia, Qatar, Oman, Egypt, Jordan, Bahrain, United Arab Emirates.
 
 
@@ -84,14 +84,14 @@ npm build
    - Click on "Interagation Settings"
    - Click on "Api Key"
 
-2. How to get webhooksecret key from Myfatoorah to link with Bagisto Myfatoorah module.
+2. How to get webhook secret key from Myfatoorah to link with Bagisto Myfatoorah module.
    -
    - Access the Bagisto Admin Panel.
    - Navigate to the "Configuration" tab in the Sidebar.
    - Select the "Payment Methods" tab under the "Sales" section.
    - Enable the Myfatoorah Webhook and copy the link provided under the "Webhook Secret Key" field.
-   - Go to your Myfatoorah Dashboard and go to > Interaction Settings > Webhook Settings.
-   - Activate Webhook and paste the copied link from the Bagisto admin.
+   - Go to your Myfatoorah Dashboard > Interaction Settings > Webhook Settings.
+   - Enable Webhook and paste the copied link from the Bagisto admin.
    - Choose the relevant Webhook Events.
    - Enable the Secret Key and generate the Webhook Secret key and save your settings.
 
