@@ -81,19 +81,21 @@ npm build
    -
    Myfatoorah payment portal url:- https://myfatoorah.com/ 
    - Go to Myfatoorah Dashboard
-   - Click on "Interagation Settings"
+   - Click on "Integration Settings"
    - Click on "Api Key"
 
 2. How to get webhook secret key from Myfatoorah to link with Bagisto Myfatoorah module.
    -
-   - Access the Bagisto Admin Panel.
-   - Navigate to the "Configuration" tab in the Sidebar.
-   - Select the "Payment Methods" tab under the "Sales" section.
-   - Enable the Myfatoorah Webhook and copy the link provided under the "Webhook Secret Key" field.
-   - Go to your Myfatoorah Dashboard > Interaction Settings > Webhook Settings.
-   - Enable Webhook and paste the copied link from the Bagisto admin.
-   - Choose the relevant Webhook Events.
-   - Enable the Secret Key and generate the Webhook Secret key and save your settings.
+   - Login to the Bagisto Admin Panel.
+   - Navigate to the "Configuration" and under Payment Methods find out Myfatoorah Payment Module.
+   - Enable the Myfatoorah Webhook and copy the webhook endpoint to set it in Myfatoorah Payment portal.
+   - Login to Myfatoorah Dashboard and go to Interaction Settings > Webhook Settings and follow the below steps.
+
+      1. Enable Webhook from the settings.
+      2. Paste endpoint which is taken from Bagisto Myfatoorah Payment Module.
+      3. Select respective events as per your choice.
+      4. Generate Webhook Secret Key and Copy the secret to add into Bagisto Myfatoorah payment Module under webhook secret section.
+      5. Click on save button.
 
 3. Apple Pay registration steps.
    -
