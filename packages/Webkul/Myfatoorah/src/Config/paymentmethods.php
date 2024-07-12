@@ -4,7 +4,7 @@ return [
     'myfatoorah'  => [
         'code'        => 'myfatoorah',
         'title'       => 'MyFatoorah',
-        'description' => 'MyFatoorah payment method.',
+        'description' => core()->getConfigData('sales.payment_methods.myfatoorah.description'),
         'class'       => 'Webkul\Myfatoorah\Payment\Myfatoorah',
         'active'      => true,
         'sandbox'     => true,

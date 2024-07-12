@@ -7,6 +7,8 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'MyFatoorah',
+                        'description-title'  => 'Beschrijving',
+                        'logo'               => 'Logo',
                         'description'        => 'Veilig betalingssysteem met ondersteuning voor betaalmethoden, kaartgegevensopslag, terugbetalingsmogelijkheden en Webhook-integratie voor realtime statusupdates',
                         'api-key'            => 'API Sleutel',
                         'test-mode'          => 'Testmodus',

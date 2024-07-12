@@ -7,6 +7,8 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'MyFatoorah',
+                        'description-title'  => 'Beschreibung',
+                        'logo'               => 'Logo',
                         'description'        => 'Sicheres Zahlungsmodul mit Unterstützung für Zahlungsmethoden, Kartendatenspeicherung, Rückerstattungsmöglichkeiten und Webhook-Integration für Echtzeit-Statusupdates',
                         'api-key'            => 'API-Schlüssel',
                         'test-mode'          => 'Testmodus',

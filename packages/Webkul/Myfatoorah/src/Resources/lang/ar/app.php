@@ -7,6 +7,8 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'ماي فاتورة',
+                        'description-title'  => 'الوصف',
+                        'logo'               => 'شعار',
                         'description'        => 'وحدة دفع آمنة مع دعم طرق الدفع، تخزين بيانات البطاقة، قدرات الاسترداد، وتكامل Webhook لتحديثات الحالة في الوقت الفعلي',
                         'api-key'            => 'مفتاح API',
                         'test-mode'          => 'وضع الاختبار',

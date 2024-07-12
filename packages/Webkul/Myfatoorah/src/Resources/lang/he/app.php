@@ -7,6 +7,8 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'MyFatoorah',
+                        'description-title'  => 'תיאור',
+                        'logo'               => 'לוגו',
                         'description'        => 'מודול תשלום מאובטח עם תמיכה בשיטות תשלום, אחסון נתוני כרטיס, יכולות החזר ושילוב Webhook לעדכוני סטטוס בזמן אמת',
                         'api-key'            => 'מפתח API',
                         'test-mode'          => 'מצב בדיקה',

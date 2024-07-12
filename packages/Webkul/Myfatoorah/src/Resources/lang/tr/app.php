@@ -7,6 +7,8 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'MyFatoorah',
+                        'description-title'  => 'Açıklama',
+                        'logo'               => 'Logo',
                         'description'        => 'Ödeme yöntemi desteği, kart verisi saklama, geri ödeme yetenekleri ve gerçek zamanlı durum güncellemeleri için Webhook entegrasyonu ile güvenli ödeme modülü',
                         'api-key'            => 'API Anahtarı',
                         'test-mode'          => 'Test Modu',

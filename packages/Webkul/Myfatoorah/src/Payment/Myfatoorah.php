@@ -2,6 +2,7 @@
 
 namespace Webkul\Myfatoorah\Payment;
 
+use Illuminate\Support\Facades\Storage;
 use Webkul\Payment\Payment\Payment;
 
 class Myfatoorah extends Payment
@@ -33,6 +34,8 @@ class Myfatoorah extends Payment
      */
     public function getImage()
     {
-        return @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
+        $url = $this->getConfigData('logo');
+
+        return $url ? Storage::url($url) :  @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
     }
 }
