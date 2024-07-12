@@ -9,11 +9,11 @@ return [
                         'title'              => 'MyFatoorah',
                         'description-title'  => 'Description',
                         'logo'               => 'Logo',
-                        'description'        => 'Secure payment module with payment method support, card data storage, refund capabilities, and Webhook integration for real-time status updates',
+                        'description'        => 'Myfatoorah Payment Module enable to make payment with multiple payment options like ApplePay, GooglePay, Credit and Debit cards.',
                         'api-key'            => 'API Key',
                         'test-mode'          => 'Test Mode',
-                        'currency-iso'       => [
-                            'title' => 'Currency ISO',
+                        'country-iso'       => [
+                            'title' => 'Country ISO',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Saudi Arabia',
                             'qat'   => 'Qatar',

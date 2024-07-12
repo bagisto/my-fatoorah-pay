@@ -12,8 +12,8 @@ return [
                         'description'        => '安全的支付模块，支持支付方式，卡数据存储，退款功能和Webhook集成，用于实时状态更新',
                         'api-key'            => 'API密钥',
                         'test-mode'          => '测试模式',
-                        'currency-iso'       => [
-                            'title' => '货币ISO',
+                        'country-iso'       => [
+                            'title' => '国家ISO',
                             'kwt'   => '科威特',
                             'sau'   => '沙特阿拉伯',
                             'qat'   => '卡塔尔',

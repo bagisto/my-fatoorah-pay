@@ -47,35 +47,35 @@ return [
                 'locale_based'  => false,
             ], [
                 'name'          => 'country_iso',
-                'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.title',
+                'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.title',
                 'type'          => 'select',
                 'channel_based' => true,
                 'validation'    => 'required',
                 'locale_based'  => false,
                 'options'       => [
                     [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.kwt',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.kwt',
                         'value' => 'KWT',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.sau',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.sau',
                         'value' => 'SAU',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.are',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.are',
                         'value' => 'ARE',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.qat',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.qat',
                         'value' => 'QAT',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.bhr',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.bhr',
                         'value' => 'BHR',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.omn',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.omn',
                         'value' => 'OMN',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.jod',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.jod',
                         'value' => 'JOD',
                     ], [
-                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.currency-iso.egy',
+                        'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.country-iso.egy',
                         'value' => 'EGY',
                     ],
 

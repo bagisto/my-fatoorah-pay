@@ -12,8 +12,8 @@ return [
                         'description'        => 'Module de paiement sécurisé avec support des méthodes de paiement, stockage des données de carte, capacités de remboursement et intégration de Webhook pour les mises à jour de statut en temps réel',
                         'api-key'            => 'Clé API',
                         'test-mode'          => 'Mode de test',
-                        'currency-iso'       => [
-                            'title' => 'ISO de la monnaie',
+                        'country-iso'       => [
+                            'title' => 'ISO du pays',
                             'kwt'   => 'Koweït',
                             'sau'   => 'Arabie Saoudite',
                             'qat'   => 'Qatar',

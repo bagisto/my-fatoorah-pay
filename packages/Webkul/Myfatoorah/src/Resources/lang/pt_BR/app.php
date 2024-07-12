@@ -12,8 +12,8 @@ return [
                         'description'        => 'Módulo de pagamento seguro com suporte a métodos de pagamento, armazenamento de dados de cartão, capacidade de reembolso e integração Webhook para atualizações de status em tempo real',
                         'api-key'            => 'Chave API',
                         'test-mode'          => 'Modo de Teste',
-                        'currency-iso'       => [
-                            'title' => 'Moeda ISO',
+                        'country-iso'       => [
+                            'title' => 'ISO do país',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Arábia Saudita',
                             'qat'   => 'Catar',

@@ -12,8 +12,8 @@ return [
                         'description'        => 'Veilig betalingssysteem met ondersteuning voor betaalmethoden, kaartgegevensopslag, terugbetalingsmogelijkheden en Webhook-integratie voor realtime statusupdates',
                         'api-key'            => 'API Sleutel',
                         'test-mode'          => 'Testmodus',
-                        'currency-iso'       => [
-                            'title' => 'Valuta ISO',
+                        'country-iso'       => [
+                            'title' => 'Land ISO',
                             'kwt'   => 'Koeweit',
                             'sau'   => 'Saoedi-Arabië',
                             'qat'   => 'Qatar',

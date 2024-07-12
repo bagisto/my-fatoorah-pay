@@ -12,8 +12,8 @@ return [
                         'description'        => 'Ödeme yöntemi desteği, kart verisi saklama, geri ödeme yetenekleri ve gerçek zamanlı durum güncellemeleri için Webhook entegrasyonu ile güvenli ödeme modülü',
                         'api-key'            => 'API Anahtarı',
                         'test-mode'          => 'Test Modu',
-                        'currency-iso'       => [
-                            'title' => 'Para Birimi ISO',
+                        'country-iso'       => [
+                            'title' => 'Ülke ISO',
                             'kwt'   => 'Kuveyt',
                             'sau'   => 'Suudi Arabistan',
                             'qat'   => 'Katar',

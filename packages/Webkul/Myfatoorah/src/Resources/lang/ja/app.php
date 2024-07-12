@@ -12,8 +12,8 @@ return [
                         'description'        => '支払い方法のサポート、カードデータの保存、返金機能、リアルタイムのステータス更新のためのWebhook統合を備えた安全な支払いモジュール',
                         'api-key'            => 'APIキー',
                         'test-mode'          => 'テストモード',
-                        'currency-iso'       => [
-                            'title' => '通貨ISO',
+                        'country-iso'       => [
+                            'title' => '国ISO',
                             'kwt'   => 'クウェート',
                             'sau'   => 'サウジアラビア',
                             'qat'   => 'カタール',

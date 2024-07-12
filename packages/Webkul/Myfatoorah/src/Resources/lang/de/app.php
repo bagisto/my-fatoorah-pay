@@ -12,8 +12,8 @@ return [
                         'description'        => 'Sicheres Zahlungsmodul mit Unterstützung für Zahlungsmethoden, Kartendatenspeicherung, Rückerstattungsmöglichkeiten und Webhook-Integration für Echtzeit-Statusupdates',
                         'api-key'            => 'API-Schlüssel',
                         'test-mode'          => 'Testmodus',
-                        'currency-iso'       => [
-                            'title' => 'Währungs-ISO',
+                        'country-iso'       => [
+                           'title'  => 'Länder-ISO',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Saudi-Arabien',
                             'qat'   => 'Katar',

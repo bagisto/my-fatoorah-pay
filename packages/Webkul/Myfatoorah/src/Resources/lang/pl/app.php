@@ -12,8 +12,8 @@ return [
                         'description'        => 'Bezpieczny moduł płatności z obsługą metod płatności, przechowywaniem danych karty, możliwością zwrotów oraz integracją Webhook do aktualizacji statusu w czasie rzeczywistym',
                         'api-key'            => 'Klucz API',
                         'test-mode'          => 'Tryb testowy',
-                        'currency-iso'       => [
-                            'title' => 'ISO waluty',
+                        'country-iso'       => [
+                            'title' => 'ISO do país',
                             'kwt'   => 'Kuwejt',
                             'sau'   => 'Arabia Saudyjska',
                             'qat'   => 'Katar',
