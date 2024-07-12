@@ -20,7 +20,6 @@ return [
                             'jod'   => 'Jordan',
                             'egy'   => 'Egypt',
                             'are'   => 'United Arab Emirates',
-
                         ],
                         'is-webhook-enabled' => 'Enable Webhook',
                         'save-card'          => 'Save Card',

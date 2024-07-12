@@ -60,7 +60,6 @@ class PaymentController extends Controller
     public function index()
     {
         try {
-
             $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
             $curlData = $this->preparePayLoad($order);
