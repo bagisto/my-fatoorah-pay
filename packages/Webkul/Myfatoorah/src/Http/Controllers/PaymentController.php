@@ -37,7 +37,7 @@ class PaymentController extends Controller
     const EXPIRED = 'Expired';
 
     /**
-     * Initiate MyFatoorah Configuration and Instances
+     * Initiate Myfatoorah configuration and instances
      */
     public function __construct(
         protected OrderRepository $orderRepository,
@@ -53,9 +53,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * Redirect to MyFatoorah Invoice URL
+     * Redirect to Myfatoorah invoice url
      *
-     * @return redirect|json
+     * @return redirect|JsonResponse
      */
     public function index()
     {
@@ -79,7 +79,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Prepare MyFatoorah PayLoad
+     * Prepare Myfatoorah payLoad
      *
      * @param  object  $order
      * @return array
@@ -128,8 +128,6 @@ class PaymentController extends Controller
         try {
             $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-            $message = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
-
             $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
             $invoice = null;
@@ -159,9 +157,9 @@ class PaymentController extends Controller
                     'invoice_id'     => $invoice ? $invoice->id : 00,
                 ]);
             }
-        } catch (Exception $ex) {
+        } catch (Exception $exception) {
 
-            return view('myfatoorah::shop.error', ['exMessage' => $ex->getMessage()]);
+            return view('myfatoorah::shop.error', ['errorMessage' => $exception->getMessage()]);
         }
 
         Cart::activateCart($order->cart_id);
@@ -176,7 +174,7 @@ class PaymentController extends Controller
     /**
      * Prepare invoice data
      *
-     * @param  object $order
+     * @param  object  $order
      * @return array
      */
     protected function prepareInvoiceData($order): array
@@ -191,7 +189,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * MyFatoorah payment
+     * Myfatoorah payment
      *
      * @return View
      */
@@ -211,6 +209,7 @@ class PaymentController extends Controller
             $userDefinedField = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
 
             $paymentMethods = $this->myFatoorahPaymentEmbedded->getCheckoutGateways($order->grand_total, $order->order_currency_code, core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
+            
             if ( empty($paymentMethods['all'])) {
                 throw new Exception(trans('my_fatoorah::app.shop.checkout.noPaymentGateways'));
             }
@@ -224,35 +223,35 @@ class PaymentController extends Controller
             $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
             
             return view('myfatoorah::shop.checkout', compact('mfSession', 'paymentMethods', 'jsEnvironment', 'userDefinedField'));
-        } catch (Exception $ex) {
+        } catch (Exception $exception) {
 
-            return view('myfatoorah::shop.error', ['exMessage' => $ex->getMessage()]);
+            return view('myfatoorah::shop.error', ['errorMessage' => $exception->getMessage()]);
         }
     }
 
     /**
-     * MyFatoorah webhook
+     * Myfatoorah webhook
      *
      * @return JsonResponse
      */
-    public function webhook(Request $request)
+    public function webhook(): JsonResponse
     {
         try {
             $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
 
             if ( empty($secretKey)) {
 
-                return response(trans('my_fatoorah::app.shop.checkout.noWebhookSecretKey'), 404);
+                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.noWebhookSecretKey')], 404);
             }
 
-            $mfSignature = $request->header('MyFatoorah-Signature');
+            $mfSignature = request()->header('MyFatoorah-Signature');
 
             if ( empty($mfSignature)) {
 
-                return response(trans('my_fatoorah::app.shop.checkout.noWebhookSignature'), 404);
+                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.noWebhookSignature'),], 404);
             }
 
-            $data = $request->getContent();
+            $data = request()->getContent();
 
             $data = json_decode($data, true);
 
@@ -262,12 +261,12 @@ class PaymentController extends Controller
                 || $data['EventType'] != 1
             ) {
 
-                return response(trans('my_fatoorah::app.shop.checkout.invalidWebhookData'), 404);
+                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.invalidWebhookData'),], 404);
             }
 
             if (! MyFatoorah::isSignatureValid($data['Data'], $secretKey, $mfSignature, $data['EventType'])) {
 
-                return response(trans('my_fatoorah::app.shop.checkout.invalidWebhookSignature'), 404);
+                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.invalidWebhookSignature'),], 404);
             }
 
             $result = $this->changeTransactionStatus($data['Data']);
@@ -280,12 +279,12 @@ class PaymentController extends Controller
     }
 
     /**
-     * Change Transaction Status
+     * Change transaction status
      *
-     * @param  array
+     * @param  array  $data
      * @return array
      */
-    private function changeTransactionStatus($data)
+    private function changeTransactionStatus($data): array
     {
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus($data['InvoiceId'], 'InvoiceId');
 
@@ -325,8 +324,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * Get Message
+     * Get message
      *
+     * @param  string  $status, $error
      * @return string
      */
     private function getMessage($status, $error)
@@ -344,7 +344,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Call Back If Error Occurs
+     * Call back if error occurs
      *
      * @return view
      */
@@ -352,7 +352,7 @@ class PaymentController extends Controller
     {
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-        $exMessage = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
+        $errorMessage = $this->getMessage($data->InvoiceStatus, $data->InvoiceError);
 
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
@@ -372,6 +372,6 @@ class PaymentController extends Controller
 
         Cart::deActivateCart();
 
-        return view('myfatoorah::shop.error', compact('exMessage'));
+        return view('myfatoorah::shop.error', compact('errorMessage'));
     }
 }

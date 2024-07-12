@@ -98,7 +98,7 @@ class RefundController extends BaseRefundController
     /**
      * MyFatoorah refund
      *
-     * @param  \Webkul\Sales\Contracts\Transaction  $transaction
+     * @param  \Webkul\Sales\Contracts\Transaction  $transaction, int  $refundAmount
      * @return bool
      */
     public function refund($transaction, $refundAmount)

@@ -16,7 +16,6 @@ use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
 
 class MyfatoorahServiceProvider extends ServiceProvider
 {
-    
     /**
      * Bootstrap services.
      *
@@ -43,6 +42,7 @@ class MyfatoorahServiceProvider extends ServiceProvider
         ];
 
         if(! empty($mfConfig['apiKey'])) {
+
             $this->app->bind(MyFatoorah::class, function() use ($mfConfig) {
                 return new MyFatoorah($mfConfig);
             });
@@ -65,7 +65,7 @@ class MyfatoorahServiceProvider extends ServiceProvider
         }
 
         if((bool)core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
-            
+
             $this->mergeConfigFrom(
                 dirname(__DIR__).'/Config/paymentmethods.php', 'payment_methods'
             );

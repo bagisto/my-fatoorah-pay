@@ -15,7 +15,7 @@
 
         <div class="mf-payment-methods-container">
             <div class="mf-danger-text">
-                {{$exMessage}}
+                {{$errorMessage}}
             </div>
         </div>
 </x-shop::layouts>
