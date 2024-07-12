@@ -1,5 +1,5 @@
 @foreach($paymentMethods['cards'] as $card)
-@php($cardTitle = app()->isLocale('ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
+@php($cardTitle = (core()->getCurrentLocale() == 'ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
     <div class="mf-card-container mf-div-{{$card->PaymentMethodCode}}" onclick="makeCardPayment('{{$card->PaymentMethodId}}')">
         <div class="mf-row-container">
             <img class="mf-payment-logo" src="{{$card->ImageUrl}}" alt="{{$cardTitle}}">

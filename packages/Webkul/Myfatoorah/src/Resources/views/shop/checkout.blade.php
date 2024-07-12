@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ core()->getCurrentLocale()->code }}">
     <head>
         <title>
             @lang('my_fatoorah::app.shop.checkout.page-title')
@@ -14,7 +14,7 @@
 
     </head>
     
-    <body dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}">
+    <body dir="{{ (core()->getCurrentLocale() == 'ar') ? 'rtl' : 'ltr'}}">
         <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
             <div class="mf-danger-text">
              @lang('my_fatoorah::app.shop.checkout.noPaymentGateways')
@@ -86,7 +86,7 @@
 
             <!-- Google Pay Scripts -->
             @if(! empty($paymentMethods['gp']))
-                <x-myfatoorah::googlePay 
+                <x-myfatoorah::google-pay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
                     :paymentSession='$paymentSession'
@@ -95,7 +95,7 @@
 
             <!-- Apple Pay Scripts -->
             @if(! empty($paymentMethods['ap']))
-                <x-myfatoorah::applePay 
+                <x-myfatoorah::apple-pay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
                     :paymentSession='$paymentSession' 

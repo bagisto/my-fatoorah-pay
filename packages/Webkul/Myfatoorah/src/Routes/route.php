@@ -15,6 +15,6 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
 
         Route::get('myfatoorah/checkout', 'checkout')->name('myfatoorah.checkout');
 
-        Route::post('myfatoorah/webhook', 'webhook')->name('myfatoorah.webhook');
+        Route::post('myfatoorah/webhook', 'updateStatus')->name('myfatoorah.webhook');
     });
 });

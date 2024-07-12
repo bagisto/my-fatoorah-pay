@@ -6,13 +6,11 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use MyFatoorah\Library\API\MyFatoorahRefund;
 use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
 use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
 use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
 use MyFatoorah\Library\MyFatoorah;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Sales\Models\Order;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -42,16 +40,14 @@ class PaymentController extends Controller
         protected OrderRepository $orderRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
         protected InvoiceRepository $invoiceRepository,
-        protected CartRepository $cartRepository,
         protected MyFatoorah $myFatoorah,
         protected MyFatoorahPaymentEmbedded $myFatoorahPaymentEmbedded,
         protected MyFatoorahPayment $myFatoorahPayment,
-        protected MyFatoorahRefund $myFatoorahRefund,
         protected MyFatoorahPaymentStatus $myFatoorahPaymentStatus,
     ) {}
 
     /**
-     * Redirect to Myfatoorah invoice url
+     * Redirect to myfatoorah invoice url
      *
      * @return redirect|JsonResponse
      */
@@ -68,7 +64,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Prepare Myfatoorah payLoad
+     * Prepare myfatoorah payLoad
      *
      * @param  object  $order
      */
@@ -98,7 +94,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Update transaction after Myfatoorah payment process
+     * Update transaction after myfatoorah payment process
      *
      * @return redirect|view
      */
@@ -114,7 +110,7 @@ class PaymentController extends Controller
             if (
                 $data->InvoiceStatus == self::PAID
                 && $order->canInvoice()
-                && (! $this->invoiceRepository->where('order_id', $order->id)->count())
+                && ( empty($this->invoiceRepository->where('order_id', $order->id)->first()))
             ) {
                 $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
@@ -123,7 +119,7 @@ class PaymentController extends Controller
 
             $order->update(['status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
 
-            if (! $this->orderTransactionRepository->where('order_id', $order->id)->count()) {
+            if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
                 $this->orderTransactionRepository->create([
                     'order_id'       => $order->id,
                     'transaction_id' => $data->focusTransaction->TransactionId,
@@ -174,7 +170,7 @@ class PaymentController extends Controller
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
 
-            if (! $order->count()) {
+            if (empty($order->first())) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
             }
 
@@ -204,24 +200,23 @@ class PaymentController extends Controller
     }
 
     /**
-     * Myfatoorah webhook
+     * Update transaction status when webhook is triggered from myfatoorah
      */
-    public function webhook(): JsonResponse
+    public function updateStatus(): JsonResponse
     {
         try {
             $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
+
+            if (empty($secretKey)) {
+
+                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.noWebhookSecretKey')], 404);
+            }
 
             $mfSignature = request()->header('MyFatoorah-Signature');
 
             $data = json_decode(request()->getContent(), true);
 
-            if (
-                MyFatoorah::isSignatureValid($data['Data'], $secretKey, $mfSignature, $data['EventType'])
-                && $data['Data']
-                && $data['EventType']
-                && $mfSignature
-                && $secretKey
-            ) {
+            if (MyFatoorah::isSignatureValid($data['Data'], $secretKey, $mfSignature, $data['EventType'])) {
 
                 return new JsonResponse($this->changeTransactionStatus($data['Data']), 200);
             }
@@ -249,7 +244,7 @@ class PaymentController extends Controller
         if (
             $data->InvoiceStatus == self::PAID
             && $order->canInvoice()
-            && (! $this->invoiceRepository->where('order_id', $order->id)->count())
+            && ( empty($this->invoiceRepository->where('order_id', $order->id)->first()))
         ) {
             $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
@@ -258,7 +253,7 @@ class PaymentController extends Controller
 
         $order->update(['status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
 
-        if (! $this->orderTransactionRepository->where('order_id', $order->id)->count()) {
+        if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
             $this->orderTransactionRepository->create([
                 'order_id'       => $order->id,
                 'transaction_id' => $data->focusTransaction->TransactionId,

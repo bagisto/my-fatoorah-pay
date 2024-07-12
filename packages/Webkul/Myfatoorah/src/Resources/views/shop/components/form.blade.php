@@ -6,7 +6,7 @@
         cardViewId: "mf-form-element",
         style: {
             hideCardIcons: false,
-            direction: "{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}",
+            direction: "{{ (core()->getCurrentLocale() == 'ar') ? 'rtl' : 'ltr'}}",
             cardHeight: {{ $saveCard ? 190 : 130 }},
             tokenHeight: 160,
             input: {
