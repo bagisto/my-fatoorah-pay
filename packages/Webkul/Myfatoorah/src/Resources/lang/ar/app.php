@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'توقيع Webhook غير متاح.',
             'noWebhookSecretKey'      => 'مفتاح Webhook السري غير متاح.',
             'invalidWebhookSignature' => 'توقيع Webhook غير صالح.',
+            'error-occurred'          => 'حدث خطأ أثناء معالجة طلبك.',
         ],
 
         'error' => [

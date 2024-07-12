@@ -19,7 +19,7 @@ class Myfatoorah extends Payment
      */
     public function getRedirectUrl()
     {
-        if( (bool)core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
+        if ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
 
             return route('myfatoorah.checkout');
         }
@@ -36,6 +36,6 @@ class Myfatoorah extends Payment
     {
         $url = $this->getConfigData('logo');
 
-        return $url ? Storage::url($url) :  @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
+        return $url ? Storage::url($url) : @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
     }
 }

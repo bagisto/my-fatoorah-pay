@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook签名不可用。',
             'noWebhookSecretKey'      => 'Webhook密钥不可用。',
             'invalidWebhookSignature' => '无效的Webhook签名。',
+            'error-occurred'          => '处理您的请求时发生错误。',
         ],
 
         'error' => [

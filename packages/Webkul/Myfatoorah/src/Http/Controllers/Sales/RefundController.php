@@ -4,13 +4,11 @@ namespace Webkul\Myfatoorah\Http\Controllers\Sales;
 
 use Exception;
 use MyFatoorah\Library\API\MyFatoorahRefund;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\Sales\Repositories\OrderTransactionRepository;
-use Webkul\Myfatoorah\Http\Controllers\PaymentController;
 use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
+use Webkul\Sales\Repositories\OrderItemRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\OrderTransactionRepository;
+use Webkul\Sales\Repositories\RefundRepository;
 
 class RefundController extends BaseRefundController
 {
@@ -24,15 +22,12 @@ class RefundController extends BaseRefundController
         protected OrderItemRepository $orderItemRepository,
         protected RefundRepository $refundRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
-        protected PaymentController $PaymentController,
         protected MyFatoorahRefund $myFatoorahRefund
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  int  $orderId
      * @return \Illuminate\Http\Response
      */
     public function store(int $orderId)
@@ -50,13 +45,13 @@ class RefundController extends BaseRefundController
             'refund.items.*' => 'required|numeric|min:0',
         ]);
 
-        $data = request()->all();
+        $data = request()->refund;
 
-        if (! isset($data['refund']['shipping'])) {
-            $data['refund']['shipping'] = 0;
+        if (! isset($data['shipping'])) {
+            $data['shipping'] = 0;
         }
 
-        $totals = $this->refundRepository->getOrderItemsRefundSummary($data['refund']['items'], $orderId);
+        $totals = $this->refundRepository->getOrderItemsRefundSummary($data['items'], $orderId);
 
         if (! $totals) {
             session()->flash('error', trans('admin::app.sales.refunds.create.invalid-qty'));
@@ -66,7 +61,7 @@ class RefundController extends BaseRefundController
 
         $maxRefundAmount = $totals['grand_total']['price'] - $order->refunds()->sum('base_adjustment_refund');
 
-        $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $data['refund']['shipping'] + $data['refund']['adjustment_refund'] - $data['refund']['adjustment_fee'];
+        $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $data['shipping'] + $data['adjustment_refund'] - $data['adjustment_fee'];
 
         if (! $refundAmount) {
             session()->flash('error', trans('admin::app.sales.refunds.create.invalid-refund-amount-error'));
@@ -82,7 +77,7 @@ class RefundController extends BaseRefundController
             return redirect()->back();
         }
 
-        $this->refundRepository->create(array_merge($data, ['order_id' => $orderId]));
+        $this->refundRepository->create(['refund' => $data, 'order_id' => $orderId]);
 
         $orderTransection = $this->orderTransactionRepository->where('order_id', $orderId)->latest()->first();
 
@@ -96,26 +91,23 @@ class RefundController extends BaseRefundController
     }
 
     /**
-     * MyFatoorah refund
+     * Myfatoorah refund
      *
-     * @param  \Webkul\Sales\Contracts\Transaction  $transaction, int  $refundAmount
+     * @param  \Webkul\Sales\Contracts\Transaction  $transaction,  int  $refundAmount
      * @return bool
      */
     public function refund($transaction, $refundAmount)
     {
         try {
-            $postFields = [
+            return $this->myFatoorahRefund->makeRefund([
                 'Key'                     => json_decode($transaction->data)->InvoiceId,
                 'KeyType'                 => 'InvoiceId',
                 'RefundChargeOnCustomer'  => false,
                 'ServiceChargeOnCustomer' => false,
                 'Amount'                  => $refundAmount,
                 'CurrencyIso'             => $this->orderRepository->find($transaction->order_id)->order_currency_code,
-            ];
-
-            return $this->myFatoorahRefund->makeRefund($postFields) ? true : false;
-        } catch (Exception $ex) {
-
+            ]) ? true : false;
+        } catch (Exception $exception) {
             return false;
         }
     }

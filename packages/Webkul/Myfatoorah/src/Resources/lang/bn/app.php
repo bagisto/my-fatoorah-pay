@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook স্বাক্ষর উপলব্ধ নেই।',
             'noWebhookSecretKey'      => 'Webhook সিক্রেট কী উপলব্ধ নেই।',
             'invalidWebhookSignature' => 'অবৈধ Webhook স্বাক্ষর।',
+            'error-occurred'          => 'আপনার অনুরোধ প্রক্রিয়াকরণের সময় একটি ত্রুটি ঘটেছে।',
         ],
 
         'error' => [

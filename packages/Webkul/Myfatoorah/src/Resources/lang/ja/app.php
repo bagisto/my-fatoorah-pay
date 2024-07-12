@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook署名がありません。',
             'noWebhookSecretKey'      => 'Webhookシークレットキーがありません。',
             'invalidWebhookSignature' => '無効なWebhook署名。',
+            'error-occurred'          => 'リクエストの処理中にエラーが発生しました。',
         ],
 
         'error' => [

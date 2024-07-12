@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook İmzası mevcut değil.',
             'noWebhookSecretKey'      => 'Webhook Gizli Anahtarı mevcut değil.',
             'invalidWebhookSignature' => 'Geçersiz Webhook İmzası.',
+            'error-occurred'          => 'İsteğiniz işlenirken bir hata oluştu.',
         ],
 
         'error' => [

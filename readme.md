@@ -81,7 +81,7 @@ npm build
    -
    Myfatoorah payment portal url:- https://myfatoorah.com/ 
    - Go to Myfatoorah Dashboard
-   - Click on "Integration Settings"
+   - Click on "Intregation Settings"
    - Click on "Api Key"
 
 2. How to get webhook secret key from Myfatoorah to link with Bagisto Myfatoorah module.
@@ -89,7 +89,7 @@ npm build
    - Login to the Bagisto Admin Panel.
    - Navigate to the "Configuration" and under Payment Methods find out Myfatoorah Payment Module.
    - Enable the Myfatoorah Webhook and copy the webhook endpoint to set it in Myfatoorah Payment portal.
-   - Login to Myfatoorah Dashboard and go to Interaction Settings > Webhook Settings and follow the below steps.
+   - Login to Myfatoorah Dashboard and go to Intregation Settings > Webhook Settings and follow the below steps.
 
       1. Enable Webhook from the settings.
       2. Paste endpoint which is taken from Bagisto Myfatoorah Payment Module.

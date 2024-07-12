@@ -80,7 +80,6 @@ return [
                     ],
 
                 ],
-
             ], [
                 'name'          => 'save_card',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.save-card',

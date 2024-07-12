@@ -2,7 +2,6 @@
 
 namespace Webkul\Myfatoorah\Commands;
 
-use Illuminate\Http\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use MyFatoorah\Library\MyFatoorah;
@@ -28,14 +27,10 @@ class RegisterApplePay extends Command
      */
     public function handle()
     {
-        $domain = $this->ask('Please Enter Your Domain');
-        
         if (! empty(core()->getConfigData('sales.payment_methods.myfatoorah.api_key'))) {
 
-            $request = $this->registerApplePay($domain);
-            
-            $response = json_decode($request->getBody(), true);
-    
+            $response = json_decode($this->registerApplePay($this->ask('What is your domain ?'))->getBody(), true);
+
             $this->info($response['IsSuccess'] ? 'Apple Pay Registered Successfully' : $response['Message']);
         } else {
             $this->info('API Key Not Found');
@@ -44,23 +39,22 @@ class RegisterApplePay extends Command
 
     /**
      * Register Apple Pay
-     * 
-     * @param  string $domain
-     * 
+     *
+     * @param  string  $domain
      * @return object|json
      */
     public function registerApplePay($domain)
     {
-        $myfatoorah = new MyFatoorah( [
+        $myfatoorah = new MyFatoorah([
             'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
             'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
             'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
         ]);
 
         return Http::withHeaders([
-            "Authorization" => "Bearer ".core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-        ])->post($myfatoorah->getApiURL(). '/V2/RegisterApplePayDomain', [
-            "DomainName" =>$domain,
+            'Authorization' => 'Bearer '.core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
+        ])->post($myfatoorah->getApiURL().'/V2/RegisterApplePayDomain', [
+            'DomainName' => $domain,
         ]);
     }
 }

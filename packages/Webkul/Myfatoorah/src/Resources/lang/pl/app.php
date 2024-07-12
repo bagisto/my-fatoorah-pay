@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Brak podpisu Webhook.',
             'noWebhookSecretKey'      => 'Brak tajnego klucza Webhook.',
             'invalidWebhookSignature' => 'Nieprawidłowy podpis Webhook.',
+            'error-occurred'          => 'Wystąpił błąd podczas przetwarzania Twojego żądania.',
         ],
 
         'error' => [

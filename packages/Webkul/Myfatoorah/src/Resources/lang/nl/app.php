@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook-handtekening niet beschikbaar.',
             'noWebhookSecretKey'      => 'Webhook geheime sleutel niet beschikbaar.',
             'invalidWebhookSignature' => 'Ongeldige Webhook-handtekening.',
+            'error-occurred'          => 'Er is een fout opgetreden tijdens het verwerken van uw verzoek.',
         ],
 
         'error' => [

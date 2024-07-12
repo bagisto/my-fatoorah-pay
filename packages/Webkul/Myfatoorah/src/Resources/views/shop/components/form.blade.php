@@ -1,13 +1,13 @@
 <script src="{{ $jsEnvironment }}/cardview/v2/session.js"></script>
 <script>
     let config = {
-        countryCode: "{{ $mfSession->CountryCode }}",
-        sessionId: "{{ $mfSession->SessionId }}",
+        countryCode: "{{ $paymentSession->CountryCode }}",
+        sessionId: "{{ $paymentSession->SessionId }}",
         cardViewId: "mf-form-element",
         style: {
             hideCardIcons: false,
             direction: "{{ app()->isLocale('ar') ? 'rtl' : 'ltr'}}",
-            cardHeight: {{ $userDefinedField ? 190 : 130 }},
+            cardHeight: {{ $saveCard ? 190 : 130 }},
             tokenHeight: 160,
             input: {
                 color: "black",

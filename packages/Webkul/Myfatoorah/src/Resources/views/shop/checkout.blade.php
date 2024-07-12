@@ -89,7 +89,7 @@
                 <x-myfatoorah::googlePay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
-                    :mfSession='$mfSession'
+                    :paymentSession='$paymentSession'
                 />
             @endif
 
@@ -98,7 +98,7 @@
                 <x-myfatoorah::applePay 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
-                    :mfSession='$mfSession' 
+                    :paymentSession='$paymentSession' 
                 />
             @endif
 
@@ -107,8 +107,8 @@
                 <x-myfatoorah::form 
                     :paymentMethods="$paymentMethods"
                     :jsEnvironment="$jsEnvironment"
-                    :mfSession='$mfSession' 
-                    :userDefinedField="$userDefinedField"
+                    :paymentSession='$paymentSession' 
+                    :saveCard="$saveCard"
                 />
             @endif
         </div>

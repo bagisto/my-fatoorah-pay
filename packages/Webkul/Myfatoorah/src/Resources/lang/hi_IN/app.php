@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'वेबहुक हस्ताक्षर उपलब्ध नहीं है।',
             'noWebhookSecretKey'      => 'वेबहुक गुप्त कुंजी उपलब्ध नहीं है।',
             'invalidWebhookSignature' => 'अवैध वेबहुक हस्ताक्षर।',
+            'error-occurred'          => 'आपके अनुरोध को संसाधित करते समय एक त्रुटि हुई।',
         ],
 
         'error' => [

@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'Webhook Signature is not available.',
             'noWebhookSecretKey'      => 'Webhook Secret Key is not available.',
             'invalidWebhookSignature' => 'Invalid Webhook Signature.',
+            'error-occurred'          => 'Error Occurred While Processing Your Request.',
         ],
 
         'error' => [

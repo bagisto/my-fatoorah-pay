@@ -51,6 +51,7 @@ return [
             'noWebhookSignature'      => 'Webhook අත්සන නොමැත.',
             'noWebhookSecretKey'      => 'Webhook රහස් යතුර නොමැත.',
             'invalidWebhookSignature' => 'අනීතික Webhook අත්සන.',
+            'error-occurred'          => 'ඔබේ ඉල්ලීම සැකසීමේදී දෝෂයක් සිදු වී ඇත.',
         ],
 
         'error' => [

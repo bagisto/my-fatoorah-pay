@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'חתימת Webhook אינה זמינה.',
             'noWebhookSecretKey'      => 'מפתח סודי של Webhook אינו זמין.',
             'invalidWebhookSignature' => 'חתימת Webhook שגויה.',
+            'error-occurred'          => 'אירעה שגיאה בעת עיבוד הבקשה שלך.',
         ],
 
         'error' => [

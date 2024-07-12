@@ -50,6 +50,7 @@ return [
             'noWebhookSignature'      => 'امضای Webhook موجود نیست.',
             'noWebhookSecretKey'      => 'کلید محرمانه Webhook موجود نیست.',
             'invalidWebhookSignature' => 'امضای Webhook نامعتبر است.',
+            'error-occurred'          => 'در پردازش درخواست شما خطایی رخ داد.',
         ],
 
         'error' => [
