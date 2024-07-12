@@ -93,7 +93,6 @@ class PaymentController extends Controller
                     'Quantity'  => $item->qty_ordered,
                     'UnitPrice' => $item->price,
                     'Weight'    => $item->total_weight,
-
                 ];
             }
 
