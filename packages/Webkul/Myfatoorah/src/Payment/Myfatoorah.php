@@ -2,8 +2,9 @@
 
 namespace Webkul\Myfatoorah\Payment;
 
-use Illuminate\Support\Facades\Storage;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Payment\Payment\Payment;
+use Illuminate\Support\Facades\Storage;
 
 class Myfatoorah extends Payment
 {
@@ -37,5 +38,15 @@ class Myfatoorah extends Payment
         $url = $this->getConfigData('logo');
 
         return $url ? Storage::url($url) : @bagisto_asset('images/myfatoorah.png', 'myfatoorah');
+    }
+
+     /**
+     * Checks if payment method is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return core()->getConfigData('sales.payment_methods.myfatoorah.status') && in_array(Cart::getCart()->cart_currency_code, ['KWD', 'SAR', 'BHD','AED','QAR','OMR','JOD','EGP','USD']);
     }
 }

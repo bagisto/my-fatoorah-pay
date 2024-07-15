@@ -59,7 +59,7 @@ class PaymentController extends Controller
             return redirect($this->myFatoorahPayment->getInvoiceURL($this->preparePayLoad($order), (request('paymentMethodId') ?? 0), $order->id, (request('sessionId') ?? null))['invoiceURL']);
         } catch (Exception $exception) {
 
-            return view('myfatoorah::shop.error', ['errorMessage' => $exception->getMessage()]);
+            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
         }
     }
 
@@ -132,7 +132,7 @@ class PaymentController extends Controller
             }
         } catch (Exception $exception) {
 
-            return view('myfatoorah::shop.error', ['errorMessage' => $exception->getMessage()]);
+            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
         }
 
         session()->flash('order', $order);
@@ -170,6 +170,7 @@ class PaymentController extends Controller
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
 
+            
             if (empty($order->first())) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
             }
@@ -191,11 +192,11 @@ class PaymentController extends Controller
             $countries = MyFatoorah::getMFCountries();
 
             $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
-
+            
             return view('myfatoorah::shop.checkout', compact('paymentSession', 'paymentMethods', 'jsEnvironment', 'saveCard'));
         } catch (Exception $exception) {
-
-            return view('myfatoorah::shop.error', ['errorMessage' => $exception->getMessage()]);
+    
+            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
         }
     }
 

@@ -64,12 +64,7 @@ class MyfatoorahServiceProvider extends ServiceProvider
             });
         }
 
-        if ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.status')) {
-
-            $this->mergeConfigFrom(
-                dirname(__DIR__).'/Config/paymentmethods.php', 'payment_methods'
-            );
-        }
+        
     }
 
     /**
@@ -89,6 +84,10 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/paymentmethods.php', 'payment_methods'
+        );
+
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/system.php', 'core'
         );
