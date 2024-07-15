@@ -60,9 +60,6 @@ composer dump-autoload
 
 php artisan optimize:clear
 
-php artisan vendor:publish --force
-
-> Press the number before "Webkul\Myfatoorah\Providers\MyfatoorahServiceProvider::class" or search "Webkul\Myfatoorah\Providers\MyfatoorahServiceProvider::class"  and then press enter to publish all assets and configurations.
 ~~~
 
 ~~~
@@ -70,7 +67,7 @@ cd packages/Webkul/Myfatoorah
 
 npm i
 
-npm build
+npm run build
 ~~~
 
   

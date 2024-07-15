@@ -20,7 +20,7 @@ class RegisterApplePay extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Register your domain with Myfatoorah for Apple Pay.';
 
     /**
      * Execute the console command.

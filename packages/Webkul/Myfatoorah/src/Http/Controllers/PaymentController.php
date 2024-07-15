@@ -171,7 +171,7 @@ class PaymentController extends Controller
             $order = $this->orderRepository->where('cart_id', $cart->id);
 
             
-            if (empty($order->first())) {
+            if ( empty($order->first())) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
             }
 
@@ -181,7 +181,7 @@ class PaymentController extends Controller
 
             $paymentMethods = $this->myFatoorahPaymentEmbedded->getCheckoutGateways($order->grand_total, $order->order_currency_code, core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
 
-            if (empty($paymentMethods['all'])) {
+            if ( empty($paymentMethods['all'])) {
                 throw new Exception(trans('my_fatoorah::app.shop.checkout.noPaymentGateways'));
             }
 
@@ -208,7 +208,7 @@ class PaymentController extends Controller
         try {
             $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
 
-            if (empty($secretKey)) {
+            if ( empty($secretKey)) {
 
                 return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.noWebhookSecretKey')], 404);
             }
@@ -233,6 +233,7 @@ class PaymentController extends Controller
      * Change transaction status
      *
      * @param  array  $data
+     * @return array
      */
     private function changeTransactionStatus($data): array
     {

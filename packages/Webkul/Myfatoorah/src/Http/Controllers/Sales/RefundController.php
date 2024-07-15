@@ -18,11 +18,11 @@ class RefundController extends BaseRefundController
      * @return void
      */
     public function __construct(
-        protected OrderRepository $orderRepository,
+        protected MyFatoorahRefund $myFatoorahRefund,
         protected OrderItemRepository $orderItemRepository,
-        protected RefundRepository $refundRepository,
+        protected OrderRepository $orderRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
-        protected MyFatoorahRefund $myFatoorahRefund
+        protected RefundRepository $refundRepository
     ) {}
 
     /**

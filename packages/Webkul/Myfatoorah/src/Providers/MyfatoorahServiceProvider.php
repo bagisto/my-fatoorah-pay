@@ -33,8 +33,6 @@ class MyfatoorahServiceProvider extends ServiceProvider
 
         $this->app->bind(BaseRefundController::class, RefundController::class);
 
-        $this->registerConfig();
-
         $mfConfig = [
             'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
             'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
@@ -75,6 +73,8 @@ class MyfatoorahServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands([RegisterApplePay::class]);
+        
+        $this->registerConfig();
     }
 
     /**
