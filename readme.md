@@ -66,7 +66,7 @@ php artisan vendor:publish --force
 ~~~
 
 ~~~
-cd packages/MyFatoorah
+cd packages/Webkul/Myfatoorah
 
 npm i
 
