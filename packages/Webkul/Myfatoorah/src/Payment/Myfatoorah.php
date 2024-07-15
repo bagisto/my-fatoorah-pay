@@ -47,6 +47,6 @@ class Myfatoorah extends Payment
      */
     public function isAvailable()
     {
-        return core()->getConfigData('sales.payment_methods.myfatoorah.status') && in_array(Cart::getCart()->cart_currency_code, ['KWD', 'SAR', 'BHD','AED','QAR','OMR','JOD','EGP','USD']);
+        return core()->getConfigData('sales.payment_methods.myfatoorah.status') && (Cart::getCart() ? in_array(Cart::getCart()->cart_currency_code, ['KWD', 'SAR', 'BHD','AED','QAR','OMR','JOD','EGP','USD']): true);
     }
 }
