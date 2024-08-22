@@ -3,18 +3,22 @@
 namespace Webkul\Myfatoorah\Http\Controllers;
 
 use Exception;
+use Illuminate\Routing\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Resources\Json\JsonResource;
 use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
-use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
-use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
 use MyFatoorah\Library\MyFatoorah;
+use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
+use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
 use Webkul\Checkout\Facades\Cart;
+use Webkul\Checkout\Models\CartPayment;
+use Webkul\Shop\Http\Controllers\API\OnepageController;
+use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Models\Order;
 use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
+use Webkul\Myfatoorah\Commands\RegisterApplePay;
 
 class PaymentController extends Controller
 {
@@ -34,16 +38,18 @@ class PaymentController extends Controller
     const EXPIRED = 'Expired';
 
     /**
-     * Initiate Myfatoorah configuration and instances
+     * Initiate myfatoorah configuration and instances
      */
     public function __construct(
-        protected OrderRepository $orderRepository,
-        protected OrderTransactionRepository $orderTransactionRepository,
-        protected InvoiceRepository $invoiceRepository,
         protected MyFatoorah $myFatoorah,
         protected MyFatoorahPaymentEmbedded $myFatoorahPaymentEmbedded,
         protected MyFatoorahPayment $myFatoorahPayment,
         protected MyFatoorahPaymentStatus $myFatoorahPaymentStatus,
+        protected OrderRepository $orderRepository,
+        protected OrderTransactionRepository $orderTransactionRepository,
+        protected InvoiceRepository $invoiceRepository,
+        protected OnepageController $onepageController,
+        protected RegisterApplePay $registerApplePay
     ) {}
 
     /**
@@ -58,8 +64,9 @@ class PaymentController extends Controller
 
             return redirect($this->myFatoorahPayment->getInvoiceURL($this->preparePayLoad($order), (request('paymentMethodId') ?? 0), $order->id, (request('sessionId') ?? null))['invoiceURL']);
         } catch (Exception $exception) {
-
-            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
+            return view('myfatoorah::shop.error', [
+                'errorMessage' => 'something went wrong please try again',
+            ]);
         }
     }
 
@@ -67,6 +74,7 @@ class PaymentController extends Controller
      * Prepare myfatoorah payLoad
      *
      * @param  object  $order
+     * @return array
      */
     private function preparePayLoad($order): array
     {
@@ -114,10 +122,14 @@ class PaymentController extends Controller
             ) {
                 $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
-                $this->invoiceRepository->find($invoice->id)->update(['transaction_id' => $data->focusTransaction->TransactionId]);
+                $this->invoiceRepository->find($invoice->id)->update([
+                    'transaction_id' => $data->focusTransaction->TransactionId,
+                ]);
             }
 
-            $order->update(['status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
+            $order->update([
+                'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+            ]);
 
             if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
                 $this->orderTransactionRepository->create([
@@ -131,8 +143,9 @@ class PaymentController extends Controller
                 ]);
             }
         } catch (Exception $exception) {
-
-            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
+            return view('myfatoorah::shop.error', [
+                'errorMessage' => 'something went wrong please try again',
+            ]);
         }
 
         session()->flash('order', $order);
@@ -146,6 +159,7 @@ class PaymentController extends Controller
      * Prepare invoice data
      *
      * @param  object  $order
+     * @return array
      */
     protected function prepareInvoiceData($order): array
     {
@@ -170,7 +184,6 @@ class PaymentController extends Controller
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
 
-            
             if ( empty($order->first())) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
             }
@@ -192,11 +205,12 @@ class PaymentController extends Controller
             $countries = MyFatoorah::getMFCountries();
 
             $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
-            
+
             return view('myfatoorah::shop.checkout', compact('paymentSession', 'paymentMethods', 'jsEnvironment', 'saveCard'));
         } catch (Exception $exception) {
-    
-            return view('myfatoorah::shop.error', ['errorMessage' => 'something went wrong please try again']);;
+            return view('myfatoorah::shop.error', [
+                'errorMessage' => 'something went wrong please try again',
+            ]);
         }
     }
 
@@ -209,8 +223,10 @@ class PaymentController extends Controller
             $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
 
             if ( empty($secretKey)) {
-
-                return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.noWebhookSecretKey')], 404);
+                return new JsonResponse([
+                    'success' => false, 
+                    'message' => trans('my_fatoorah::app.shop.checkout.no-webhook-secretKey'),
+                ], 404);
             }
 
             $mfSignature = request()->header('MyFatoorah-Signature');
@@ -218,14 +234,18 @@ class PaymentController extends Controller
             $data = json_decode(request()->getContent(), true);
 
             if (MyFatoorah::isSignatureValid($data['Data'], $secretKey, $mfSignature, $data['EventType'])) {
-
                 return new JsonResponse($this->changeTransactionStatus($data['Data']), 200);
             }
 
-            return new JsonResponse(['success' => false, 'message' => trans('my_fatoorah::app.shop.checkout.error-occurred')], 404);
+            return new JsonResponse([
+                'success' => false,
+                'message' => trans('my_fatoorah::app.shop.checkout.error-occurred'),
+            ], 404);
         } catch (Exception $exception) {
-
-            return new JsonResponse(['success' => false, 'message' => $exception->getMessage()], 500);
+            return new JsonResponse([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ], 500);
         }
     }
 
@@ -250,10 +270,14 @@ class PaymentController extends Controller
         ) {
             $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
-            $this->invoiceRepository->find($invoice->id)->update(['transaction_id' => $data->focusTransaction->TransactionId]);
+            $this->invoiceRepository->find($invoice->id)->update([
+                'transaction_id' => $data->focusTransaction->TransactionId,
+            ]);
         }
 
-        $order->update(['status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
+        $order->update([
+            'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+        ]);
 
         if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
             $this->orderTransactionRepository->create([
@@ -267,23 +291,30 @@ class PaymentController extends Controller
             ]);
         }
 
-        return ['success' => $data->InvoiceStatus == self::PAID ? true : false, 'message' => $this->getMessage($data->InvoiceStatus, $data->InvoiceError), 'data' => $data];
+        return [
+            'success' => $data->InvoiceStatus == self::PAID ? true : false,
+            'message' => $this->getMessage($data->InvoiceStatus, $data->InvoiceError), 
+            'data'    => $data,
+        ];
     }
 
     /**
      * Get message
      *
-     * @param  string  $status,  $error
+     * @param  string  $status
+     * @param  string  $error
      * @return string
      */
     private function getMessage($status, $error)
     {
         switch ($status) {
             case self::PAID:
-                return trans('myfatoorah::app.chckout.invoice-success');
+                return trans('my_fatoorah::app.shop.checkout.invoice-success');
 
             case self::FAILED:
-                return trans('myfatoorah::app.chckout.invoice-failed', ['error' => $error]);
+                return trans('my_fatoorah::app.shop.checkout.invoice-failed', [
+                    'error' => $error,
+                ]);
 
             case self::EXPIRED:
                 return $error;
@@ -301,7 +332,9 @@ class PaymentController extends Controller
 
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
-        $order->update(['status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED]);
+        $order->update([
+            'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+        ]);
 
         $this->orderTransactionRepository->create([
             'order_id'       => $order->id,
@@ -315,6 +348,123 @@ class PaymentController extends Controller
 
         Cart::deActivateCart();
 
-        return view('myfatoorah::shop.error', ['errorMessage' => $this->getMessage($data->InvoiceStatus, $data->InvoiceError)]);
+        return view('myfatoorah::shop.error', [
+            'errorMessage' => $this->getMessage($data->InvoiceStatus, $data->InvoiceError),
+        ]);
+    }
+
+    public function getMethods()
+    {
+        $cart = Cart::getCart();
+
+        $saveCard = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
+
+        $paymentMethods = $this->myFatoorahPaymentEmbedded->getCheckoutGateways($cart->grand_total, $cart->cart_currency_code, core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
+
+        if ( empty($paymentMethods['all'])) {
+            throw new Exception(trans('my_fatoorah::app.shop.checkout.noPaymentGateways'));
+        }
+
+        $paymentSession = $this->myFatoorahPaymentEmbedded->getEmbeddedSession($saveCard);
+
+        $countryCode = core()->getConfigData('sales.payment_methods.myfatoorah.country_iso');
+
+        $countries = MyFatoorah::getMFCountries();
+
+        $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
+        
+        foreach($paymentMethods as $key => $value) {
+            
+            if(empty($paymentMethods['ap'])) {
+                
+                foreach($paymentMethods['all'] as $key => $value) {
+                    
+                    if($value->PaymentMethodCode == 'ap') { 
+                        unset($paymentMethods['all'][$key]);
+                    }
+                }
+            }
+        }
+
+        $paymentMethods = $paymentMethods['all'];
+
+        return new JsonResponse([
+            'success'        => true, 
+            'paymentSession' => $paymentSession, 
+            'paymentMethods' => $paymentMethods, 
+            'jsEnvironment'  => $jsEnvironment, 
+            'saveCard'       => $saveCard,
+        ]);
+    }
+
+    public function getCartpayment()
+    {
+        return app(CartPayment::class)->where('cart_id', Cart::getCart()->id)->first();
+    }
+
+     /**
+     * Store order
+     */
+    public function storeOrder()
+    {
+        if (Cart::hasError()) {
+            return new JsonResource([
+                'status'     => false,
+            ]);
+        }
+
+        Cart::collectTotals();
+
+        try {
+            $this->onepageController->validateOrder();
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        $cart = Cart::getCart();
+
+        $order = $this->orderRepository->where('cart_id', $cart->id)->first();
+
+        if ( empty($order)) {
+            $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'order'   => $order,
+        ]);
+    }
+
+    public function cancelOrder() {
+        $cart = Cart::getCart();
+
+        $this->orderRepository->where('cart_id', $cart->id)->update([
+            'status' => Order::STATUS_CANCELED
+        ]);
+
+        Cart::deActivateCart();
+
+        return new JsonResponse([
+            'redirect'     => true,
+            'redirect_url' => route('shop.customer.session.index'),
+        ]);
+    }
+
+    /**
+     * Register Apple Pay
+     *
+     * @return redirect
+     */
+    public function mapApplePay()
+    {
+        if(request()->method() == 'GET') {
+            return view('myfatoorah::admin.map-apple-pay');
+        }
+
+        $domainRegister = json_decode($this->registerApplePay->registerApplePay(request()->get('domain'))->getBody(), true);
+
+        return redirect()->back()->with($domainRegister['IsSuccess'] ? 'success' : 'error', $domainRegister['Message']);
     }
 }

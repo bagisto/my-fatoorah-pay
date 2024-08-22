@@ -16,5 +16,13 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
         Route::get('myfatoorah/checkout', 'checkout')->name('myfatoorah.checkout');
 
         Route::post('myfatoorah/webhook', 'updateStatus')->name('myfatoorah.webhook');
+
+        Route::get('myfatoorah/getMethods', 'getMethods')->name('myfatoorah.getMethods');
+
+        Route::get('myfatoorah/getCartPayment', 'getCartpayment')->name('myfatoorah.getCartpayment');
+
+        Route::post('myfatoorah/storeOrder', 'storeOrder')->name('myfatoorah.checkout.orders.store');
+
+        Route::put('myfatoorah/cancelOrder', 'cancelOrder')->name('myfatoorah.checkout.orders.cancel');
     });
 });

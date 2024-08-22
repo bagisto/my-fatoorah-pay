@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
                 buildDirectory: "themes/myfatoorah/default/build",
                 input: [
                     "src/Resources/assets/css/app.css",
+                    "src/Resources/assets/css/admin.css",
                     "src/Resources/assets/js/app.js",
                     "src/Resources/assets/css/style.css",
                     "src/Resources/assets/js/checkout.js",

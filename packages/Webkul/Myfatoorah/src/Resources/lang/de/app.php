@@ -12,7 +12,7 @@ return [
                         'description'        => 'Sicheres Zahlungsmodul mit Unterstützung für Zahlungsmethoden, Kartendatenspeicherung, Rückerstattungsmöglichkeiten und Webhook-Integration für Echtzeit-Statusupdates',
                         'api-key'            => 'API-Schlüssel',
                         'test-mode'          => 'Testmodus',
-                        'country-iso'       => [
+                        'country-iso'        => [
                            'title'  => 'Länder-ISO',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Saudi-Arabien',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Kasse',
-            'noPaymentGateways'       => 'Es sind keine Zahlungsmethoden auf Ihrem Konto verfügbar, bitte kontaktieren Sie Ihren Kontomanager.',
-            'howWouldYouLikeToPay'    => 'Wie möchten Sie bezahlen?',
-            'or'                      => 'Oder',
-            'payWith'                 => 'Bezahlen mit',
-            'insertCardDetails'       => 'Kartendetails eingeben',
-            'payNow'                  => 'Jetzt bezahlen',
-            'invoice-success'         => 'Rechnung bezahlt.',
-            'invoice-failed'          => 'Rechnung wurde aufgrund von :error nicht bezahlt',
-            'method-unavailable'      => 'Diese Zahlungsmethode ist inaktiv, bitte versuchen Sie eine andere',
-            'invalidWebhookData'      => 'Ungültige Webhook-Daten',
-            'noWebhookSignature'      => 'Webhook-Signatur ist nicht verfügbar.',
-            'noWebhookSecretKey'      => 'Webhook-Geheimschlüssel ist nicht verfügbar.',
-            'invalidWebhookSignature' => 'Ungültige Webhook-Signatur.',
-            'error-occurred'          => 'Beim Verarbeiten Ihrer Anfrage ist ein Fehler aufgetreten.',
+            'page-title'                => 'MyFatoorah - Kasse',
+            'no-payment-gateways'       => 'Es sind keine Zahlungsmethoden auf Ihrem Konto verfügbar, bitte kontaktieren Sie Ihren Kontomanager.',
+            'how-would-you-like-to-pay' => 'Wie möchten Sie bezahlen?',
+            'or'                        => 'Oder',
+            'pay-with'                  => 'Bezahlen mit',
+            'insert-card-details'       => 'Kartendetails eingeben',
+            'pay-now'                   => 'Jetzt bezahlen',
+            'invoice-success'           => 'Rechnung bezahlt.',
+            'invoice-failed'            => 'Rechnung wurde aufgrund von :error nicht bezahlt',
+            'method-unavailable'        => 'Diese Zahlungsmethode ist inaktiv, bitte versuchen Sie eine andere',
+            'invalid-webhook-data'      => 'Ungültige Webhook-Daten',
+            'no-webhook-signature'      => 'Webhook-Signatur ist nicht verfügbar.',
+            'no-webhook-secretKey'      => 'Webhook-Geheimschlüssel ist nicht verfügbar.',
+            'invalid-webhook-signature' => 'Ungültige Webhook-Signatur.',
+            'error-occurred'            => 'Beim Verarbeiten Ihrer Anfrage ist ein Fehler aufgetreten.',
         ],
 
         'error' => [
@@ -59,16 +59,16 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Name auf der Karte',
-                'cardNumber'           => 'Kartennummer',
-                'expiryDate'           => 'Ablaufdatum',
-                'securityCode'         => 'Sicherheitscode',
-                'cardHolderNameLabel'  => 'Karteninhabername',
-                'cardNumberLabel'      => 'Kartennummer',
-                'expiryDateLabel'      => 'Ablaufdatum',
-                'securityCodeLabel'    => 'Sicherheitscode',
-                'saveCard'             => 'Kartennummer für zukünftige Zahlungen speichern',
-                'addCard'              => 'Andere Karte verwenden',
+                'holder-name'           => 'Name auf der Karte',
+                'card-number'           => 'Kartennummer',
+                'expiry-date'           => 'Ablaufdatum',
+                'security-code'         => 'Sicherheitscode',
+                'card-holder-name-label'  => 'Karteninhabername',
+                'card-number-label'      => 'Kartennummer',
+                'expiry-date-label'      => 'Ablaufdatum',
+                'security-code-label'    => 'Sicherheitscode',
+                'save-card'             => 'Kartennummer für zukünftige Zahlungen speichern',
+                'add-card'              => 'Andere Karte verwenden',
                 'deleteAlert'          => [
                     'title'    => 'Karte löschen',
                     'message'  => 'Sind Sie sicher, dass Sie diese Karte entfernen möchten?',

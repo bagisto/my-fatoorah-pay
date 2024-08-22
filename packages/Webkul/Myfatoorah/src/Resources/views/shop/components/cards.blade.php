@@ -1,3 +1,4 @@
+
 @foreach($paymentMethods['cards'] as $card)
 @php($cardTitle = (core()->getCurrentLocale() == 'ar') ? $card->PaymentMethodAr : $card->PaymentMethodEn)
     <div class="mf-card-container mf-div-{{$card->PaymentMethodCode}}" onclick="makeCardPayment('{{$card->PaymentMethodId}}')">
@@ -16,3 +17,5 @@
         window.location.href = "{{url('myfatoorah')}}?paymentMethodId=" + paymentId;
     }
 </script>
+
+

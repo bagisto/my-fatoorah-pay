@@ -138,7 +138,20 @@
 }
 .mf-pay-now-btn {
     /*height: 32.2px;*/
-    background-color: var(--brand-color);
+    background-color: rgb(6 12 59 / var(--tw-bg-opacity));
+    justify-content: center;
+    color: white !important;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.center {
+    margin: auto;
+}
+
+.mf-pay-cancel-btn {
+    /*height: 32.2px;*/
+    background-color: #0c0c0c;
     justify-content: center;
     color: white !important;
     cursor: pointer;

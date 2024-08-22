@@ -7,10 +7,20 @@ MyFatoorah Payment Module enables get your business up and running in a few minu
 
 - **Enable Module**: Admins can easily enable/disable the module via configuration settings using their login credentials.
 - **Supported Payment Methods**: Users can securely make payments using various methods, including:
-  - Debit Cards/Credit Cards
-  - Google Pay
-  - Apple Pay
-  - Custom methods based on your Myfatoorah account API key
+  - **Debit Cards/Credit Cards**
+   <img src="https://files.readme.io/41aba74-Embedded_Payment.png" alt="CardView Description" width="50%">
+
+
+  - **Google Pay** 
+   <br><img src="https://files.readme.io/0f3cf2d-Google_Pay.png" alt="GooglePay" width="50%">
+   <img src="https://files.readme.io/53d6350-Google_Pay.png" alt="GooglePay" width=50%>
+
+
+  - **Apple Pay** <br><img src="https://files.readme.io/6be4af1-Apple_Pay.png" width='50%' alt="ApplePay">
+   <img src="https://files.readme.io/db15645-Apple_Pay_Payment_Sheet.png" alt="Apple Pay" width="50%">
+
+   
+  - **Custom methods based on your Myfatoorah account API key**
 - **Card store option**: Option for admins to securely store customer card data at Myfatoorah payment portal for future payments.
 - **Refund option**: Supports both partial and total refunds, with some gateways offering instant refund capabilities.
 - **Webhook setup**:Webhook option is also available with this module to get payment status for the respective purchages.
@@ -111,5 +121,6 @@ npm run build
       ~~~
 Note: 
 * Apple pay registration is required if you need "Apple Pay" payment option
+* Contact to Myfatoorah Team to get Domain verification file
   
 

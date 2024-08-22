@@ -12,7 +12,7 @@ return [
                         'description'        => 'وحدة دفع آمنة مع دعم طرق الدفع، تخزين بيانات البطاقة، قدرات الاسترداد، وتكامل Webhook لتحديثات الحالة في الوقت الفعلي',
                         'api-key'            => 'مفتاح API',
                         'test-mode'          => 'وضع الاختبار',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'رمز ISO للبلد',
                             'kwt'   => 'الكويت',
                             'sau'   => 'المملكة العربية السعودية',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'ماي فاتورة - الدفع',
-            'noPaymentGateways'       => 'لا توجد طرق دفع متاحة على حسابك، يرجى الاتصال بمدير حسابك.',
-            'howWouldYouLikeToPay'    => 'كيف تود الدفع؟',
-            'or'                      => 'أو',
-            'payWith'                 => 'ادفع بواسطة',
-            'insertCardDetails'       => 'أدخل تفاصيل البطاقة',
-            'payNow'                  => 'ادفع الآن',
-            'invoice-success'         => 'تم دفع الفاتورة.',
-            'invoice-failed'          => 'لم يتم دفع الفاتورة بسبب :error',
-            'method-unavailable'      => 'طريقة الدفع هذه غير نشطة، يرجى تجربة طريقة أخرى',
-            'invalidWebhookData'      => 'بيانات Webhook غير صالحة',
-            'noWebhookSignature'      => 'توقيع Webhook غير متاح.',
-            'noWebhookSecretKey'      => 'مفتاح Webhook السري غير متاح.',
-            'invalidWebhookSignature' => 'توقيع Webhook غير صالح.',
-            'error-occurred'          => 'حدث خطأ أثناء معالجة طلبك.',
+            'page-title'                => 'ماي فاتورة - الدفع',
+            'no-payment-gateways'       => 'لا توجد طرق دفع متاحة على حسابك، يرجى الاتصال بمدير حسابك.',
+            'how-would-you-like-to-pay' => 'كيف تود الدفع؟',
+            'or'                        => 'أو',
+            'pay-with'                  => 'ادفع بواسطة',
+            'insert-card-details'       => 'أدخل تفاصيل البطاقة',
+            'pay-now'                   => 'ادفع الآن',
+            'invoice-success'           => 'تم دفع الفاتورة.',
+            'invoice-failed'            => 'لم يتم دفع الفاتورة بسبب :error',
+            'method-unavailable'        => 'طريقة الدفع هذه غير نشطة، يرجى تجربة طريقة أخرى',
+            'invalid-webhook-data'      => 'بيانات Webhook غير صالحة',
+            'no-webhook-signature'      => 'توقيع Webhook غير متاح.',
+            'no-webhook-secretKey'      => 'مفتاح Webhook السري غير متاح.',
+            'invalid-webhook-signature' => 'توقيع Webhook غير صالح.',
+            'error-occurred'            => 'حدث خطأ أثناء معالجة طلبك.',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'الاسم على البطاقة',
-                'cardNumber'           => 'رقم البطاقة',
-                'expiryDate'           => 'تاريخ الانتهاء',
-                'securityCode'         => 'رمز الأمان',
-                'cardHolderNameLabel'  => 'اسم حامل البطاقة',
-                'cardNumberLabel'      => 'رقم البطاقة',
-                'expiryDateLabel'      => 'تاريخ الانتهاء',
-                'securityCodeLabel'    => 'رمز الأمان',
-                'saveCard'             => 'حفظ رقم البطاقة للدفع في المستقبل',
-                'addCard'              => 'استخدام بطاقة أخرى',
-                'deleteAlert'          => [
+                'holder-name'            => 'الاسم على البطاقة',
+                'card-number'            => 'رقم البطاقة',
+                'expiry-date'            => 'تاريخ الانتهاء',
+                'security-code'          => 'رمز الأمان',
+                'card-holder-name-label' => 'اسم حامل البطاقة',
+                'card-number-label'      => 'رقم البطاقة',
+                'expiry-date-label'      => 'تاريخ الانتهاء',
+                'security-code-label'    => 'رمز الأمان',
+                'save-card'              => 'حفظ رقم البطاقة للدفع في المستقبل',
+                'add-card'               => 'استخدام بطاقة أخرى',
+                'delete-alert'           => [
                     'title'    => 'حذف البطاقة',
                     'message'  => 'هل أنت متأكد أنك تريد إزالة هذه البطاقة؟',
                     'confirm'  => 'نعم',

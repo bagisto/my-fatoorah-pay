@@ -14,6 +14,12 @@ return [
                 'channel_based' => true,
                 'locale_based'  => false,
             ], [
+                'name'          => 'description',
+                'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.description-title',
+                'type'          => 'textarea',
+                'channel_based' => true,
+                'locale_based'  => true,
+            ], [
                 'name'          => 'logo',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.logo',
                 'type'          => 'image',

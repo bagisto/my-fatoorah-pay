@@ -12,7 +12,7 @@ return [
                         'description'        => '安全的支付模块，支持支付方式，卡数据存储，退款功能和Webhook集成，用于实时状态更新',
                         'api-key'            => 'API密钥',
                         'test-mode'          => '测试模式',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => '国家ISO',
                             'kwt'   => '科威特',
                             'sau'   => '沙特阿拉伯',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - 结账',
-            'noPaymentGateways'       => '您的账户上没有可用的支付方式，请联系您的客户经理。',
-            'howWouldYouLikeToPay'    => '您想如何支付？',
-            'or'                      => '或',
-            'payWith'                 => '支付方式',
-            'insertCardDetails'       => '输入卡信息',
-            'payNow'                  => '立即支付',
-            'invoice-success'         => '发票已支付。',
-            'invoice-failed'          => '由于 :error，发票未支付',
-            'method-unavailable'      => '此支付方式不可用，请尝试其他方式',
-            'invalidWebhookData'      => '无效的Webhook数据',
-            'noWebhookSignature'      => 'Webhook签名不可用。',
-            'noWebhookSecretKey'      => 'Webhook密钥不可用。',
-            'invalidWebhookSignature' => '无效的Webhook签名。',
-            'error-occurred'          => '处理您的请求时发生错误。',
+            'page-title'                => 'MyFatoorah - 结账',
+            'no-payment-gateways'       => '您的账户上没有可用的支付方式，请联系您的客户经理。',
+            'how-would-you-like-to-pay' => '您想如何支付？',
+            'or'                        => '或',
+            'pay-with'                  => '支付方式',
+            'insert-card-details'       => '输入卡信息',
+            'pay-now'                   => '立即支付',
+            'invoice-success'           => '发票已支付。',
+            'invoice-failed'            => '由于 :error，发票未支付',
+            'method-unavailable'        => '此支付方式不可用，请尝试其他方式',
+            'invalid-webhook-data'      => '无效的Webhook数据',
+            'no-webhook-signature'      => 'Webhook签名不可用。',
+            'no-webhook-secretKey'      => 'Webhook密钥不可用。',
+            'invalid-webhook-signature' => '无效的Webhook签名。',
+            'error-occurred'            => '处理您的请求时发生错误。',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => '持卡人姓名',
-                'cardNumber'           => '卡号',
-                'expiryDate'           => 'MM/YY',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => '持卡人姓名',
-                'cardNumberLabel'      => '卡号',
-                'expiryDateLabel'      => '有效期',
-                'securityCodeLabel'    => '安全码',
-                'saveCard'             => '保存卡号以便将来支付',
-                'addCard'              => '使用另一张卡',
-                'deleteAlert'          => [
+                'holder-name'            => '持卡人姓名',
+                'card-number'            => '卡号',
+                'expiry-date'            => 'MM/YY',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => '持卡人姓名',
+                'card-number-label'      => '卡号',
+                'expiry-date-label'      => '有效期',
+                'security-code-label'    => '安全码',
+                'save-card'              => '保存卡号以便将来支付',
+                'add-card'               => '使用另一张卡',
+                'deleteAlert'            => [
                     'title'    => '删除卡片',
                     'message'  => '您确定要删除此卡吗？',
                     'confirm'  => '是',

@@ -12,7 +12,7 @@ return [
                         'description'        => 'Безпечний платіжний модуль з підтримкою методів оплати, зберіганням даних картки, можливістю повернення коштів та інтеграцією Webhook для оновлень статусу в режимі реального часу',
                         'api-key'            => 'API Ключ',
                         'test-mode'          => 'Тестовий Режим',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'ISO країни',
                             'kwt'   => 'Кувейт',
                             'sau'   => 'Саудівська Аравія',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Оформлення Замовлення',
-            'noPaymentGateways'       => 'На вашому обліковому записі немає доступних методів оплати, будь ласка, зв’яжіться з вашим менеджером облікового запису.',
-            'howWouldYouLikeToPay'    => 'Як ви хочете заплатити?',
-            'or'                      => 'Або',
-            'payWith'                 => 'Оплатити з',
-            'insertCardDetails'       => 'Введіть Дані Картки',
-            'payNow'                  => 'Оплатити Зараз',
-            'invoice-success'         => 'Рахунок оплачений.',
-            'invoice-failed'          => 'Рахунок не оплачений через :error',
-            'method-unavailable'      => 'Цей метод оплати неактивний, спробуйте інший',
-            'invalidWebhookData'      => 'Недійсні дані Webhook',
-            'noWebhookSignature'      => 'Підпис Webhook недоступний.',
-            'noWebhookSecretKey'      => 'Секретний ключ Webhook недоступний.',
-            'invalidWebhookSignature' => 'Недійсний підпис Webhook.',
-            'error-occurred'          => 'Сталася помилка під час обробки вашого запиту.',
+            'page-title'                => 'MyFatoorah - Оформлення Замовлення',
+            'no-payment-gateways'       => 'На вашому обліковому записі немає доступних методів оплати, будь ласка, зв’яжіться з вашим менеджером облікового запису.',
+            'how-would-you-like-to-pay' => 'Як ви хочете заплатити?',
+            'or'                        => 'Або',
+            'pay-with'                  => 'Оплатити з',
+            'insert-card-details'       => 'Введіть Дані Картки',
+            'pay-now'                   => 'Оплатити Зараз',
+            'invoice-success'           => 'Рахунок оплачений.',
+            'invoice-failed'            => 'Рахунок не оплачений через :error',
+            'method-unavailable'        => 'Цей метод оплати неактивний, спробуйте інший',
+            'invalid-webhook-data'      => 'Недійсні дані Webhook',
+            'no-webhook-signature'      => 'Підпис Webhook недоступний.',
+            'no-webhook-secretKey'      => 'Секретний ключ Webhook недоступний.',
+            'invalid-webhook-signature' => 'Недійсний підпис Webhook.',
+            'error-occurred'            => 'Сталася помилка під час обробки вашого запиту.',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Ім’я на Картці',
-                'cardNumber'           => 'Номер',
-                'expiryDate'           => 'MM/YY',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => 'Ім’я Власника Картки',
-                'cardNumberLabel'      => 'Номер Картки',
-                'expiryDateLabel'      => 'Дата Закінчення',
-                'securityCodeLabel'    => 'Код Безпеки',
-                'saveCard'             => 'Зберегти номер картки для майбутніх платежів',
-                'addCard'              => 'Використовувати іншу картку',
-                'deleteAlert'          => [
+                'holder-name'            => 'Ім’я на Картці',
+                'card-number'            => 'Номер',
+                'expiry-date'            => 'MM/YY',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => 'Ім’я Власника Картки',
+                'card-number-label'      => 'Номер Картки',
+                'expiry-date-label'      => 'Дата Закінчення',
+                'security-code-label'    => 'Код Безпеки',
+                'save-card'              => 'Зберегти номер картки для майбутніх платежів',
+                'add-card'               => 'Використовувати іншу картку',
+                'deleteAlert'            => [
                     'title'    => 'Видалити Картку',
                     'message'  => 'Ви впевнені, що хочете видалити цю картку?',
                     'confirm'  => 'Так',

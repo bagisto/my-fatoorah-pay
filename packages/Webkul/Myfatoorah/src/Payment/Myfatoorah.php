@@ -2,9 +2,9 @@
 
 namespace Webkul\Myfatoorah\Payment;
 
+use Illuminate\Support\Facades\Storage;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Payment\Payment\Payment;
-use Illuminate\Support\Facades\Storage;
 
 class Myfatoorah extends Payment
 {

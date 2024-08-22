@@ -12,7 +12,7 @@ return [
                         'description'        => 'Modulo di pagamento sicuro con supporto per metodi di pagamento, archiviazione dei dati della carta, capacità di rimborso e integrazione Webhook per aggiornamenti di stato in tempo reale',
                         'api-key'            => 'Chiave API',
                         'test-mode'          => 'Modalità test',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'ISO del paese',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Arabia Saudita',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Checkout',
-            'noPaymentGateways'       => 'Non ci sono metodi di pagamento disponibili sul tuo account, si prega di contattare il proprio account manager.',
-            'howWouldYouLikeToPay'    => 'Come desideri pagare?',
-            'or'                      => 'Oppure',
-            'payWith'                 => 'Paga con',
-            'insertCardDetails'       => 'Inserisci i dati della carta',
-            'payNow'                  => 'Paga ora',
-            'invoice-success'         => 'Fattura pagata.',
-            'invoice-failed'          => 'La fattura non è stata pagata a causa di :error',
-            'method-unavailable'      => 'Questo metodo di pagamento è inattivo, si prega di provare un altro',
-            'invalidWebhookData'      => 'Dati Webhook non validi',
-            'noWebhookSignature'      => 'Firma Webhook non disponibile.',
-            'noWebhookSecretKey'      => 'Chiave segreta Webhook non disponibile.',
-            'invalidWebhookSignature' => 'Firma Webhook non valida.',
-            'error-occurred'          => 'Si è verificato un errore durante l\'elaborazione della tua richiesta.',
+            'page-title'                => 'MyFatoorah - Checkout',
+            'no-payment-gateways'       => 'Non ci sono metodi di pagamento disponibili sul tuo account, si prega di contattare il proprio account manager.',
+            'how-would-you-like-to-pay' => 'Come desideri pagare?',
+            'or'                        => 'Oppure',
+            'pay-with'                  => 'Paga con',
+            'insert-card-details'       => 'Inserisci i dati della carta',
+            'pay-now'                   => 'Paga ora',
+            'invoice-success'           => 'Fattura pagata.',
+            'invoice-failed'            => 'La fattura non è stata pagata a causa di :error',
+            'method-unavailable'        => 'Questo metodo di pagamento è inattivo, si prega di provare un altro',
+            'invalid-webhook-data'      => 'Dati Webhook non validi',
+            'no-webhook-signature'      => 'Firma Webhook non disponibile.',
+            'no-webhook-secretKey'      => 'Chiave segreta Webhook non disponibile.',
+            'invalid-webhook-signature' => 'Firma Webhook non valida.',
+            'error-occurred'            => 'Si è verificato un errore durante l\'elaborazione della tua richiesta.',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Nome sulla carta',
-                'cardNumber'           => 'Numero',
-                'expiryDate'           => 'MM/AA',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => 'Nome del titolare della carta',
-                'cardNumberLabel'      => 'Numero di carta',
-                'expiryDateLabel'      => 'Data di scadenza',
-                'securityCodeLabel'    => 'Codice di sicurezza',
-                'saveCard'             => 'Salva numero di carta per pagamenti futuri',
-                'addCard'              => 'Usa un\'altra carta',
-                'deleteAlert'          => [
+                'holder-name'            => 'Nome sulla carta',
+                'card-number'            => 'Numero',
+                'expiry-date'            => 'MM/AA',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => 'Nome del titolare della carta',
+                'card-number-label'      => 'Numero di carta',
+                'expiry-date-label'      => 'Data di scadenza',
+                'security-code-label'    => 'Codice di sicurezza',
+                'save-card'              => 'Salva numero di carta per pagamenti futuri',
+                'add-card'               => 'Usa un\'altra carta',
+                'deleteAlert'            => [
                     'title'    => 'Elimina carta',
                     'message'  => 'Sei sicuro di voler rimuovere questa carta?',
                     'confirm'  => 'Sì',

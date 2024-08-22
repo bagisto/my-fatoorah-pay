@@ -12,7 +12,7 @@ return [
                         'description'        => 'ماژول پرداخت امن با پشتیبانی از روش‌های پرداخت، ذخیره‌سازی داده‌های کارت، قابلیت‌های بازپرداخت و ادغام Webhook برای به‌روزرسانی‌های وضعیت در زمان واقعی',
                         'api-key'            => 'کلید API',
                         'test-mode'          => 'حالت آزمایشی',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'کد ISO کشور',
                             'kwt'   => 'کویت',
                             'sau'   => 'عربستان سعودی',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'مای فَتوره - پرداخت',
-            'noPaymentGateways'       => 'روش‌های پرداخت در حساب شما موجود نیست، لطفا با مدیر حساب خود تماس بگیرید.',
-            'howWouldYouLikeToPay'    => 'چگونه می‌خواهید پرداخت کنید؟',
-            'or'                      => 'یا',
-            'payWith'                 => 'پرداخت با',
-            'insertCardDetails'       => 'جزئیات کارت را وارد کنید',
-            'payNow'                  => 'پرداخت اکنون',
-            'invoice-success'         => 'صورت‌حساب پرداخت شده است.',
-            'invoice-failed'          => 'به دلیل :error صورت‌حساب پرداخت نشده است',
-            'method-unavailable'      => 'این روش پرداخت غیرفعال است، لطفا روش دیگری را امتحان کنید',
-            'invalidWebhookData'      => 'داده‌های Webhook نامعتبر است',
-            'noWebhookSignature'      => 'امضای Webhook موجود نیست.',
-            'noWebhookSecretKey'      => 'کلید محرمانه Webhook موجود نیست.',
-            'invalidWebhookSignature' => 'امضای Webhook نامعتبر است.',
-            'error-occurred'          => 'در پردازش درخواست شما خطایی رخ داد.',
+            'page-title'                => 'مای فَتوره - پرداخت',
+            'no-payment-gateways'       => 'روش‌های پرداخت در حساب شما موجود نیست، لطفا با مدیر حساب خود تماس بگیرید.',
+            'how-would-you-like-to-pay' => 'چگونه می‌خواهید پرداخت کنید؟',
+            'or'                        => 'یا',
+            'pay-with'                  => 'پرداخت با',
+            'insert-card-details'       => 'جزئیات کارت را وارد کنید',
+            'pay-now'                   => 'پرداخت اکنون',
+            'invoice-success'           => 'صورت‌حساب پرداخت شده است.',
+            'invoice-failed'            => 'به دلیل :error صورت‌حساب پرداخت نشده است',
+            'method-unavailable'        => 'این روش پرداخت غیرفعال است، لطفا روش دیگری را امتحان کنید',
+            'invalid-webhook-data'      => 'داده‌های Webhook نامعتبر است',
+            'no-webhook-signature'      => 'امضای Webhook موجود نیست.',
+            'no-webhook-secretKey'      => 'کلید محرمانه Webhook موجود نیست.',
+            'invalid-webhook-signature' => 'امضای Webhook نامعتبر است.',
+            'error-occurred'            => 'در پردازش درخواست شما خطایی رخ داد.',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'نام روی کارت',
-                'cardNumber'           => 'شماره کارت',
-                'expiryDate'           => 'تاریخ انقضاء',
-                'securityCode'         => 'کد امنیتی',
-                'cardHolderNameLabel'  => 'نام دارنده کارت',
-                'cardNumberLabel'      => 'شماره کارت',
-                'expiryDateLabel'      => 'تاریخ انقضاء',
-                'securityCodeLabel'    => 'کد امنیتی',
-                'saveCard'             => 'ذخیره شماره کارت برای پرداخت‌های آینده',
-                'addCard'              => 'استفاده از کارت دیگر',
-                'deleteAlert'          => [
+                'holder-name'            => 'نام روی کارت',
+                'card-number'            => 'شماره کارت',
+                'expiry-date'            => 'تاریخ انقضاء',
+                'security-code'          => 'کد امنیتی',
+                'card-holder-name-label' => 'نام دارنده کارت',
+                'card-number-label'      => 'شماره کارت',
+                'expiry-date-label'      => 'تاریخ انقضاء',
+                'security-code-label'    => 'کد امنیتی',
+                'save-card'              => 'ذخیره شماره کارت برای پرداخت‌های آینده',
+                'add-card'               => 'استفاده از کارت دیگر',
+                'deleteAlert'            => [
                     'title'    => 'حذف کارت',
                     'message'  => 'آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟',
                     'confirm'  => 'بله',

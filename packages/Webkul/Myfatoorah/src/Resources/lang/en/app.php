@@ -12,7 +12,7 @@ return [
                         'description'        => 'Myfatoorah Payment Module enable to make payment with multiple payment options like ApplePay, GooglePay, Credit and Debit cards.',
                         'api-key'            => 'API Key',
                         'test-mode'          => 'Test Mode',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'Country ISO',
                             'kwt'   => 'Kuwait',
                             'sau'   => 'Saudi Arabia',
@@ -32,25 +32,36 @@ return [
                 ],
             ],
         ],
+        
+        'settings' => [
+            'map-apple-pay' => [
+                'title'       => 'Map Apple Pay',
+                'description' => 'Map Apple Pay in MyFatoorah Settings',
+                'save-btn'    => 'Save',
+                'back-btn'    => 'Back',
+                'url'         => 'URL',
+            ],
+        ],
     ],
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Checkout',
-            'noPaymentGateways'       => 'There are no payment methods available on your account, please contact your account manager.',
-            'howWouldYouLikeToPay'    => 'How would you like to pay?',
-            'or'                      => 'Or',
-            'payWith'                 => 'Pay With',
-            'insertCardDetails'       => 'Insert Card Details',
-            'payNow'                  => 'Pay Now',
-            'invoice-success'         => 'Invoice is paid.',
-            'invoice-failed'          => 'Invoice is not paid due to :error',
-            'method-unavailable'      => 'This Payment Method is InActive please try another one',
-            'invalidWebhookData'      => 'Invalid Webhook Data',
-            'noWebhookSignature'      => 'Webhook Signature is not available.',
-            'noWebhookSecretKey'      => 'Webhook Secret Key is not available.',
-            'invalidWebhookSignature' => 'Invalid Webhook Signature.',
-            'error-occurred'          => 'Error Occurred While Processing Your Request.',
+            'page-title'                => 'MyFatoorah - Checkout',
+            'no-payment-gateways'       => 'There are no payment methods available on your account, please contact your account manager.',
+            'how-would-you-like-to-pay' => 'How would you like to pay?',
+            'or'                        => 'Or',
+            'pay-with'                  => 'Pay With',
+            'insert-card-details'       => 'Insert Card Details',
+            'pay-now'                   => 'Pay Now',
+            'cancel'                    => 'Cancel',
+            'invoice-success'           => 'Invoice is paid.',
+            'invoice-failed'            => 'Invoice is not paid due to :error',
+            'method-unavailable'        => 'This Payment Method is InActive please try another one',
+            'invalid-webhook-data'      => 'Invalid Webhook Data',
+            'no-webhook-signature'      => 'Webhook Signature is not available.',
+            'no-webhook-secretKey'      => 'Webhook Secret Key is not available.',
+            'invalid-webhook-signature' => 'Invalid Webhook Signature.',
+            'error-occurred'            => 'Error Occurred While Processing Your Request.',
         ],
 
         'error' => [
@@ -59,17 +70,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Name On Card',
-                'cardNumber'           => 'Number',
-                'expiryDate'           => 'MM/YY',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => 'Card Holder Name',
-                'cardNumberLabel'      => 'Card Number',
-                'expiryDateLabel'      => 'Expiry Date',
-                'securityCodeLabel'    => 'Security Code',
-                'saveCard'             => 'Save card number for future payments',
-                'addCard'              => 'Use another card',
-                'deleteAlert'          => [
+                'holder-name'            => 'Name On Card',
+                'card-number'            => 'Number',
+                'expiry-date'            => 'MM/YY',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => 'Card Holder Name',
+                'card-number-label'      => 'Card Number',
+                'expiry-date-label'      => 'Expiry Date',
+                'security-code-label'    => 'Security Code',
+                'save-card'              => 'Save card number for future payments',
+                'add-card'               => 'Use another card',
+                'deleteAlert'            => [
                     'title'    => 'Delete Card',
                     'message'  => 'Are you sure you want to remove this card?',
                     'confirm'  => 'Yes',

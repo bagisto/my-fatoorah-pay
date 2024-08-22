@@ -20,7 +20,7 @@ class RegisterApplePay extends Command
      *
      * @var string
      */
-    protected $description = 'Register your domain with Myfatoorah for Apple Pay.';
+    protected $description = 'Register your domain with Myfatoorah for Apple pay.';
 
     /**
      * Execute the console command.
@@ -31,9 +31,9 @@ class RegisterApplePay extends Command
 
             $response = json_decode($this->registerApplePay($this->ask('What is your domain ?'))->getBody(), true);
 
-            $this->info($response['IsSuccess'] ? 'Apple Pay Registered Successfully' : $response['Message']);
+            $this->info($response['IsSuccess'] ? 'Apple pay registered successfully' : $response['Message']);
         } else {
-            $this->info('API Key Not Found');
+            $this->info('API key not found');
         }
     }
 

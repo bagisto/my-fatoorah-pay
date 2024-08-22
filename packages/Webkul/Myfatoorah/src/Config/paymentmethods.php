@@ -4,7 +4,7 @@ return [
     'myfatoorah'  => [
         'code'        => 'myfatoorah',
         'title'       => 'MyFatoorah',
-        'description' => 'MyFatoorah Payment Module',
+        'description' => 'MyFatoorah payment module',
         'class'       => 'Webkul\Myfatoorah\Payment\Myfatoorah',
         'active'      => true,
         'sandbox'     => true,

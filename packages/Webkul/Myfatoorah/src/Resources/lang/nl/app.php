@@ -12,7 +12,7 @@ return [
                         'description'        => 'Veilig betalingssysteem met ondersteuning voor betaalmethoden, kaartgegevensopslag, terugbetalingsmogelijkheden en Webhook-integratie voor realtime statusupdates',
                         'api-key'            => 'API Sleutel',
                         'test-mode'          => 'Testmodus',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'Land ISO',
                             'kwt'   => 'Koeweit',
                             'sau'   => 'Saoedi-Arabië',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Afrekenen',
-            'noPaymentGateways'       => 'Er zijn geen betaalmethoden beschikbaar op uw account, neem contact op met uw accountmanager.',
-            'howWouldYouLikeToPay'    => 'Hoe wilt u betalen?',
-            'or'                      => 'Of',
-            'payWith'                 => 'Betaal Met',
-            'insertCardDetails'       => 'Voer kaartgegevens in',
-            'payNow'                  => 'Nu Betalen',
-            'invoice-success'         => 'Factuur is betaald.',
-            'invoice-failed'          => 'Factuur is niet betaald vanwege :error',
-            'method-unavailable'      => 'Deze betaalmethode is inactief, probeer een andere',
-            'invalidWebhookData'      => 'Ongeldige Webhook-gegevens',
-            'noWebhookSignature'      => 'Webhook-handtekening niet beschikbaar.',
-            'noWebhookSecretKey'      => 'Webhook geheime sleutel niet beschikbaar.',
-            'invalidWebhookSignature' => 'Ongeldige Webhook-handtekening.',
-            'error-occurred'          => 'Er is een fout opgetreden tijdens het verwerken van uw verzoek.',
+            'page-title'                => 'MyFatoorah - Afrekenen',
+            'no-payment-gateways'       => 'Er zijn geen betaalmethoden beschikbaar op uw account, neem contact op met uw accountmanager.',
+            'how-would-you-like-to-pay' => 'Hoe wilt u betalen?',
+            'or'                        => 'Of',
+            'pay-with'                  => 'Betaal Met',
+            'insert-card-details'       => 'Voer kaartgegevens in',
+            'pay-now'                   => 'Nu Betalen',
+            'invoice-success'           => 'Factuur is betaald.',
+            'invoice-failed'            => 'Factuur is niet betaald vanwege :error',
+            'method-unavailable'        => 'Deze betaalmethode is inactief, probeer een andere',
+            'invalid-webhook-data'      => 'Ongeldige Webhook-gegevens',
+            'no-webhook-signature'      => 'Webhook-handtekening niet beschikbaar.',
+            'no-webhook-secretKey'      => 'Webhook geheime sleutel niet beschikbaar.',
+            'invalid-webhook-signature' => 'Ongeldige Webhook-handtekening.',
+            'error-occurred'            => 'Er is een fout opgetreden tijdens het verwerken van uw verzoek.',
         ],
 
         'error' => [
@@ -59,16 +59,16 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Naam op Kaart',
-                'cardNumber'           => 'Nummer',
-                'expiryDate'           => 'MM/JJ',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => 'Naam Kaarthouder',
-                'cardNumberLabel'      => 'Kaartnummer',
-                'expiryDateLabel'      => 'Vervaldatum',
-                'securityCodeLabel'    => 'Beveiligingscode',
-                'saveCard'             => 'Kaartnummer opslaan voor toekomstige betalingen',
-                'addCard'              => 'Gebruik een andere kaart',
+                'holder-name'           => 'Naam op Kaart',
+                'card-number'           => 'Nummer',
+                'expiry-date'           => 'MM/JJ',
+                'security-code'         => 'CVV',
+                'card-holder-name-label'  => 'Naam Kaarthouder',
+                'card-number-label'      => 'Kaartnummer',
+                'expiry-date-label'      => 'Vervaldatum',
+                'security-code-label'    => 'Beveiligingscode',
+                'save-card'             => 'Kaartnummer opslaan voor toekomstige betalingen',
+                'add-card'              => 'Gebruik een andere kaart',
                 'deleteAlert'          => [
                     'title'    => 'Kaart Verwijderen',
                     'message'  => 'Weet u zeker dat u deze kaart wilt verwijderen?',

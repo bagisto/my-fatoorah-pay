@@ -12,7 +12,7 @@ return [
                         'description'        => 'Ödeme yöntemi desteği, kart verisi saklama, geri ödeme yetenekleri ve gerçek zamanlı durum güncellemeleri için Webhook entegrasyonu ile güvenli ödeme modülü',
                         'api-key'            => 'API Anahtarı',
                         'test-mode'          => 'Test Modu',
-                        'country-iso'       => [
+                        'country-iso'        => [
                             'title' => 'Ülke ISO',
                             'kwt'   => 'Kuveyt',
                             'sau'   => 'Suudi Arabistan',
@@ -36,21 +36,21 @@ return [
 
     'shop' => [
         'checkout' => [
-            'page-title'              => 'MyFatoorah - Ödeme',
-            'noPaymentGateways'       => 'Hesabınızda mevcut ödeme yöntemleri yok, lütfen hesap yöneticinizle iletişime geçin.',
-            'howWouldYouLikeToPay'    => 'Nasıl ödemek istersiniz?',
-            'or'                      => 'Veya',
-            'payWith'                 => 'Şununla Ödeyin',
-            'insertCardDetails'       => 'Kart Bilgilerini Girin',
-            'payNow'                  => 'Şimdi Ödeyin',
-            'invoice-success'         => 'Fatura ödendi.',
-            'invoice-failed'          => ':error nedeniyle fatura ödenmedi',
-            'method-unavailable'      => 'Bu Ödeme Yöntemi Etkin Değil, lütfen başka birini deneyin',
-            'invalidWebhookData'      => 'Geçersiz Webhook Verisi',
-            'noWebhookSignature'      => 'Webhook İmzası mevcut değil.',
-            'noWebhookSecretKey'      => 'Webhook Gizli Anahtarı mevcut değil.',
-            'invalidWebhookSignature' => 'Geçersiz Webhook İmzası.',
-            'error-occurred'          => 'İsteğiniz işlenirken bir hata oluştu.',
+            'page-title'                => 'MyFatoorah - Ödeme',
+            'no-payment-gateways'       => 'Hesabınızda mevcut ödeme yöntemleri yok, lütfen hesap yöneticinizle iletişime geçin.',
+            'how-would-you-like-to-pay' => 'Nasıl ödemek istersiniz?',
+            'or'                        => 'Veya',
+            'pay-with'                  => 'Şununla Ödeyin',
+            'insert-card-details'       => 'Kart Bilgilerini Girin',
+            'pay-now'                   => 'Şimdi Ödeyin',
+            'invoice-success'           => 'Fatura ödendi.',
+            'invoice-failed'            => ':error nedeniyle fatura ödenmedi',
+            'method-unavailable'        => 'Bu Ödeme Yöntemi Etkin Değil, lütfen başka birini deneyin',
+            'invalid-webhook-data'      => 'Geçersiz Webhook Verisi',
+            'no-webhook-signature'      => 'Webhook İmzası mevcut değil.',
+            'no-webhook-secretKey'      => 'Webhook Gizli Anahtarı mevcut değil.',
+            'invalid-webhook-signature' => 'Geçersiz Webhook İmzası.',
+            'error-occurred'            => 'İsteğiniz işlenirken bir hata oluştu.',
         ],
 
         'error' => [
@@ -59,17 +59,17 @@ return [
 
         'components' => [
             'form' => [
-                'holderName'           => 'Karttaki İsim',
-                'cardNumber'           => 'Numara',
-                'expiryDate'           => 'AA/YY',
-                'securityCode'         => 'CVV',
-                'cardHolderNameLabel'  => 'Kart Sahibi İsmi',
-                'cardNumberLabel'      => 'Kart Numarası',
-                'expiryDateLabel'      => 'Son Kullanma Tarihi',
-                'securityCodeLabel'    => 'Güvenlik Kodu',
-                'saveCard'             => 'Gelecek ödemeler için kart numarasını kaydedin',
-                'addCard'              => 'Başka bir kart kullanın',
-                'deleteAlert'          => [
+                'holder-name'            => 'Karttaki İsim',
+                'card-number'            => 'Numara',
+                'expiry-date'            => 'AA/YY',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => 'Kart Sahibi İsmi',
+                'card-number-label'      => 'Kart Numarası',
+                'expiry-date-label'      => 'Son Kullanma Tarihi',
+                'security-code-label'    => 'Güvenlik Kodu',
+                'save-card'              => 'Gelecek ödemeler için kart numarasını kaydedin',
+                'add-card'               => 'Başka bir kart kullanın',
+                'deleteAlert'            => [
                     'title'    => 'Kartı Sil',
                     'message'  => 'Bu kartı kaldırmak istediğinizden emin misiniz?',
                     'confirm'  => 'Evet',
