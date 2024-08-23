@@ -136,7 +136,7 @@ class PaymentController extends Controller
                     'order_id'       => $order->id,
                     'transaction_id' => $data->focusTransaction->TransactionId,
                     'status'         => $data->InvoiceStatus,
-                    'amount'         => $data->InvoiceValue,
+                    'amount'         => $order->grand_total,
                     'payment_type'   => 'myfatoorah',
                     'data'           => json_encode($data),
                     'invoice_id'     => $invoice ? $invoice->id : 00,
@@ -179,7 +179,7 @@ class PaymentController extends Controller
      */
     public function checkout()
     {
-        try {
+        try {    
             $cart = Cart::getCart();
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
@@ -284,7 +284,7 @@ class PaymentController extends Controller
                 'order_id'       => $order->id,
                 'transaction_id' => $data->focusTransaction->TransactionId,
                 'status'         => $data->InvoiceStatus,
-                'amount'         => $data->InvoiceValue,
+                'amount'         => $order->grand_total,
                 'payment_type'   => 'myfatoorah',
                 'data'           => json_encode($data),
                 'invoice_id'     => $invoice ? $invoice->id : 00,
@@ -330,6 +330,10 @@ class PaymentController extends Controller
     {
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
+        if (! Cart::getCart()) {
+            return redirect()->route('shop.home.index');
+        }
+        
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
         $order->update([
@@ -340,7 +344,7 @@ class PaymentController extends Controller
             'order_id'       => $order->id,
             'transaction_id' => $data->InvoiceTransactions[0]->TransactionId,
             'status'         => $data->InvoiceStatus,
-            'amount'         => $data->InvoiceValue,
+            'amount'         => $order->grand_total,
             'payment_type'   => 'myfatoorah',
             'data'           => json_encode($data),
             'invoice_id'     => 00,
