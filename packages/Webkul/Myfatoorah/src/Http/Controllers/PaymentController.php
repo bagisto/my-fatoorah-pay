@@ -128,7 +128,7 @@ class PaymentController extends Controller
             }
 
             $order->update([
-                'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+                'status' => ($order->items->whereIn('type', ['downloadable', 'virtual'])->count() == $order->items->count() && $data->InvoiceStatus == self::PAID) ? Order::STATUS_COMPLETED : ($data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED),
             ]);
 
             if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
@@ -183,10 +183,6 @@ class PaymentController extends Controller
             $cart = Cart::getCart();
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
-
-            if ( empty($order->first())) {
-                $order = $this->orderRepository->create(Cart::prepareDataForOrder());
-            }
 
             $order = $order->latest()->first();
 
