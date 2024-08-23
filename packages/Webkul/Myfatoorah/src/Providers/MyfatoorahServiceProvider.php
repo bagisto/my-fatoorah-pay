@@ -73,7 +73,14 @@ class MyfatoorahServiceProvider extends ServiceProvider
             });
 
             $this->app->bind('cart', Cart::class);
+
+            if (core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay')) {
+                $this->mergeConfigFrom(
+                    dirname(__DIR__).'/Config/admin.php', 'menu.admin'
+                );
+            }
         }
+
     }
 
     /**
@@ -101,9 +108,7 @@ class MyfatoorahServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/system.php', 'core'
         );
 
-        $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/admin.php', 'menu.admin'
-        );
+        
         
         $this->commands([RegisterApplePay::class]);
     }

@@ -321,7 +321,7 @@
                     loadMyFatoorahScript() {
                         this.childPaymentMethod = window.selectedMethod ? window.selectedMethod.PaymentMethodCode : '';
                         
-                        if (! ('ap', 'gp').includes(this.childPaymentMethod)) {
+                        if (! ['ap', 'gp'].includes(this.childPaymentMethod)) {
                             return;
                         }
                         
@@ -342,7 +342,7 @@
                         this.config.amount = this.cart.grand_total;
 
                         script.onload = window.selectedMethod.PaymentMethodCode == 'gp' ? this.initMyFatoorahGP : this.initMyFatoorahAP;
-                        
+
                         document.head.appendChild(script);
                     },
 
@@ -357,11 +357,11 @@
                         }
                     },
 
-                    initmyFatoorahAP() {
+                    initMyFatoorahAP() {
                         if (window.myFatoorahAP) {
-                            
-                            document.getElementById(cardViewId).innerHTML = '';
 
+                            document.getElementById(this.config.cardViewId).innerHTML = '';
+                            
                             window.myFatoorahAP.init(this.config);
                         } else {
                             console.error("myFatoorahAP is not loaded.");

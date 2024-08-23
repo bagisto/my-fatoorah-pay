@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (! document.getElementById('mf-ap-element') && ! document.getElementById('mf-gp-element') && ! document.getElementById('mf-form-element')) {
             document.getElementById('mf-paymentGateways')?.remove();
-            document.getElementById('mf-noPaymentGateways').style.display = 'block';
+            document.getElementById('mf-noPaymentGateways') ? document.getElementById('mf-noPaymentGateways').style.display = 'block' : null;
         }
     }
 });
