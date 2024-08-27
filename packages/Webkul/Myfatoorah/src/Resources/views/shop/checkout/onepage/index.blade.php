@@ -320,7 +320,7 @@
 
                     loadMyFatoorahScript() {
                         this.childPaymentMethod = window.selectedMethod ? window.selectedMethod.PaymentMethodCode : '';
-                        
+    
                         if (! ['ap', 'gp'].includes(this.childPaymentMethod)) {
                             return;
                         }
@@ -363,10 +363,12 @@
                             document.getElementById(this.config.cardViewId).innerHTML = '';
                             
                             window.myFatoorahAP.init(this.config);
+                            
                         } else {
                             console.error("myFatoorahAP is not loaded.");
                         }
                     },
+
                     payment(response) {
                         console.log("Payment response:", response);
                     },

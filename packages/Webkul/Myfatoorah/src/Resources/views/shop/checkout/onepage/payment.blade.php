@@ -242,7 +242,7 @@
 
                             paymentMethods.forEach( (payment) => {
 
-                                if(payment[1].PaymentMethodCode === 'ap' || payment[1].PaymentMethodCode === 'gp' || payment[1].PaymentMethodCode === 'vm') {
+                                if((payment[1].PaymentMethodCode === 'ap' && payment[1].PaymentMethodEn === 'Apple Pay') || payment[1].PaymentMethodCode === 'gp' || payment[1].PaymentMethodCode === 'vm') {
 
                                     for(let i = 0; i < this.myfatoorahPaymentMethods.length; i++) {
 

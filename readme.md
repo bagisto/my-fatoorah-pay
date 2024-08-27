@@ -70,6 +70,11 @@ composer dump-autoload
 
 php artisan optimize:clear
 
+php artisan migrate
+
+php artisan vendor:publish --provider="Webkul\Myfatoorah\Providers\MyfatoorahServiceProvider" --force
+
+
 ~~~
 
 ~~~

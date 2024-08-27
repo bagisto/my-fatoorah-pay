@@ -128,7 +128,7 @@ class PaymentController extends Controller
             }
 
             $order->update([
-                'status' => ($order->items->whereIn('type', ['downloadable', 'virtual'])->count() == $order->items->count() && $data->InvoiceStatus == self::PAID) ? Order::STATUS_COMPLETED : ($data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED),
+                'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
             ]);
 
             if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
@@ -136,7 +136,7 @@ class PaymentController extends Controller
                     'order_id'       => $order->id,
                     'transaction_id' => $data->focusTransaction->TransactionId,
                     'status'         => $data->InvoiceStatus,
-                    'amount'         => $order->grand_total,
+                    'amount'         => $data->InvoiceValue,
                     'payment_type'   => 'myfatoorah',
                     'data'           => json_encode($data),
                     'invoice_id'     => $invoice ? $invoice->id : 00,
@@ -179,10 +179,14 @@ class PaymentController extends Controller
      */
     public function checkout()
     {
-        try {    
+        try {
             $cart = Cart::getCart();
 
             $order = $this->orderRepository->where('cart_id', $cart->id);
+
+            if ( empty($order->first())) {
+                $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+            }
 
             $order = $order->latest()->first();
 
@@ -280,7 +284,7 @@ class PaymentController extends Controller
                 'order_id'       => $order->id,
                 'transaction_id' => $data->focusTransaction->TransactionId,
                 'status'         => $data->InvoiceStatus,
-                'amount'         => $order->grand_total,
+                'amount'         => $data->InvoiceValue,
                 'payment_type'   => 'myfatoorah',
                 'data'           => json_encode($data),
                 'invoice_id'     => $invoice ? $invoice->id : 00,
@@ -326,10 +330,6 @@ class PaymentController extends Controller
     {
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-        if (! Cart::getCart()) {
-            return redirect()->route('shop.home.index');
-        }
-        
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 
         $order->update([
@@ -340,7 +340,7 @@ class PaymentController extends Controller
             'order_id'       => $order->id,
             'transaction_id' => $data->InvoiceTransactions[0]->TransactionId,
             'status'         => $data->InvoiceStatus,
-            'amount'         => $order->grand_total,
+            'amount'         => $data->InvoiceValue,
             'payment_type'   => 'myfatoorah',
             'data'           => json_encode($data),
             'invoice_id'     => 00,
@@ -358,7 +358,7 @@ class PaymentController extends Controller
         $cart = Cart::getCart();
 
         $saveCard = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
-
+        
         $paymentMethods = $this->myFatoorahPaymentEmbedded->getCheckoutGateways($cart->grand_total, $cart->cart_currency_code, core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
 
         if ( empty($paymentMethods['all'])) {
@@ -372,26 +372,19 @@ class PaymentController extends Controller
         $countries = MyFatoorah::getMFCountries();
 
         $jsEnvironment = ((bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode')) ? $countries[$countryCode]['testPortal'] : $countries[$countryCode]['portal'];
-        
-        foreach($paymentMethods as $key => $value) {
-            
-            if(empty($paymentMethods['ap'])) {
-                
-                foreach($paymentMethods['all'] as $key => $value) {
-                    
-                    if($value->PaymentMethodCode == 'ap') { 
-                        unset($paymentMethods['all'][$key]);
-                    }
+
+        if(empty($paymentMethods['ap'])) {
+            foreach($paymentMethods['all'] as $key => $value) {
+                if($value->PaymentMethodCode == 'ap') { 
+                    unset($paymentMethods['all'][$key]);
                 }
             }
         }
-
-        $paymentMethods = $paymentMethods['all'];
-
+        
         return new JsonResponse([
             'success'        => true, 
             'paymentSession' => $paymentSession, 
-            'paymentMethods' => $paymentMethods, 
+            'paymentMethods' => $paymentMethods['all'], 
             'jsEnvironment'  => $jsEnvironment, 
             'saveCard'       => $saveCard,
         ]);
