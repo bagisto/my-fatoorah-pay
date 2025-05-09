@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     if (window.ApplePaySession) {
+        console.log(window.ApplePaySession);
         return;
     }
 

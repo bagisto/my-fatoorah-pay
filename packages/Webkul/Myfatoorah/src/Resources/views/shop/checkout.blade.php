@@ -21,6 +21,14 @@
             @lang('my_fatoorah::app.shop.checkout.how-would-you-like-to-pay')
         </div>
 
+        <!-- Apple Pay -->
+        <div id="mf-sectionButtons">
+            @if(!empty($paymentMethods['ap']))
+            <div id="mf-sectionAP">
+                <div id="mf-ap-element" style="height: 40px;"></div>
+            </div>
+            @endif
+        </div>
 
         @if (!empty($paymentMethods['cards']))
             <div id="mf-sectionCard">
@@ -38,13 +46,20 @@
             </div>
         @endif
 
+        @if(!empty($paymentMethods['ap']))
+            <x-myfatoorah::applePay 
+                :paymentMethods="$paymentMethods"
+                :jsDomain="$jsEnvironment"
+                :mfSession="$paymentSession" />
+        @endif
         <!-- Payment Form -->
-
-        <script>
-            function mfCallback(response) {
-                window.location.href = "{{ url('myfatoorah') }}?sessionId=" + response.sessionId;
-            }
-        </script>
+        @pushOnce('scripts')
+            <script>
+                function mfCallback(response) {
+                    window.location.href = "{{ url('myfatoorah') }}?sessionId=" + response.sessionId;
+                }
+            </script>
+        @endpushOnce
         
     </div>
 </body>

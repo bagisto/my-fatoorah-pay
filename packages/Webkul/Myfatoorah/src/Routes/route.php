@@ -24,5 +24,9 @@ Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
         Route::post('myfatoorah/storeOrder', 'storeOrder')->name('myfatoorah.checkout.orders.store');
 
         Route::put('myfatoorah/cancelOrder', 'cancelOrder')->name('myfatoorah.checkout.orders.cancel');
+
+        Route::get('myfatoorah/testApplePay', function(){
+            return view('myfatoorah::shop.applePay');
+        });
     });
 });

@@ -61,9 +61,21 @@ class PaymentController extends Controller
     {
         try {
             $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
+        
+            $invoiceUrl = $this->myFatoorahPayment->getInvoiceURL($this->preparePayLoad($order), (request('paymentMethodId') ?? 0), $order->id, (request('sessionId') ?? null));
+            
+            info("Myfatoorah Payload:". json_encode($this->preparePayLoad($order)));
 
-            return redirect($this->myFatoorahPayment->getInvoiceURL($this->preparePayLoad($order), (request('paymentMethodId') ?? 0), $order->id, (request('sessionId') ?? null))['invoiceURL']);
+            info("Payment Method Id". request('paymentMethodId') ?? 0);
+            
+            info("session :". request('sessionId'));
+
+            info("invoice:". json_encode($invoiceUrl));
+            
+            return redirect($invoiceUrl['invoiceURL']);
         } catch (Exception $exception) {
+            info("index >>>".$exception->getMessage());
+            
             return view('myfatoorah::shop.error', [
                 'errorMessage' => 'something went wrong please try again',
             ]);
@@ -79,7 +91,6 @@ class PaymentController extends Controller
     private function preparePayLoad($order): array
     {
         if ($order) {
-
             return [
                 'CustomerName'       => $order->customer_first_name.' '.$order->customer_last_name,
                 'InvoiceValue'       => $order->grand_total,
@@ -94,7 +105,7 @@ class PaymentController extends Controller
                 ],
                 'CallBackUrl'        => route('myfatoorah.callback'),
                 'ErrorUrl'           => route('myfatoorah.error'),
-                'CustomerMobile'     => $order->addresses[0]->phone,
+                'CustomerMobile'     => substr($order->addresses[0]->phone,1,11),
                 'Language'           => core()->getCurrentLocale()->code,
                 'CustomerReference'  => $order->customer_id,
             ];
@@ -143,6 +154,8 @@ class PaymentController extends Controller
                 ]);
             }
         } catch (Exception $exception) {
+            info("callback >>>".$exception->getMessage());
+
             return view('myfatoorah::shop.error', [
                 'errorMessage' => 'something went wrong please try again',
             ]);
@@ -208,6 +221,8 @@ class PaymentController extends Controller
 
             return view('myfatoorah::shop.checkout', compact('paymentSession', 'paymentMethods', 'jsEnvironment', 'saveCard'));
         } catch (Exception $exception) {
+            info("Chckout error >>>".$exception->getMessage());
+
             return view('myfatoorah::shop.error', [
                 'errorMessage' => 'something went wrong please try again',
             ]);
@@ -307,6 +322,10 @@ class PaymentController extends Controller
      */
     private function getMessage($status, $error)
     {
+        info("status of the payment :".$status);
+
+        info("Message :".$error);
+
         switch ($status) {
             case self::PAID:
                 return trans('my_fatoorah::app.shop.checkout.invoice-success');
@@ -329,6 +348,8 @@ class PaymentController extends Controller
     public function callBackError()
     {
         $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
+
+        info("Back back error:".json_encode($data));
 
         $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
 

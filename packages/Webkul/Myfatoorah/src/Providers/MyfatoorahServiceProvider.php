@@ -47,7 +47,7 @@ class MyfatoorahServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../Resources/views/shop/checkout/onepage/index.blade.php' => resource_path('views/vendor/shop/checkout/onepage/index.blade.php'),
-            __DIR__ . '/../Resources/views/shop/checkout/onepage/payment.blade.php' => resource_path('views/vendor/shop/checkout/onepage/paynent.blade.php'),
+            __DIR__ . '/../Resources/views/shop/checkout/onepage/payment.blade.php' => resource_path('views/vendor/shop/checkout/onepage/payment.blade.php'),
         ]);
 
         if (! empty($mfConfig['apiKey'])) {

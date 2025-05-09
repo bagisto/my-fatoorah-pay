@@ -84,7 +84,7 @@
 
                         <!-- Included Payment Methods Blade File -->
                         <template v-if="['payment', 'review'].includes(currentStep)">
-                            @include('vendor.shop.checkout.onepage.paynent')
+                            @include('shop::checkout.onepage.payment')
                         </template>
                     </div>
 
@@ -175,28 +175,20 @@
                 data() {
                     return {
                         cart: null,
-                        
-                        childPaymentMethod:null,
-                        
+                        childPaymentMethod: null,
                         isCartLoading: true,
-                        
                         isPlacingOrder: false,
-                        
                         currentStep: 'address',
-                        
                         shippingMethods: null,
-                        
                         paymentMethods: null,
-                        
                         canPlaceOrder: false,
-                        
                         config: {
                             sessionId: '', 
                             amount: "10", 
                             currencyCode: "", 
                             countryCode: "",
                             cardViewId: "gp-container",
-                            callback: this.payment,
+                            callback: null,
                             style: { 
                                 frameHeight: 51,
                                 button: {
@@ -209,7 +201,6 @@
                                 }
                             }
                         }
-
                     }
                 },
 
@@ -217,31 +208,50 @@
                     localeDirection() {
                         return "{{ (core()->getCurrentLocale() == 'ar') ? 'rtl' : 'ltr' }}";
                     },
+                    
                     saveCardHeight() {
                         return window.saveCard ? 190 : 130;
                     },
+
                     translations() {
                         return {
-                        holderName: "{{ trans('my_fatoorah::app.shop.components.form.holder-name') }}",
-                        cardNumber: "{{ trans('my_fatoorah::app.shop.components.form.card-number') }}",
-                        expiryDate: "{{ trans('my_fatoorah::app.shop.components.form.expiry-date') }}",
-                        securityCode: "{{ trans('my_fatoorah::app.shop.components.form.security-code') }}",
-                        labelHolderName: "{{ trans('my_fatoorah::app.shop.components.form.card-holder-name-label') }}",
-                        labelCardNumber: "{{ trans('my_fatoorah::app.shop.components.form.card-numberLabel') }}",
-                        labelExpiryDate: "{{ trans('my_fatoorah::app.shop.components.form.expiry-dateLabel') }}",
-                        labelSecurityCode: "{{ trans('my_fatoorah::app.shop.components.form.security-codeLabel') }}",
-                        saveCard: "{{ trans('my_fatoorah::app.shop.components.form.save-card') }}",
-                        addCard: "{{ trans('my_fatoorah::app.shop.components.form.add-card') }}",
-                        deleteAlertTitle: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.title') }}",
-                        deleteAlertMessage: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.message') }}",
-                        deleteAlertConfirm: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.confirm') }}",
-                        deleteAlertCancel: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.cancel') }}",
+                            holderName: "{{ trans('my_fatoorah::app.shop.components.form.holder-name') }}",
+                            
+                            cardNumber: "{{ trans('my_fatoorah::app.shop.components.form.card-number') }}",
+                            
+                            expiryDate: "{{ trans('my_fatoorah::app.shop.components.form.expiry-date') }}",
+                            
+                            securityCode: "{{ trans('my_fatoorah::app.shop.components.form.security-code') }}",
+                            
+                            labelHolderName: "{{ trans('my_fatoorah::app.shop.components.form.card-holder-name-label') }}",
+                            
+                            labelCardNumber: "{{ trans('my_fatoorah::app.shop.components.form.card-numberLabel') }}",
+                            
+                            labelExpiryDate: "{{ trans('my_fatoorah::app.shop.components.form.expiry-dateLabel') }}",
+                            
+                            labelSecurityCode: "{{ trans('my_fatoorah::app.shop.components.form.security-codeLabel') }}",
+                            
+                            saveCard: "{{ trans('my_fatoorah::app.shop.components.form.save-card') }}",
+                            
+                            addCard: "{{ trans('my_fatoorah::app.shop.components.form.add-card') }}",
+                            
+                            deleteAlertTitle: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.title') }}",
+                            
+                            deleteAlertMessage: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.message') }}",
+                            
+                            deleteAlertConfirm: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.confirm') }}",
+                            
+                            deleteAlertCancel: "{{ trans('my_fatoorah::app.shop.components.form.deleteAlert.cancel') }}",
                         };
                     },
                 },
 
                 mounted() {
                     this.getCart();
+
+                    document.addEventListener('DOMContentLoaded', function(){
+                        alert("hellow");
+                    });
                 },
 
                 methods: {
@@ -249,9 +259,7 @@
                         this.$axios.get("{{ route('shop.checkout.onepage.summary') }}")
                             .then(response => {
                                 this.cart = response.data.data;
-                                
                                 this.isCartLoading = false;
-                                
                                 this.scrollToCurrentStep();
                             })
                             .catch(error => {});
@@ -293,7 +301,6 @@
 
                         container.scrollIntoView({
                             behavior: 'smooth',
-                            
                             block: 'end'
                         });
                     },
@@ -313,7 +320,6 @@
                             })
                             .catch(error => {
                                 this.isPlacingOrder = false;
-                                
                                 this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
                             });
                     },
@@ -341,6 +347,8 @@
 
                         this.config.amount = this.cart.grand_total;
 
+                        this.config.callback = this.mfCallback;
+
                         script.onload = window.selectedMethod.PaymentMethodCode == 'gp' ? this.initMyFatoorahGP : this.initMyFatoorahAP;
 
                         document.head.appendChild(script);
@@ -348,9 +356,7 @@
 
                     initMyFatoorahGP() {
                         if (window.myFatoorahGP) {
-                            
                             document.getElementById(this.config.cardViewId).innerHTML = '';
-
                             window.myFatoorahGP.init(this.config);
                         } else {
                             console.error("myFatoorahGP is not loaded.");
@@ -359,10 +365,14 @@
 
                     initMyFatoorahAP() {
                         if (window.myFatoorahAP) {
-
+                            
                             document.getElementById(this.config.cardViewId).innerHTML = '';
                             
-                            window.myFatoorahAP.init(this.config);
+                            let { sessionId, countryCode, amount, currencyCode, cardViewId, callback } = this.config;
+
+                            console.log({ sessionId, countryCode, amount, currencyCode, cardViewId, callback});
+                            
+                            window.myFatoorahAP.init({ sessionId, countryCode, amount, currencyCode, cardViewId, callback});
                             
                         } else {
                             console.error("myFatoorahAP is not loaded.");
@@ -370,61 +380,63 @@
                     },
 
                     payment(response) {
-                        console.log("Payment response:", response);
+                        console.log(response);
+                        return;
+                        window.location.href = "{{ url('myfatoorah') }}?sessionId=" + response.SessionId;
                     },
 
                     getStyleConfig() {
                         const translations = this.translations;
                         return {
-                        hideCardIcons: false,
-                        direction: this.localeDirection,
-                        cardHeight: this.saveCardHeight,
-                        tokenHeight: 160,
-                        input: {
-                            color: "black",
-                            fontSize: "13px",
-                            fontFamily: "sans-serif",
-                            inputHeight: "32px",
-                            inputMargin: "0px",
-                            borderColor: "c7c7c7",
-                            borderWidth: "1px",
-                            borderRadius: "8px",
-                            boxShadow: "",
-                            placeHolder: {
-                            holderName: translations.holderName,
-                            cardNumber: translations.cardNumber,
-                            expiryDate: translations.expiryDate,
-                            securityCode: translations.securityCode,
-                            }
-                        },
-                        label: {
-                            display: false,
-                            color: "black",
-                            fontSize: "13px",
-                            fontWeight: "normal",
-                            fontFamily: "sans-serif",
-                            text: {
-                            holderName: translations.labelHolderName,
-                            cardNumber: translations.labelCardNumber,
-                            expiryDate: translations.labelExpiryDate,
-                            securityCode: translations.labelSecurityCode,
+                            hideCardIcons: false,
+                            direction: this.localeDirection,
+                            cardHeight: this.saveCardHeight,
+                            tokenHeight: 160,
+                            input: {
+                                color: "black",
+                                fontSize: "13px",
+                                fontFamily: "sans-serif",
+                                inputHeight: "32px",
+                                inputMargin: "0px",
+                                borderColor: "c7c7c7",
+                                borderWidth: "1px",
+                                borderRadius: "8px",
+                                boxShadow: "",
+                                placeHolder: {
+                                    holderName: translations.holderName,
+                                    cardNumber: translations.cardNumber,
+                                    expiryDate: translations.expiryDate,
+                                    securityCode: translations.securityCode,
+                                }
                             },
-                        },
-                        error: {
-                            borderColor: "red",
-                            borderRadius: "8px",
-                            boxShadow: "0px",
-                        },
-                        text: {
-                            saveCard: translations.saveCard,
-                            addCard: translations.addCard,
-                            deleteAlert: {
-                            title: translations.deleteAlertTitle,
-                            message: translations.deleteAlertMessage,
-                            confirm: translations.deleteAlertConfirm,
-                            cancel: translations.deleteAlertCancel,
+                            label: {
+                                display: false,
+                                color: "black",
+                                fontSize: "13px",
+                                fontWeight: "normal",
+                                fontFamily: "sans-serif",
+                                text: {
+                                    holderName: translations.labelHolderName,
+                                    cardNumber: translations.labelCardNumber,
+                                    expiryDate: translations.labelExpiryDate,
+                                    securityCode: translations.labelSecurityCode,
+                                },
+                            },
+                            error: {
+                                borderColor: "red",
+                                borderRadius: "8px",
+                                boxShadow: "0px",
+                            },
+                            text: {
+                                saveCard: translations.saveCard,
+                                addCard: translations.addCard,
+                                deleteAlert: {
+                                    title: translations.deleteAlertTitle,
+                                    message: translations.deleteAlertMessage,
+                                    confirm: translations.deleteAlertConfirm,
+                                    cancel: translations.deleteAlertCancel,
+                                }
                             }
-                        }
                         };
                     },
 
@@ -448,11 +460,13 @@
                         
                         document.head.appendChild(script);
                     },
+
                     closeModal() {
-                        if (confirm("Are you sure ?")) 
-                            this.$axios.put('{{ route('myfatoorah.checkout.orders.cancel') }}').then(response => {
+                        if (confirm("Are you sure ?")) {
+                            this.$axios.put('{{ route('myfatoorah.checkout.orders.cancel')}}').then(response => {
                                 window.location.href = response.data.redirect_url;
                             });
+                        }
                     },
 
                     paymentSubmit() {
@@ -462,18 +476,18 @@
 
                     initmyFatoorahForm() {
                         if (window.myFatoorah) {
-                            let { countryCode, sessionId, cardViewId, style} = this.config;
-                            
+                            let { countryCode, sessionId, cardViewId, style } = this.config;
                             document.getElementById(cardViewId).innerHTML = '';
-                            
-                            window.myFatoorah.init({ countryCode, sessionId, cardViewId, style});
+                            window.myFatoorah.init({ countryCode, sessionId, cardViewId, style });
                         } else {
-                            console.error("myFatoorahAP is not loaded.");
+                            console.error("myFatoorah is not loaded.");
                         }
-                    },
+                    }, 
 
                     mfCallback(response) {
-                        window.location.href = "{{ url('myfatoorah') }}?sessionId=" + JSON.parse(response.data).data.Data.SessionId;
+                        let sessionId = response.sessionId ?? JSON.parse(response.data).data.Data.SessionId;
+                        
+                        window.location.href = "{{ url('myfatoorah') }}?sessionId=" + sessionId;
                     }
                 },
             });

@@ -16,7 +16,7 @@
         id="v-payment-methods-template"
     >
         <div class="mb-7">
-            <template v-if="! methods">
+            <template v-if="! methods && ! myfatoorahPaymentMethods">
                 <!-- Payment Method shimmer Effect -->
                 <x-shop::shimmer.checkout.onepage.payment-method />
             </template>
@@ -201,17 +201,14 @@
             methods: {
                 store(selectedMethod, myfatoorahPaymentMethods = null) {
 
-                        selectedMethod.childMethod = myfatoorahPaymentMethods;
-
-                        window.selectedMethod = this.myfatoorahPaymentMethods.find((method) => method.PaymentMethodCode === myfatoorahPaymentMethods);
-
-                        this.$axios.post('{{ route('myfatoorah.checkout.orders.store') }}').then(() => {
-                            this.$parent.loadMyFatoorahScript();
+                    
+                        this.$emit('processing', 'review');
+                    
+                        this.$emitter.on('processed', (cart) => {
+                            console.log(cart);
                         });
 
-                    this.$emit('processing', 'review');
-
-                    this.$axios.post("{{ route('shop.checkout.onepage.payment_methods.store') }}", {
+                        this.$axios.post("{{ route('shop.checkout.onepage.payment_methods.store') }}", {
                             payment: selectedMethod
                         })
                         .then(response => {
@@ -224,6 +221,15 @@
                                 window.location.href = error.response.data.redirect_url;
                             }
                         });
+
+                        selectedMethod.childMethod = myfatoorahPaymentMethods;
+
+                        window.selectedMethod = this.myfatoorahPaymentMethods.find((method) => method.PaymentMethodCode === myfatoorahPaymentMethods);
+
+                        this.$axios.post('{{ route('myfatoorah.checkout.orders.store') }}').then(() => {
+                            this.$parent.loadMyFatoorahScript(); 
+                        });
+
                 },
 
                 getMyfatoorahPaymentMethods() {
