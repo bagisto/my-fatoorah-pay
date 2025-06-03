@@ -38,6 +38,11 @@ class PaymentController extends Controller
     const EXPIRED = 'Expired';
 
     /**
+     * @var string
+     */
+    const VIRTUAL = 'virtual';
+
+    /**
      * Initiate myfatoorah configuration and instances
      */
     public function __construct(
@@ -124,6 +129,10 @@ class PaymentController extends Controller
 
             $order = $this->orderRepository->where('cart_id', Cart::getCart()?->id)->latest()->first();
 
+            $isAllVirtual = $order->items->every(function ($item) {
+                return $item->product->type == self::VIRTUAL;
+            });
+
             $invoice = null;
 
             if (
@@ -139,7 +148,7 @@ class PaymentController extends Controller
             }
 
             $order->update([
-                'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+                'status' => $data->InvoiceStatus == self::PAID ? ($isAllVirtual ? Order::STATUS_COMPLETED : Order::STATUS_PROCESSING) : Order::STATUS_CANCELED,
             ]);
 
             if ( empty($this->orderTransactionRepository->where('order_id', $order->id)->first())) {
