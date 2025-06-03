@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'مفتاح Webhook السري غير متاح.',
             'invalid-webhook-signature' => 'توقيع Webhook غير صالح.',
             'error-occurred'            => 'حدث خطأ أثناء معالجة طلبك.',
+            'error-title'               => 'خطأ في الدفع',
+            'back-to-cart'              => 'العودة إلى السلة',
         ],
 
         'error' => [

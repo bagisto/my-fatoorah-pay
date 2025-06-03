@@ -52,6 +52,8 @@ return [
             'no-webhook-secretKey'      => 'Webhook රහස් යතුර නොමැත.',
             'invalid-webhook-signature' => 'අනීතික Webhook අත්සන.',
             'error-occurred'            => 'ඔබේ ඉල්ලීම සැකසීමේදී දෝෂයක් සිදු වී ඇත.',
+            'error-title'               => 'ගෙවීම් දෝෂය',
+            'back-to-cart'              => 'කරත්තයට ආපසු යන්න',
         ],
 
         'error' => [

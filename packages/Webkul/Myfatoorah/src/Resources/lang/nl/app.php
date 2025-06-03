@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Webhook geheime sleutel niet beschikbaar.',
             'invalid-webhook-signature' => 'Ongeldige Webhook-handtekening.',
             'error-occurred'            => 'Er is een fout opgetreden tijdens het verwerken van uw verzoek.',
+            'error-title'               => 'Betalingsfout',
+            'back-to-cart'              => 'Terug naar Winkelwagen',
         ],
 
         'error' => [

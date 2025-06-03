@@ -23,10 +23,10 @@ return [
                             'egy'   => 'Mısır',
                             'are'   => 'Birleşik Arap Emirlikleri',
                         ],
-                        'is-webhook-enabled' => 'Webhook’u Etkinleştir',
+                        'is-webhook-enabled' => 'Webhook'u Etkinleştir',
                         'save-card'          => 'Kartı Kaydet',
                         'webhook-secret-key' => 'Webhook Gizli Anahtarı',
-                        'register-apple-pay' => 'Apple Pay’i Kaydet',
+                        'register-apple-pay' => 'Apple Pay'i Kaydet',
                         'status'             => 'Durum',
                     ],
                 ],
@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Webhook Gizli Anahtarı mevcut değil.',
             'invalid-webhook-signature' => 'Geçersiz Webhook İmzası.',
             'error-occurred'            => 'İsteğiniz işlenirken bir hata oluştu.',
+            'error-title'               => 'Ödeme Hatası',
+            'back-to-cart'              => 'Sepete Geri Dön',
         ],
 
         'error' => [

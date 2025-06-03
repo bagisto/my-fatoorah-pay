@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'वेबहुक गुप्त कुंजी उपलब्ध नहीं है।',
             'invalid-webhook-signature' => 'अवैध वेबहुक हस्ताक्षर।',
             'error-occurred'            => 'आपके अनुरोध को संसाधित करते समय एक त्रुटि हुई।',
+            'error-title'               => 'भुगतान त्रुटि',
+            'back-to-cart'              => 'कार्ट पर वापस जाएं',
         ],
 
         'error' => [

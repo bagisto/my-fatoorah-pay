@@ -122,7 +122,7 @@ class PaymentController extends Controller
         try {
             $data = $this->myFatoorahPaymentStatus->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-            $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
+            $order = $this->orderRepository->where('cart_id', Cart::getCart()?->id)->latest()->first();
 
             $invoice = null;
 
@@ -351,21 +351,23 @@ class PaymentController extends Controller
 
         info("Back back error:".json_encode($data));
 
-        $order = $this->orderRepository->where('cart_id', Cart::getCart()->id)->latest()->first();
+        $order = $this->orderRepository->where('cart_id', Cart::getCart()?->id)->latest()->first();
 
-        $order->update([
-            'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
-        ]);
+        if (! empty($order)) {
+            $order->update([
+                'status' => $data->InvoiceStatus == self::PAID ? Order::STATUS_PROCESSING : Order::STATUS_CANCELED,
+            ]);
 
-        $this->orderTransactionRepository->create([
-            'order_id'       => $order->id,
-            'transaction_id' => $data->InvoiceTransactions[0]->TransactionId,
-            'status'         => $data->InvoiceStatus,
-            'amount'         => $data->InvoiceValue,
-            'payment_type'   => 'myfatoorah',
-            'data'           => json_encode($data),
-            'invoice_id'     => 00,
-        ]);
+            $this->orderTransactionRepository->create([
+                'order_id'       => $order->id,
+                'transaction_id' => $data->InvoiceTransactions[0]->TransactionId,
+                'status'         => $data->InvoiceStatus,
+                'amount'         => $data->InvoiceValue,
+                'payment_type'   => 'myfatoorah',
+                'data'           => json_encode($data),
+                'invoice_id'     => 00,
+            ]);
+        }
 
         Cart::deActivateCart();
 

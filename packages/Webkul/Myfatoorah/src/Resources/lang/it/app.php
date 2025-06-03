@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Chiave segreta Webhook non disponibile.',
             'invalid-webhook-signature' => 'Firma Webhook non valida.',
             'error-occurred'            => 'Si è verificato un errore durante l\'elaborazione della tua richiesta.',
+            'error-title'               => 'Errore di Pagamento',
+            'back-to-cart'              => 'Torna al Carrello',
         ],
 
         'error' => [

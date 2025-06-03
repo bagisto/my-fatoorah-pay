@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Webhookシークレットキーがありません。',
             'invalid-webhook-signature' => '無効なWebhook署名。',
             'error-occurred'            => 'リクエストの処理中にエラーが発生しました。',
+            'error-title'               => '支払いエラー',
+            'back-to-cart'              => 'カートに戻る',
         ],
 
         'error' => [

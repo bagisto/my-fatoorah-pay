@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'מפתח סודי של Webhook אינו זמין.',
             'invalid-webhook-signature' => 'חתימת Webhook שגויה.',
             'error-occurred'            => 'אירעה שגיאה בעת עיבוד הבקשה שלך.',
+            'error-title'               => 'שגיאת תשלום',
+            'back-to-cart'              => 'חזרה לעגלת קניות',
         ],
 
         'error' => [

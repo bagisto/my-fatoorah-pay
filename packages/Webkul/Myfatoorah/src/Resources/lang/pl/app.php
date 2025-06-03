@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Brak tajnego klucza Webhook.',
             'invalid-webhook-signature' => 'Nieprawidłowy podpis Webhook.',
             'error-occurred'            => 'Wystąpił błąd podczas przetwarzania Twojego żądania.',
+            'error-title'               => 'Błąd Płatności',
+            'back-to-cart'              => 'Powrót do Koszyka',
         ],
 
         'error' => [

@@ -21,7 +21,7 @@ return [
                             'omn'   => 'Оман',
                             'jod'   => 'Йорданія',
                             'egy'   => 'Єгипет',
-                            'are'   => 'Об’єднані Арабські Емірати',
+                            'are'   => 'Об'єднані Арабські Емірати',
                         ],
                         'is-webhook-enabled' => 'Увімкнути Webhook',
                         'save-card'          => 'Зберегти Картку',
@@ -37,7 +37,7 @@ return [
     'shop' => [
         'checkout' => [
             'page-title'                => 'MyFatoorah - Оформлення Замовлення',
-            'no-payment-gateways'       => 'На вашому обліковому записі немає доступних методів оплати, будь ласка, зв’яжіться з вашим менеджером облікового запису.',
+            'no-payment-gateways'       => 'На вашому обліковому записі немає доступних методів оплати, будь ласка, зв'яжіться з вашим менеджером облікового запису.',
             'how-would-you-like-to-pay' => 'Як ви хочете заплатити?',
             'or'                        => 'Або',
             'pay-with'                  => 'Оплатити з',
@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Секретний ключ Webhook недоступний.',
             'invalid-webhook-signature' => 'Недійсний підпис Webhook.',
             'error-occurred'            => 'Сталася помилка під час обробки вашого запиту.',
+            'error-title'               => 'Помилка оплати',
+            'back-to-cart'              => 'Повернутися до кошика',
         ],
 
         'error' => [
@@ -59,11 +61,11 @@ return [
 
         'components' => [
             'form' => [
-                'holder-name'            => 'Ім’я на Картці',
+                'holder-name'            => 'Ім'я на Картці',
                 'card-number'            => 'Номер',
                 'expiry-date'            => 'MM/YY',
                 'security-code'          => 'CVV',
-                'card-holder-name-label' => 'Ім’я Власника Картки',
+                'card-holder-name-label' => 'Ім'я Власника Картки',
                 'card-number-label'      => 'Номер Картки',
                 'expiry-date-label'      => 'Дата Закінчення',
                 'security-code-label'    => 'Код Безпеки',

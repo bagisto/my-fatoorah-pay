@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Webhook-Geheimschlüssel ist nicht verfügbar.',
             'invalid-webhook-signature' => 'Ungültige Webhook-Signatur.',
             'error-occurred'            => 'Beim Verarbeiten Ihrer Anfrage ist ein Fehler aufgetreten.',
+            'error-title'               => 'Zahlungsfehler',
+            'back-to-cart'              => 'Zurück zum Warenkorb',
         ],
 
         'error' => [

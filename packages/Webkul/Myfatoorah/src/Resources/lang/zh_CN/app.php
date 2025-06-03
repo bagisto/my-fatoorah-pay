@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Webhook密钥不可用。',
             'invalid-webhook-signature' => '无效的Webhook签名。',
             'error-occurred'            => '处理您的请求时发生错误。',
+            'error-title'               => '支付错误',
+            'back-to-cart'              => '返回购物车',
         ],
 
         'error' => [

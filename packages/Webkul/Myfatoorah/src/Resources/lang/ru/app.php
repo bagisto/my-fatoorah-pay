@@ -51,6 +51,8 @@ return [
             'no-webhook-secretKey'      => 'Секретный ключ Webhook недоступен.',
             'invalid-webhook-signature' => 'Недействительная подпись Webhook.',
             'error-occurred'            => 'Произошла ошибка при обработке вашего запроса.',
+            'error-title'               => 'Ошибка оплаты',
+            'back-to-cart'              => 'Вернуться в корзину',
         ],
 
         'error' => [
