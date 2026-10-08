@@ -4,26 +4,22 @@ namespace Webkul\Myfatoorah\Listeners;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
-use MyFatoorah\Library\API\MyFatoorahRefund;
 use Webkul\Myfatoorah\Exceptions\RefundFailedException;
+use Webkul\Myfatoorah\Payment\Myfatoorah;
 use Webkul\Sales\Contracts\Refund as RefundContract;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
 
 class Refund
 {
     /**
-     * Currencies MyFatoorah settles with three decimals.
-     *
-     * @var array
-     */
-    const THREE_DECIMAL_CURRENCIES = ['KWD', 'BHD', 'OMR', 'JOD'];
-
-    /**
      * Create a new listener instance.
      *
      * @return void
      */
-    public function __construct(protected OrderTransactionRepository $orderTransactionRepository) {}
+    public function __construct(
+        protected Myfatoorah $myfatoorah,
+        protected OrderTransactionRepository $orderTransactionRepository,
+    ) {}
 
     /**
      * Refund a refund created for a MyFatoorah order through MyFatoorah. It runs inside the refund's
@@ -40,38 +36,32 @@ class Refund
         }
 
         $transaction = $this->orderTransactionRepository->findWhere([
-            'order_id'       => $order->id,
+            'order_id' => $order->id,
             'payment_method' => 'myfatoorah',
-            'status'         => 'Paid',
         ])->sortByDesc('id')->first();
 
-        $invoiceId = json_decode((string) $transaction?->data)?->InvoiceId ?? null;
+        $paymentId = json_decode((string) $transaction?->data, true)['Transaction']['PaymentId'] ?? null;
 
-        $decimals = in_array($order->order_currency_code, self::THREE_DECIMAL_CURRENCIES) ? 3 : 2;
+        $decimal = $this->myfatoorah->getCurrencyDecimal($order->order_currency_code);
 
-        $amount = round((float) $refund->grand_total, $decimals);
+        $amount = round((float) $refund->grand_total, $decimal);
 
         try {
-            if (! $invoiceId) {
-                throw new Exception('The order has no paid MyFatoorah invoice.');
+            if (! $paymentId) {
+                throw new Exception('The order has no paid MyFatoorah payment.');
             }
 
-            app(MyFatoorahRefund::class)->makeRefund([
-                'Key'                     => $invoiceId,
-                'KeyType'                 => 'InvoiceId',
-                'RefundChargeOnCustomer'  => false,
-                'ServiceChargeOnCustomer' => false,
-                'Amount'                  => $amount,
-                'CurrencyIso'             => $order->order_currency_code,
-            ]);
+            if (! $this->myfatoorah->createRefund($paymentId, $amount, (string) $refund->id)) {
+                throw new Exception('MyFatoorah refused the refund.');
+            }
         } catch (Exception $exception) {
             Log::error('MyFatoorah: the refund could not be made.', [
-                'order'   => $order->increment_id,
+                'order' => $order->increment_id,
                 'message' => $exception->getMessage(),
             ]);
 
             throw new RefundFailedException(trans('my_fatoorah::app.admin.refund-failed', [
-                'amount'  => core()->formatPrice($amount, $order->order_currency_code),
+                'amount' => core()->formatPrice($amount, $order->order_currency_code),
                 'message' => $exception->getMessage(),
             ]));
         }

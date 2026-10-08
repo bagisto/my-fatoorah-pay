@@ -2,323 +2,75 @@
 
 namespace Webkul\Myfatoorah\Http\Controllers;
 
-use Exception;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
-use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
-use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
-use MyFatoorah\Library\MyFatoorah;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\Myfatoorah\Commands\RegisterApplePay;
 use Webkul\Myfatoorah\Http\WebhookSignature;
-use Webkul\Myfatoorah\Payment\Myfatoorah as MyfatoorahPaymentMethod;
+use Webkul\Myfatoorah\Payment\Myfatoorah;
 use Webkul\Sales\Contracts\Order as OrderContract;
 use Webkul\Sales\Models\Order;
 use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\Sales\Repositories\OrderCommentRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
 use Webkul\Sales\Transformers\OrderResource;
-use Webkul\Shop\Http\Controllers\API\OnepageController;
+use Webkul\Shop\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
     /**
-     * @var string
-     */
-    const PAID = 'Paid';
-
-    /**
-     * @var string
-     */
-    const FAILED = 'Failed';
-
-    /**
-     * @var string
-     */
-    const EXPIRED = 'Expired';
-
-    /**
-     * Currencies MyFatoorah settles with three decimals.
+     * Create a new controller instance.
      *
-     * @var array
-     */
-    const THREE_DECIMAL_CURRENCIES = ['KWD', 'BHD', 'OMR', 'JOD'];
-
-    /**
-     * Initiate myfatoorah configuration and instances
+     * @return void
      */
     public function __construct(
+        protected Myfatoorah $myfatoorah,
+        protected CartRepository $cartRepository,
         protected OrderRepository $orderRepository,
         protected OrderTransactionRepository $orderTransactionRepository,
-        protected OrderCommentRepository $orderCommentRepository,
         protected InvoiceRepository $invoiceRepository,
-        protected CartRepository $cartRepository,
-        protected OnepageController $onepageController,
-        protected RegisterApplePay $registerApplePay,
-        protected MyfatoorahPaymentMethod $myfatoorah
     ) {}
 
     /**
-     * Create the MyFatoorah invoice of the current cart and redirect to its payment url.
-     *
-     * @return RedirectResponse|View
+     * Create the MyFatoorah payment of the current cart and redirect to its hosted payment url.
      */
-    public function index()
+    public function redirect(): RedirectResponse
     {
-        $validator = validator(request()->only('paymentMethodId', 'sessionId'), [
-            'paymentMethodId' => ['nullable', 'integer', 'min:1'],
-            'sessionId'       => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z0-9-]+$/'],
-        ]);
+        if (! $this->myfatoorah->hasValidCredentials()) {
+            session()->flash('error', trans('my_fatoorah::app.response.provide-credentials'));
 
-        if ($validator->fails()) {
-            return $this->errorView(trans('my_fatoorah::app.shop.checkout.error-occurred'));
+            return redirect()->route('shop.checkout.cart.index');
         }
 
-        try {
-            $order = $this->getOrder();
+        $cart = Cart::getCart();
 
-            $invoice = app(MyFatoorahPayment::class)->getInvoiceURL(
-                $this->preparePayLoad($order),
-                request('paymentMethodId') ?: 0,
-                $order->id,
-                request('sessionId') ?: null
-            );
+        if (! $cart) {
+            session()->flash('error', trans('my_fatoorah::app.response.cart-not-found'));
 
-            return redirect()->away($invoice['invoiceURL']);
-        } catch (Exception $exception) {
-            Log::error('MyFatoorah: the payment could not be started.', [
-                'message' => $exception->getMessage(),
-            ]);
-
-            return $this->errorView(trans('my_fatoorah::app.shop.checkout.error-occurred'));
+            return redirect()->route('shop.checkout.cart.index');
         }
+
+        $data = $this->myfatoorah->createPayment(
+            $cart,
+            route('myfatoorah.callback'),
+            route('myfatoorah.webhook'),
+        );
+
+        if (! $data) {
+            session()->flash('error', trans('my_fatoorah::app.response.payment-failed'));
+
+            return redirect()->route('shop.checkout.cart.index');
+        }
+
+        return redirect()->away($data['PaymentURL']);
     }
 
     /**
-     * Update transaction after myfatoorah payment process
-     *
-     * @return RedirectResponse|View
+     * Receive the customer coming back from the hosted payment page, and settle the payment.
      */
-    public function callback()
-    {
-        return $this->processPayment();
-    }
-
-    /**
-     * Call back if error occurs
-     *
-     * @return RedirectResponse|View
-     */
-    public function callBackError()
-    {
-        return $this->processPayment();
-    }
-
-    /**
-     * Myfatoorah payment
-     *
-     * @return RedirectResponse|View
-     */
-    public function checkout()
-    {
-        try {
-            $cart = Cart::getCart();
-
-            if (! $cart) {
-                return redirect()->route('shop.checkout.cart.index');
-            }
-
-            $saveCard = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
-
-            $myFatoorahPaymentEmbedded = app(MyFatoorahPaymentEmbedded::class);
-
-            $paymentMethods = $myFatoorahPaymentEmbedded->getCheckoutGateways($cart->grand_total, $cart->cart_currency_code, (bool) core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
-
-            if (empty($paymentMethods['all'])) {
-                throw new Exception(trans('my_fatoorah::app.shop.checkout.no-payment-gateways'));
-            }
-
-            $paymentSession = $myFatoorahPaymentEmbedded->getEmbeddedSession($saveCard);
-
-            $jsEnvironment = $this->myfatoorah->getJsEnvironment();
-
-            return view('myfatoorah::shop.checkout', compact('paymentSession', 'paymentMethods', 'jsEnvironment', 'saveCard'));
-        } catch (Exception $exception) {
-            Log::error('MyFatoorah: the payment methods could not be loaded.', [
-                'message' => $exception->getMessage(),
-            ]);
-
-            return $this->errorView(trans('my_fatoorah::app.shop.checkout.error-occurred'));
-        }
-    }
-
-    /**
-     * Update transaction status when webhook is triggered from myfatoorah
-     */
-    public function updateStatus(): JsonResponse
-    {
-        $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
-
-        if (
-            ! core()->getConfigData('sales.payment_methods.myfatoorah.is_webhook_enabled')
-            || empty($secretKey)
-        ) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.no-webhook-secretKey'),
-            ], 404);
-        }
-
-        $signature = request()->header('MyFatoorah-Signature');
-
-        if (empty($signature)) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.no-webhook-signature'),
-            ], 404);
-        }
-
-        $data = json_decode(request()->getContent(), true);
-
-        if (
-            ! is_array($data)
-            || empty($data['Data'])
-            || ! is_array($data['Data'])
-        ) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.invalid-webhook-data'),
-            ], 400);
-        }
-
-        if (! $this->isWebhookSignatureValid($data, $secretKey, $signature)) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.invalid-webhook-signature'),
-            ], 404);
-        }
-
-        $invoiceId = isset($data['Event']['Code'])
-            ? ($data['Event']['Code'] == 1 ? ($data['Data']['Invoice']['Id'] ?? null) : null)
-            : (($data['EventType'] ?? null) == 1 ? ($data['Data']['InvoiceId'] ?? null) : null);
-
-        if (empty($invoiceId)) {
-            return new JsonResponse(['success' => true]);
-        }
-
-        try {
-            $data = app(MyFatoorahPaymentStatus::class)->getPaymentStatus($invoiceId, 'InvoiceId');
-
-            $this->changeTransactionStatus($data, $this->getVerifiedOrder($data));
-        } catch (Exception $exception) {
-            Log::error('MyFatoorah: the webhook could not be processed.', [
-                'invoiceId' => $invoiceId,
-                'message'   => $exception->getMessage(),
-            ]);
-
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.error-occurred'),
-            ], 500);
-        }
-
-        return new JsonResponse([
-            'success' => $data->InvoiceStatus == self::PAID,
-            'message' => $this->getMessage($data->InvoiceStatus, $data->InvoiceError),
-        ]);
-    }
-
-    /**
-     * Get the MyFatoorah payment methods of the current cart for the checkout page.
-     */
-    public function getMethods(): JsonResponse
-    {
-        try {
-            $cart = Cart::getCart();
-
-            if (! $cart) {
-                throw new Exception(trans('my_fatoorah::app.shop.checkout.method-unavailable'));
-            }
-
-            $saveCard = core()->getConfigData('sales.payment_methods.myfatoorah.save_card') && $cart->customer_id ? "CK-$cart->customer_id" : '';
-
-            $myFatoorahPaymentEmbedded = app(MyFatoorahPaymentEmbedded::class);
-
-            $paymentMethods = $myFatoorahPaymentEmbedded->getCheckoutGateways($cart->grand_total, $cart->cart_currency_code, (bool) core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay'));
-
-            if (empty($paymentMethods['all'])) {
-                throw new Exception(trans('my_fatoorah::app.shop.checkout.no-payment-gateways'));
-            }
-
-            $paymentSession = $myFatoorahPaymentEmbedded->getEmbeddedSession($saveCard);
-
-            $jsEnvironment = $this->myfatoorah->getJsEnvironment();
-        } catch (Exception $exception) {
-            Log::error('MyFatoorah: the payment methods could not be loaded.', [
-                'message' => $exception->getMessage(),
-            ]);
-
-            return new JsonResponse([
-                'success' => false,
-                'message' => trans('my_fatoorah::app.shop.checkout.error-occurred'),
-            ], 500);
-        }
-
-        if (empty($paymentMethods['ap'])) {
-            foreach ($paymentMethods['all'] as $key => $value) {
-                if ($value->PaymentMethodCode == 'ap') {
-                    unset($paymentMethods['all'][$key]);
-                }
-            }
-        }
-
-        return new JsonResponse([
-            'success'        => true,
-            'paymentSession' => $paymentSession,
-            'paymentMethods' => $paymentMethods['all'],
-            'jsEnvironment'  => $jsEnvironment,
-            'saveCard'       => $saveCard,
-        ]);
-    }
-
-    /**
-     * Register Apple Pay
-     *
-     * @return View|RedirectResponse
-     */
-    public function mapApplePay()
-    {
-        if (request()->isMethod('GET')) {
-            return view('myfatoorah::admin.map-apple-pay');
-        }
-
-        request()->validate([
-            'domain' => ['required', 'string', 'max:253', 'regex:/^(?!-)[A-Za-z0-9-]{1,63}(\.[A-Za-z0-9-]{1,63})+$/'],
-        ]);
-
-        try {
-            $domainRegister = $this->registerApplePay->registerApplePay(request('domain'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
-
-        return redirect()->back()->with($domainRegister['IsSuccess'] ? 'success' : 'error', $domainRegister['Message']);
-    }
-
-    /**
-     * Verify the payment MyFatoorah redirected the customer back with and show its result.
-     *
-     * @return RedirectResponse|View
-     */
-    protected function processPayment()
+    public function callback(): RedirectResponse
     {
         $paymentId = request('paymentId');
 
@@ -326,266 +78,228 @@ class PaymentController extends Controller
             ! is_string($paymentId)
             || ! preg_match('/^[A-Za-z0-9-]{1,64}$/', $paymentId)
         ) {
-            return $this->errorView(trans('my_fatoorah::app.shop.checkout.error-occurred'));
-        }
-
-        try {
-            $data = app(MyFatoorahPaymentStatus::class)->getPaymentStatus($paymentId, 'PaymentId');
-
-            $order = $this->getVerifiedOrder($data);
-
-            $this->changeTransactionStatus($data, $order);
-        } catch (Exception $exception) {
-            Log::error('MyFatoorah: the payment could not be verified.', [
+            Log::warning('MyFatoorah: callback arrived with a malformed or missing paymentId.', [
                 'paymentId' => $paymentId,
-                'message'   => $exception->getMessage(),
             ]);
 
-            return $this->errorView(trans('my_fatoorah::app.shop.checkout.error-occurred'));
-        }
-
-        if ($data->InvoiceStatus != self::PAID) {
-            return $this->errorView($this->getMessage($data->InvoiceStatus, $data->InvoiceError));
-        }
-
-        if (! $this->isCustomerOrder($order)) {
-            session()->flash('success', trans('my_fatoorah::app.shop.checkout.invoice-success'));
+            session()->flash('error', trans('my_fatoorah::app.response.payment-failed'));
 
             return redirect()->route('shop.checkout.cart.index');
         }
 
-        if (Cart::getCart()?->id == $order->cart_id) {
-            Cart::deActivateCart();
+        $order = $this->settle($paymentId);
+
+        if (! $order) {
+            session()->flash('error', trans('my_fatoorah::app.response.payment-failed'));
+
+            return redirect()->route('shop.checkout.cart.index');
         }
 
         session()->flash('order_id', $order->id);
+
+        session()->flash('success', trans('my_fatoorah::app.response.payment-success'));
 
         return redirect()->route('shop.checkout.onepage.success');
     }
 
     /**
-     * Get the pending order of the current cart, creating it when the cart has none or has changed
-     * since its pending order was created.
-     *
-     * @throws Exception
+     * Handle a server-to-server notification from MyFatoorah.
      */
-    protected function getOrder(): OrderContract
+    public function webhook(): JsonResponse
     {
-        $cart = Cart::getCart();
+        $secretKey = core()->getConfigData('sales.payment_methods.myfatoorah.webhook_secret_key');
 
         if (
-            ! $cart
-            || Cart::hasError()
-            || $cart->payment?->method != 'myfatoorah'
+            ! core()->getConfigData('sales.payment_methods.myfatoorah.is_webhook_enabled')
+            || empty($secretKey)
         ) {
-            throw new Exception(trans('my_fatoorah::app.shop.checkout.method-unavailable'));
+            return new JsonResponse(['status' => 'webhook_disabled'], 404);
         }
 
-        Cart::collectTotals();
+        $signature = (string) request()->header('MyFatoorah-Signature');
 
-        $this->onepageController->validateOrder();
+        $payload = json_decode(request()->getContent(), true);
 
-        $cart = Cart::getCart();
+        if (
+            ! is_array($payload)
+            || empty($payload['Data'])
+            || ! WebhookSignature::isValid($payload, $secretKey, $signature)
+        ) {
+            return new JsonResponse(['status' => 'invalid_signature'], 404);
+        }
 
-        $data = (new OrderResource($cart))->jsonSerialize();
+        if (($payload['Event']['Code'] ?? null) !== 1) {
+            return new JsonResponse(['status' => 'ignored']);
+        }
 
-        $fingerprint = hash('sha256', json_encode($data));
+        $paymentId = $payload['Data']['Transaction']['PaymentId'] ?? null;
 
-        return Cache::lock('myfatoorah:cart:'.$cart->id, 30)->block(10, function () use ($cart, $data, $fingerprint) {
-            $pendingOrders = $this->orderRepository->findWhere([
-                'cart_id' => $cart->id,
-                'status'  => Order::STATUS_PENDING,
-            ])->filter(fn ($order) => $order->payment?->method == 'myfatoorah');
+        if (empty($paymentId)) {
+            return new JsonResponse(['status' => 'no_payment_id']);
+        }
 
-            foreach ($pendingOrders as $pendingOrder) {
-                if (($pendingOrder->payment->additional['myfatoorah_cart'] ?? null) === $fingerprint) {
-                    return $pendingOrder;
-                }
+        $order = $this->settle($paymentId);
+
+        return new JsonResponse(['status' => $order ? 'order_placed' : 'payment_not_confirmed']);
+    }
+
+    /**
+     * Confirm a payment with MyFatoorah and turn it into an order.
+     */
+    protected function settle(string $paymentId): ?OrderContract
+    {
+        $data = $this->myfatoorah->getPaymentDetails($paymentId);
+
+        if (! $data) {
+            Log::warning('MyFatoorah: could not fetch payment details.', ['paymentId' => $paymentId]);
+
+            return null;
+        }
+
+        if (
+            ($data['Invoice']['Status'] ?? null) !== 'PAID'
+            || ($data['Transaction']['Status'] ?? null) !== 'SUCCESS'
+        ) {
+            Log::warning('MyFatoorah: payment is not settled yet.', [
+                'paymentId' => $paymentId,
+                'invoiceStatus' => $data['Invoice']['Status'] ?? null,
+                'transactionStatus' => $data['Transaction']['Status'] ?? null,
+            ]);
+
+            return null;
+        }
+
+        $cartId = (int) ($data['Invoice']['ExternalIdentifier'] ?? 0);
+
+        if (! $cartId) {
+            Log::warning('MyFatoorah: payment carries no cart reference.', [
+                'paymentId' => $paymentId,
+                'invoice' => $data['Invoice'] ?? null,
+            ]);
+
+            return null;
+        }
+
+        return $this->placeOrder($cartId, $paymentId, $data);
+    }
+
+    /**
+     * Turn a paid payment into an order once, however many times the customer and MyFatoorah report it.
+     */
+    protected function placeOrder(int $cartId, string $paymentId, array $data): ?OrderContract
+    {
+        return Cache::lock('myfatoorah.order.'.$cartId, 30)->block(10, function () use ($cartId, $paymentId, $data) {
+            if ($order = $this->orderRepository->findOneWhere(['cart_id' => $cartId])) {
+                return $order;
             }
 
-            foreach ($pendingOrders as $pendingOrder) {
-                $this->orderRepository->cancel($pendingOrder);
+            $cart = $this->cartRepository->find($cartId);
+
+            if (
+                ! $cart
+                || ! $cart->is_active
+            ) {
+                Log::warning('MyFatoorah: cart for a confirmed payment is gone or inactive.', [
+                    'paymentId' => $paymentId,
+                    'cartId' => $cartId,
+                ]);
+
+                return null;
             }
 
-            $data['payment']['additional'] = ['myfatoorah_cart' => $fingerprint];
+            Cart::setCart($cart);
 
-            return $this->orderRepository->create($data);
+            core()->setCurrentCurrency($cart->cart_currency_code);
+
+            Cart::collectTotals();
+
+            $cart = Cart::getCart();
+
+            if (
+                ! $cart
+                || Cart::hasError()
+            ) {
+                Log::warning('MyFatoorah: cart failed validation after collecting totals.', [
+                    'paymentId' => $paymentId,
+                    'cartId' => $cartId,
+                ]);
+
+                return null;
+            }
+
+            if (! $this->amountMatches($cart, $data)) {
+                Log::warning('MyFatoorah: amount reported does not match the cart total.', [
+                    'paymentId' => $paymentId,
+                    'cartId' => $cartId,
+                    'cartGrandTotal' => $cart->grand_total,
+                    'cartCurrency' => $cart->cart_currency_code,
+                    'reportedAmount' => $data['Amount'] ?? null,
+                ]);
+
+                return null;
+            }
+
+            $orderData = (new OrderResource($cart))->jsonSerialize();
+
+            $orderData['payment']['additional'] = [
+                'myfatoorah_payment_id' => $paymentId,
+                'myfatoorah_invoice_id' => $data['Invoice']['Id'] ?? null,
+            ];
+
+            $order = $this->orderRepository->create($orderData);
+
+            $this->orderRepository->update(['status' => Order::STATUS_PROCESSING], $order->id);
+
+            if ($order->canInvoice()) {
+                $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
+
+                $this->orderTransactionRepository->create([
+                    'order_id' => $order->id,
+                    'transaction_id' => $data['Transaction']['Id'] ?? $paymentId,
+                    'status' => $data['Transaction']['Status'] ?? 'SUCCESS',
+                    'type' => $data['Transaction']['PaymentMethod'] ?? null,
+                    'payment_method' => 'myfatoorah',
+                    'amount' => $order->base_grand_total,
+                    'data' => json_encode($data),
+                    'invoice_id' => $invoice->id,
+                ]);
+            }
+
+            Cart::deActivateCart();
+
+            return $order;
         });
     }
 
     /**
-     * Find the order a MyFatoorah invoice was created for and check that the invoice is for the
-     * order's amount and currency.
-     *
-     * @param  object  $data
-     *
-     * @throws Exception
+     * Whether MyFatoorah reports having taken the cart's own total, in the cart's own currency.
      */
-    protected function getVerifiedOrder($data): OrderContract
+    protected function amountMatches($cart, array $data): bool
     {
-        $order = is_numeric($data->CustomerReference ?? null)
-            ? $this->orderRepository->find((int) $data->CustomerReference)
-            : null;
+        $currency = strtoupper((string) ($data['Amount']['DisplayCurrency'] ?? ''));
 
         if (
-            ! $order
-            || $order->payment?->method != 'myfatoorah'
+            $currency
+            && $this->myfatoorah->getCurrency($cart) !== $currency
         ) {
-            throw new Exception('The invoice does not belong to a MyFatoorah order.');
+            return false;
         }
 
-        $displayValue = explode(' ', trim((string) ($data->InvoiceDisplayValue ?? '')), 2);
+        $amount = $data['Amount']['ValueInDisplayCurrency'] ?? null;
 
-        $amount = (float) preg_replace('/[^\d.]/', '', $displayValue[0]);
-
-        $decimals = in_array($order->order_currency_code, self::THREE_DECIMAL_CURRENCIES) ? 3 : 2;
-
-        if (abs($amount - round((float) $order->grand_total, $decimals)) >= 10 ** -$decimals) {
-            throw new Exception("The invoice amount does not match order #{$order->increment_id}.");
+        if ($amount === null) {
+            return true;
         }
 
-        $currencies = array_merge(
-            [$order->order_currency_code],
-            array_values(MyFatoorahPaymentEmbedded::getTranslatedCurrency($order->order_currency_code))
-        );
+        $decimal = $this->myfatoorah->getCurrencyDecimal($this->myfatoorah->getCurrency($cart));
 
-        if (! in_array(trim($displayValue[1] ?? ''), $currencies, true)) {
-            throw new Exception("The invoice currency does not match order #{$order->increment_id}.");
-        }
-
-        return $order;
+        return round((float) $amount, $decimal) === round((float) $cart->grand_total, $decimal);
     }
 
     /**
-     * Change transaction status
-     *
-     * @param  object  $data
+     * Prepare invoice data for every item still to be invoiced.
      */
-    private function changeTransactionStatus($data, OrderContract $order): void
-    {
-        Cache::lock('myfatoorah:order:'.$order->id, 30)->block(10, function () use ($data, $order) {
-            DB::transaction(function () use ($data, $order) {
-                $order = $this->orderRepository->find($order->id);
-
-                $transactionId = (string) ($data->focusTransaction->TransactionId ?? '');
-
-                if (
-                    $transactionId !== ''
-                    && $this->orderTransactionRepository->findOneWhere([
-                        'order_id'       => $order->id,
-                        'transaction_id' => $transactionId,
-                    ])
-                ) {
-                    return;
-                }
-
-                if ($data->InvoiceStatus != self::PAID) {
-                    if (in_array($data->InvoiceStatus, [self::FAILED, self::EXPIRED])) {
-                        $this->orderRepository->cancel($order);
-                    }
-
-                    if ($transactionId !== '') {
-                        $this->createTransaction($data, $order, $transactionId);
-                    }
-
-                    return;
-                }
-
-                if ($order->status != Order::STATUS_PENDING) {
-                    $this->createTransaction($data, $order, $transactionId);
-
-                    $this->orderCommentRepository->create([
-                        'order_id'          => $order->id,
-                        'comment'           => trans('my_fatoorah::app.admin.unexpected-payment', [
-                            'transaction' => $transactionId,
-                            'status'      => $order->status_label,
-                        ]),
-                        'customer_notified' => 0,
-                    ]);
-
-                    Log::warning('MyFatoorah: a payment was received for an order that is no longer pending.', [
-                        'order'       => $order->increment_id,
-                        'transaction' => $transactionId,
-                    ]);
-
-                    return;
-                }
-
-                $this->orderRepository->update(['status' => Order::STATUS_PROCESSING], $order->id);
-
-                $invoice = null;
-
-                if ($order->canInvoice()) {
-                    $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
-
-                    $this->invoiceRepository->update(['transaction_id' => $transactionId], $invoice->id);
-                }
-
-                $this->createTransaction($data, $order, $transactionId, $invoice?->id);
-
-                if ($this->cartRepository->find($order->cart_id)) {
-                    $this->cartRepository->update(['is_active' => 0], $order->cart_id);
-                }
-            });
-        });
-    }
-
-    /**
-     * Record a MyFatoorah transaction against the order.
-     *
-     * @param  object  $data
-     */
-    private function createTransaction($data, OrderContract $order, string $transactionId, ?int $invoiceId = null): void
-    {
-        $this->orderTransactionRepository->create([
-            'order_id'       => $order->id,
-            'transaction_id' => $transactionId ?: (string) $data->InvoiceId,
-            'status'         => $data->InvoiceStatus,
-            'type'           => $data->focusTransaction->PaymentGateway ?? null,
-            'payment_method' => 'myfatoorah',
-            'amount'         => $order->base_grand_total,
-            'data'           => json_encode($data),
-            'invoice_id'     => $invoiceId ?? 0,
-        ]);
-    }
-
-    /**
-     * Prepare myfatoorah payLoad
-     *
-     * @param  object  $order
-     */
-    private function preparePayLoad($order): array
-    {
-        $address = $order->billing_address;
-
-        $decimals = in_array($order->order_currency_code, self::THREE_DECIMAL_CURRENCIES) ? 3 : 2;
-
-        return [
-            'CustomerName'       => $order->customer_first_name.' '.$order->customer_last_name,
-            'InvoiceValue'       => round((float) $order->grand_total, $decimals),
-            'DisplayCurrencyIso' => $order->order_currency_code,
-            'CustomerEmail'      => $order->customer_email,
-            'CustomerAddress'    => [
-                'Address'    => $address?->address,
-                'City'       => $address?->city,
-                'Country'    => $address?->country,
-                'PostalCode' => $address?->postcode,
-                'State'      => $address?->state,
-            ],
-            'CallBackUrl'        => route('myfatoorah.callback'),
-            'ErrorUrl'           => route('myfatoorah.error'),
-            'CustomerMobile'     => substr(preg_replace('/\D/', '', (string) $address?->phone), -11),
-            'Language'           => core()->getCurrentLocale()->code == 'ar' ? 'ar' : 'en',
-            'CustomerReference'  => $order->id,
-        ];
-    }
-
-    /**
-     * Prepare invoice data
-     *
-     * @param  object  $order
-     */
-    protected function prepareInvoiceData($order): array
+    protected function prepareInvoiceData(OrderContract $order): array
     {
         $invoiceData = ['order_id' => $order->id];
 
@@ -594,59 +308,5 @@ class PaymentController extends Controller
         }
 
         return $invoiceData;
-    }
-
-    /**
-     * Get message
-     *
-     * @param  string  $status
-     * @param  string  $error
-     */
-    private function getMessage($status, $error): string
-    {
-        return match ($status) {
-            self::PAID    => trans('my_fatoorah::app.shop.checkout.invoice-success'),
-            self::FAILED  => trans('my_fatoorah::app.shop.checkout.invoice-failed', ['error' => $error]),
-            self::EXPIRED => (string) $error,
-            default       => trans('my_fatoorah::app.shop.checkout.invoice-pending'),
-        };
-    }
-
-    /**
-     * Whether the order was placed by the visitor MyFatoorah redirected back.
-     */
-    private function isCustomerOrder(OrderContract $order): bool
-    {
-        if ($customer = auth()->guard('customer')->user()) {
-            return $order->customer_id == $customer->id;
-        }
-
-        return $order->is_guest && session('cart')?->id == $order->cart_id;
-    }
-
-    /**
-     * Whether the webhook request is signed with the webhook secret key, for webhook version 1 and 2.
-     */
-    private function isWebhookSignatureValid(array $data, string $secretKey, string $signature): bool
-    {
-        try {
-            if (isset($data['Event']['Code'])) {
-                return WebhookSignature::isValidV2($data, $secretKey, $signature);
-            }
-
-            return MyFatoorah::isSignatureValid($data['Data'], $secretKey, $signature, $data['EventType'] ?? 1);
-        } catch (\Throwable) {
-            return false;
-        }
-    }
-
-    /**
-     * Render the MyFatoorah error page.
-     */
-    private function errorView(string $message): View
-    {
-        return view('myfatoorah::shop.error', [
-            'errorMessage' => $message,
-        ]);
     }
 }

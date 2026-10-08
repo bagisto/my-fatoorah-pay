@@ -3,12 +3,6 @@
         @lang('my_fatoorah::app.shop.checkout.page-title')
     </x-slot>
 
-    @bagistoVite([ 
-        'src/Resources/assets/css/app.css', 
-        'src/Resources/assets/css/style.css', 
-        'src/Resources/assets/js/app.js',
-    ], 'myfatoorah')
-
     <div class="container mt-8 px-[60px] max-lg:px-8 max-sm:px-4">
         <div class="grid gap-y-5 place-items-center">
             {!! view_render_event('myfatoorah.shop.checkout.error.content.before') !!}
