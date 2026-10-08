@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Powiąż Apple Pay',
+                'description' => 'Powiąż Apple Pay w ustawieniach MyFatoorah',
+                'save-btn'    => 'Zapisz',
+                'back-btn'    => 'Wstecz',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah zgłosił płatność :transaction dla tego zamówienia, gdy miało ono status :status. Sprawdź płatność w MyFatoorah i zwróć ją, jeśli nie jest potrzebna.',
+        'refund-failed'      => 'MyFatoorah nie mógł zwrócić kwoty :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Płatność',
             'no-payment-gateways'       => 'Brak dostępnych metod płatności na twoim koncie, skontaktuj się z menedżerem konta.',
             'how-would-you-like-to-pay' => 'Jak chcesz zapłacić?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'Zapłać z',
             'insert-card-details'       => 'Wprowadź dane karty',
             'pay-now'                   => 'Zapłać teraz',
+            'cancel'                    => 'Anuluj',
             'invoice-success'           => 'Faktura została opłacona.',
             'invoice-failed'            => 'Faktura nie została opłacona z powodu :error',
             'method-unavailable'        => 'Ta metoda płatności jest nieaktywna, spróbuj inną',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'Wystąpił błąd podczas przetwarzania Twojego żądania.',
             'error-title'               => 'Błąd Płatności',
             'back-to-cart'              => 'Powrót do Koszyka',
+            'invoice-pending'           => 'Twoja płatność jest nadal przetwarzana. Zamówienie zostanie zaktualizowane, gdy tylko MyFatoorah ją potwierdzi.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'Błąd MyFatoorah',
         ],
 
@@ -72,10 +87,10 @@ return [
                 'save-card'              => 'Zapisz numer karty na przyszłe płatności',
                 'add-card'               => 'Użyj innej karty',
                 'deleteAlert'            => [
-                    'title'    => 'Usuń kartę',
-                    'message'  => 'Czy na pewno chcesz usunąć tę kartę?',
-                    'confirm'  => 'Tak',
-                    'cancel'   => 'Nie',
+                    'title'   => 'Usuń kartę',
+                    'message' => 'Czy na pewno chcesz usunąć tę kartę?',
+                    'confirm' => 'Tak',
+                    'cancel'  => 'Nie',
                 ],
             ],
         ],

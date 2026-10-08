@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Vincular Apple Pay',
+                'description' => 'Vincular Apple Pay nas configurações do MyFatoorah',
+                'save-btn'    => 'Salvar',
+                'back-btn'    => 'Voltar',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'O MyFatoorah informou o pagamento :transaction para este pedido quando o status era :status. Verifique o pagamento no MyFatoorah e reembolse-o se não for necessário.',
+        'refund-failed'      => 'O MyFatoorah não conseguiu reembolsar :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Checkout',
             'no-payment-gateways'       => 'Não há métodos de pagamento disponíveis na sua conta, por favor entre em contato com o gerente da sua conta.',
             'how-would-you-like-to-pay' => 'Como você gostaria de pagar?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'Pagar com',
             'insert-card-details'       => 'Insira os detalhes do cartão',
             'pay-now'                   => 'Pague Agora',
+            'cancel'                    => 'Cancelar',
             'invoice-success'           => 'A fatura foi paga.',
             'invoice-failed'            => 'A fatura não foi paga devido a :error',
             'method-unavailable'        => 'Este método de pagamento está inativo, por favor tente outro',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'Ocorreu um erro ao processar sua solicitação.',
             'error-title'               => 'Erro de Pagamento',
             'back-to-cart'              => 'Voltar ao Carrinho',
+            'invoice-pending'           => 'Seu pagamento ainda está sendo processado. Seu pedido será atualizado assim que o MyFatoorah confirmá-lo.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'Erro MyFatoorah',
         ],
 
@@ -72,10 +87,10 @@ return [
                 'save-card'              => 'Salvar número do cartão para pagamentos futuros',
                 'add-card'               => 'Usar outro cartão',
                 'deleteAlert'            => [
-                    'title'    => 'Excluir Cartão',
-                    'message'  => 'Tem certeza de que deseja remover este cartão?',
-                    'confirm'  => 'Sim',
-                    'cancel'   => 'Não',
+                    'title'   => 'Excluir Cartão',
+                    'message' => 'Tem certeza de que deseja remover este cartão?',
+                    'confirm' => 'Sim',
+                    'cancel'  => 'Não',
                 ],
             ],
         ],

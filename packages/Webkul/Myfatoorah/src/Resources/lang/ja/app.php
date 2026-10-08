@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Apple Pay の紐付け',
+                'description' => 'MyFatoorah の設定で Apple Pay を紐付けます',
+                'save-btn'    => '保存',
+                'back-btn'    => '戻る',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'この注文のステータスが :status の間に、MyFatoorah から支払い :transaction が通知されました。MyFatoorah で支払いを確認し、不要な場合は返金してください。',
+        'refund-failed'      => 'MyFatoorah で :amount を返金できませんでした: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - チェックアウト',
             'no-payment-gateways'       => 'アカウントに利用可能な支払い方法がありません。アカウントマネージャーに連絡してください。',
             'how-would-you-like-to-pay' => 'どのように支払いますか？',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => '支払い方法',
             'insert-card-details'       => 'カードの詳細を入力',
             'pay-now'                   => '今すぐ支払う',
+            'cancel'                    => 'キャンセル',
             'invoice-success'           => '請求書が支払われました。',
             'invoice-failed'            => ':error のため、請求書は支払われませんでした',
             'method-unavailable'        => 'この支払い方法は無効です。他の方法を試してください',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'リクエストの処理中にエラーが発生しました。',
             'error-title'               => '支払いエラー',
             'back-to-cart'              => 'カートに戻る',
+            'invoice-pending'           => 'お支払いはまだ処理中です。MyFatoorah で確認され次第、ご注文が更新されます。',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorahエラー',
         ],
 
@@ -72,10 +87,10 @@ return [
                 'save-card'              => '今後の支払いのためにカード番号を保存する',
                 'add-card'               => '別のカードを使用',
                 'deleteAlert'            => [
-                    'title'    => 'カードを削除',
-                    'message'  => 'このカードを削除してもよろしいですか？',
-                    'confirm'  => 'はい',
-                    'cancel'   => 'いいえ',
+                    'title'   => 'カードを削除',
+                    'message' => 'このカードを削除してもよろしいですか？',
+                    'confirm' => 'はい',
+                    'cancel'  => 'いいえ',
                 ],
             ],
         ],

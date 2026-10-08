@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => '关联 Apple Pay',
+                'description' => '在 MyFatoorah 设置中关联 Apple Pay',
+                'save-btn'    => '保存',
+                'back-btn'    => '返回',
+                'url'         => '网址',
+            ],
+        ],
+
+        'unexpected-payment' => '该订单状态为 :status 时，MyFatoorah 报告了付款 :transaction。请在 MyFatoorah 中核实该付款，如不需要请退款。',
+        'refund-failed'      => 'MyFatoorah 无法退款 :amount：:message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - 结账',
             'no-payment-gateways'       => '您的账户上没有可用的支付方式，请联系您的客户经理。',
             'how-would-you-like-to-pay' => '您想如何支付？',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => '支付方式',
             'insert-card-details'       => '输入卡信息',
             'pay-now'                   => '立即支付',
+            'cancel'                    => '取消',
             'invoice-success'           => '发票已支付。',
             'invoice-failed'            => '由于 :error，发票未支付',
             'method-unavailable'        => '此支付方式不可用，请尝试其他方式',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => '处理您的请求时发生错误。',
             'error-title'               => '支付错误',
             'back-to-cart'              => '返回购物车',
+            'invoice-pending'           => '您的付款仍在处理中。MyFatoorah 确认后，您的订单将立即更新。',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorah错误',
         ],
 
@@ -72,10 +87,10 @@ return [
                 'save-card'              => '保存卡号以便将来支付',
                 'add-card'               => '使用另一张卡',
                 'deleteAlert'            => [
-                    'title'    => '删除卡片',
-                    'message'  => '您确定要删除此卡吗？',
-                    'confirm'  => '是',
-                    'cancel'   => '否',
+                    'title'   => '删除卡片',
+                    'message' => '您确定要删除此卡吗？',
+                    'confirm' => '是',
+                    'cancel'  => '否',
                 ],
             ],
         ],

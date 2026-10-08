@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Apple Pay मैप करें',
+                'description' => 'MyFatoorah सेटिंग्स में Apple Pay मैप करें',
+                'save-btn'    => 'सहेजें',
+                'back-btn'    => 'वापस',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah ने इस ऑर्डर के लिए भुगतान :transaction की सूचना दी जब इसकी स्थिति :status थी। MyFatoorah में भुगतान की जाँच करें और आवश्यकता न होने पर उसे वापस करें।',
+        'refund-failed'      => 'MyFatoorah :amount वापस नहीं कर सका: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - भुगतान',
             'no-payment-gateways'       => 'आपके खाते पर कोई भुगतान विधियां उपलब्ध नहीं हैं, कृपया अपने खाता प्रबंधक से संपर्क करें।',
             'how-would-you-like-to-pay' => 'आप कैसे भुगतान करना चाहेंगे?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'साथ में भुगतान करें',
             'insert-card-details'       => 'कार्ड विवरण दर्ज करें',
             'pay-now'                   => 'अभी भुगतान करें',
+            'cancel'                    => 'रद्द करें',
             'invoice-success'           => 'चालान का भुगतान हो गया है।',
             'invoice-failed'            => ':error के कारण चालान का भुगतान नहीं हो पाया है',
             'method-unavailable'        => 'यह भुगतान विधि निष्क्रिय है कृपया कोई अन्य विधि आज़माएं',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'आपके अनुरोध को संसाधित करते समय एक त्रुटि हुई।',
             'error-title'               => 'भुगतान त्रुटि',
             'back-to-cart'              => 'कार्ट पर वापस जाएं',
+            'invoice-pending'           => 'आपका भुगतान अभी संसाधित हो रहा है। MyFatoorah की पुष्टि होते ही आपका ऑर्डर अपडेट कर दिया जाएगा।',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorah त्रुटि',
         ],
 
@@ -72,10 +87,10 @@ return [
                 'save-card'              => 'भविष्य के भुगतानों के लिए कार्ड नंबर सेव करें',
                 'add-card'               => 'दूसरा कार्ड का उपयोग करें',
                 'deleteAlert'            => [
-                    'title'    => 'कार्ड हटाएं',
-                    'message'  => 'क्या आप वाकई इस कार्ड को हटाना चाहते हैं?',
-                    'confirm'  => 'हाँ',
-                    'cancel'   => 'नहीं',
+                    'title'   => 'कार्ड हटाएं',
+                    'message' => 'क्या आप वाकई इस कार्ड को हटाना चाहते हैं?',
+                    'confirm' => 'हाँ',
+                    'cancel'  => 'नहीं',
                 ],
             ],
         ],

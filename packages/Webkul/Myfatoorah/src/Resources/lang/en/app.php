@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,8 +32,8 @@ return [
                 ],
             ],
         ],
-        
-        'settings' => [
+
+        'settings'           => [
             'map-apple-pay' => [
                 'title'       => 'Map Apple Pay',
                 'description' => 'Map Apple Pay in MyFatoorah Settings',
@@ -42,10 +42,13 @@ return [
                 'url'         => 'URL',
             ],
         ],
+
+        'unexpected-payment' => 'MyFatoorah reported payment :transaction for this order while it was :status. Check the payment in MyFatoorah and refund it if it is not needed.',
+        'refund-failed'      => 'MyFatoorah could not refund :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Checkout',
             'no-payment-gateways'       => 'There are no payment methods available on your account, please contact your account manager.',
             'how-would-you-like-to-pay' => 'How would you like to pay?',
@@ -64,9 +67,10 @@ return [
             'error-occurred'            => 'Error Occurred While Processing Your Request.',
             'error-title'               => 'Payment Error',
             'back-to-cart'              => 'Back to Cart',
+            'invoice-pending'           => 'Your payment is still being processed. Your order will be updated as soon as MyFatoorah confirms it.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorah Error',
         ],
 
@@ -83,10 +87,10 @@ return [
                 'save-card'              => 'Save card number for future payments',
                 'add-card'               => 'Use another card',
                 'deleteAlert'            => [
-                    'title'    => 'Delete Card',
-                    'message'  => 'Are you sure you want to remove this card?',
-                    'confirm'  => 'Yes',
-                    'cancel'   => 'No',
+                    'title'   => 'Delete Card',
+                    'message' => 'Are you sure you want to remove this card?',
+                    'confirm' => 'Yes',
+                    'cancel'  => 'No',
                 ],
             ],
         ],

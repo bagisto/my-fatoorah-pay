@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Associer Apple Pay',
+                'description' => 'Associer Apple Pay dans les paramètres MyFatoorah',
+                'save-btn'    => 'Enregistrer',
+                'back-btn'    => 'Retour',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah a signalé le paiement :transaction pour cette commande alors que son statut était :status. Vérifiez le paiement dans MyFatoorah et remboursez-le s\'il n\'est pas nécessaire.',
+        'refund-failed'      => 'MyFatoorah n\'a pas pu rembourser :amount : :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Paiement',
             'no-payment-gateways'       => 'Il n\'y a pas de méthodes de paiement disponibles sur votre compte, veuillez contacter votre gestionnaire de compte.',
             'how-would-you-like-to-pay' => 'Comment souhaitez-vous payer?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'Payer avec',
             'insert-card-details'       => 'Insérer les détails de la carte',
             'pay-now'                   => 'Payer maintenant',
+            'cancel'                    => 'Annuler',
             'invoice-success'           => 'La facture est payée.',
             'invoice-failed'            => 'La facture n\'a pas été payée en raison de :error',
             'method-unavailable'        => 'Cette méthode de paiement est inactive, veuillez en essayer une autre',
@@ -53,29 +67,30 @@ return [
             'error-occurred'            => 'Une erreur est survenue lors du traitement de votre demande.',
             'error-title'               => 'Erreur de Paiement',
             'back-to-cart'              => 'Retour au Panier',
+            'invoice-pending'           => 'Votre paiement est toujours en cours de traitement. Votre commande sera mise à jour dès que MyFatoorah l\'aura confirmé.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'Erreur MyFatoorah',
         ],
 
         'components' => [
             'form' => [
-                'holder-name'             => 'Nom sur la carte',
-                'card-number'             => 'Numéro',
-                'expiry-date'             => 'MM/AA',
-                'security-code'           => 'CVV',
-                'card-holder-name-label'  => 'Nom du titulaire de la carte',
-                'card-number-label'       => 'Numéro de la carte',
-                'expiry-date-label'       => 'Date d\'expiration',
-                'security-code-label'     => 'Code de sécurité',
-                'save-card'               => 'Enregistrer le numéro de carte pour les futurs paiements',
-                'add-card'                => 'Utiliser une autre carte',
-                'deleteAlert'             => [
-                    'title'    => 'Supprimer la carte',
-                    'message'  => 'Êtes-vous sûr de vouloir supprimer cette carte?',
-                    'confirm'  => 'Oui',
-                    'cancel'   => 'Non',
+                'holder-name'            => 'Nom sur la carte',
+                'card-number'            => 'Numéro',
+                'expiry-date'            => 'MM/AA',
+                'security-code'          => 'CVV',
+                'card-holder-name-label' => 'Nom du titulaire de la carte',
+                'card-number-label'      => 'Numéro de la carte',
+                'expiry-date-label'      => 'Date d\'expiration',
+                'security-code-label'    => 'Code de sécurité',
+                'save-card'              => 'Enregistrer le numéro de carte pour les futurs paiements',
+                'add-card'               => 'Utiliser une autre carte',
+                'deleteAlert'            => [
+                    'title'   => 'Supprimer la carte',
+                    'message' => 'Êtes-vous sûr de vouloir supprimer cette carte?',
+                    'confirm' => 'Oui',
+                    'cancel'  => 'Non',
                 ],
             ],
         ],

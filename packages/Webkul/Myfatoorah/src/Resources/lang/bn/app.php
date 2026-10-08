@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Apple Pay ম্যাপ করুন',
+                'description' => 'MyFatoorah সেটিংসে Apple Pay ম্যাপ করুন',
+                'save-btn'    => 'সংরক্ষণ করুন',
+                'back-btn'    => 'পিছনে',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah এই অর্ডারের জন্য :transaction পেমেন্টের তথ্য দিয়েছে যখন অর্ডারটি :status অবস্থায় ছিল। MyFatoorah-এ পেমেন্টটি যাচাই করুন এবং প্রয়োজন না হলে ফেরত দিন।',
+        'refund-failed'      => 'MyFatoorah :amount ফেরত দিতে পারেনি: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - চেকআউট',
             'no-payment-gateways'       => 'আপনার অ্যাকাউন্টে কোন পেমেন্ট পদ্ধতি উপলব্ধ নেই, অনুগ্রহ করে আপনার অ্যাকাউন্ট ম্যানেজারের সাথে যোগাযোগ করুন।',
             'how-would-you-like-to-pay' => 'আপনি কিভাবে পরিশোধ করতে চান?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'পরিশোধ করুন',
             'insert-card-details'       => 'কার্ডের বিবরণ প্রবেশ করান',
             'pay-now'                   => 'এখন পরিশোধ করুন',
+            'cancel'                    => 'বাতিল করুন',
             'invoice-success'           => 'চালান পরিশোধ করা হয়েছে।',
             'invoice-failed'            => 'ত্রুটি :error কারণে চালান পরিশোধ হয়নি',
             'method-unavailable'        => 'এই পেমেন্ট পদ্ধতি সক্রিয় নয়, অন্যটি চেষ্টা করুন',
@@ -51,9 +65,12 @@ return [
             'no-webhook-secretKey'      => 'Webhook সিক্রেট কী উপলব্ধ নেই।',
             'invalid-webhook-signature' => 'অবৈধ Webhook স্বাক্ষর।',
             'error-occurred'            => 'আপনার অনুরোধ প্রক্রিয়াকরণের সময় একটি ত্রুটি ঘটেছে।',
+            'error-title'               => 'পেমেন্ট ত্রুটি',
+            'back-to-cart'              => 'কার্টে ফিরে যান',
+            'invoice-pending'           => 'আপনার পেমেন্ট এখনও প্রক্রিয়াধীন। MyFatoorah নিশ্চিত করার সাথে সাথে আপনার অর্ডার আপডেট করা হবে।',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorah ত্রুটি',
         ],
 
@@ -70,10 +87,10 @@ return [
                 'save-card'              => 'ভবিষ্যতের পেমেন্টের জন্য কার্ড নম্বর সংরক্ষণ করুন',
                 'add-card'               => 'অন্য কার্ড ব্যবহার করুন',
                 'deleteAlert'            => [
-                    'title'    => 'কার্ড মুছে ফেলুন',
-                    'message'  => 'আপনি কি এই কার্ডটি সরাতে চান?',
-                    'confirm'  => 'হ্যাঁ',
-                    'cancel'   => 'না',
+                    'title'   => 'কার্ড মুছে ফেলুন',
+                    'message' => 'আপনি কি এই কার্ডটি সরাতে চান?',
+                    'confirm' => 'হ্যাঁ',
+                    'cancel'  => 'না',
                 ],
             ],
         ],

@@ -2,6 +2,10 @@
 <html lang="{{ core()->getCurrentLocale()->code }}">
 
 <head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>
         @lang('my_fatoorah::app.shop.checkout.page-title')
     </title>
@@ -10,7 +14,7 @@
 
 </head>
 
-<body dir="{{ core()->getCurrentLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<body dir="{{ core()->getCurrentLocale()->direction == 'rtl' ? 'rtl' : 'ltr' }}">
     <div class="mf-payment-methods-container" id="mf-noPaymentGateways">
         <div class="mf-danger-text">
             @lang('my_fatoorah::app.shop.checkout.no-payment-gateways')
@@ -35,7 +39,7 @@
                 <div class="mf-divider card-divider" id="mf-payWith-cardDivider">
                     <span class="mf-divider-span" id="mf-payWith-divider">
                         <span id="mf-or-cardsDivider">
-                            {{ !empty($paymentMethods['ap']) || !empty($paymentMethods['gp']) ? trans('myfatoorah.or') : '' }}
+                            {{ !empty($paymentMethods['ap']) || !empty($paymentMethods['gp']) ? trans('my_fatoorah::app.shop.checkout.or') : '' }}
                         </span>
                         @lang('my_fatoorah::app.shop.checkout.pay-with')
                     </span>
@@ -52,15 +56,13 @@
                 :jsDomain="$jsEnvironment"
                 :mfSession="$paymentSession" />
         @endif
-        <!-- Payment Form -->
-        @pushOnce('scripts')
-            <script>
-                function mfCallback(response) {
-                    window.location.href = "{{ url('myfatoorah') }}?sessionId=" + response.sessionId;
-                }
-            </script>
-        @endpushOnce
-        
+
+        <a
+            class="mf-back-link"
+            href="{{ route('shop.checkout.cart.index') }}"
+        >
+            @lang('my_fatoorah::app.shop.checkout.back-to-cart')
+        </a>
     </div>
 </body>
 

@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'اتصال Apple Pay',
+                'description' => 'اتصال Apple Pay در تنظیمات MyFatoorah',
+                'save-btn'    => 'ذخیره',
+                'back-btn'    => 'بازگشت',
+                'url'         => 'نشانی',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah پرداخت :transaction را برای این سفارش در حالی گزارش کرد که وضعیت آن :status بود. پرداخت را در MyFatoorah بررسی کنید و در صورت عدم نیاز آن را بازپرداخت کنید.',
+        'refund-failed'      => 'MyFatoorah نتوانست :amount را بازپرداخت کند: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'مای فَتوره - پرداخت',
             'no-payment-gateways'       => 'روش‌های پرداخت در حساب شما موجود نیست، لطفا با مدیر حساب خود تماس بگیرید.',
             'how-would-you-like-to-pay' => 'چگونه می‌خواهید پرداخت کنید؟',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'پرداخت با',
             'insert-card-details'       => 'جزئیات کارت را وارد کنید',
             'pay-now'                   => 'پرداخت اکنون',
+            'cancel'                    => 'لغو',
             'invoice-success'           => 'صورت‌حساب پرداخت شده است.',
             'invoice-failed'            => 'به دلیل :error صورت‌حساب پرداخت نشده است',
             'method-unavailable'        => 'این روش پرداخت غیرفعال است، لطفا روش دیگری را امتحان کنید',
@@ -51,9 +65,12 @@ return [
             'no-webhook-secretKey'      => 'کلید محرمانه Webhook موجود نیست.',
             'invalid-webhook-signature' => 'امضای Webhook نامعتبر است.',
             'error-occurred'            => 'در پردازش درخواست شما خطایی رخ داد.',
+            'error-title'               => 'خطای پرداخت',
+            'back-to-cart'              => 'بازگشت به سبد خرید',
+            'invoice-pending'           => 'پرداخت شما هنوز در حال پردازش است. به محض تأیید MyFatoorah سفارش شما به‌روزرسانی می‌شود.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'خطای مای فَتوره',
         ],
 
@@ -70,10 +87,10 @@ return [
                 'save-card'              => 'ذخیره شماره کارت برای پرداخت‌های آینده',
                 'add-card'               => 'استفاده از کارت دیگر',
                 'deleteAlert'            => [
-                    'title'    => 'حذف کارت',
-                    'message'  => 'آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟',
-                    'confirm'  => 'بله',
-                    'cancel'   => 'خیر',
+                    'title'   => 'حذف کارت',
+                    'message' => 'آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟',
+                    'confirm' => 'بله',
+                    'cancel'  => 'خیر',
                 ],
             ],
         ],

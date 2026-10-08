@@ -29,8 +29,8 @@ return [
             ], [
                 'name'          => 'api_key',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.api-key',
-                'type'          => 'text',
-                'validation'    => 'required_if:active,1',
+                'type'          => 'password',
+                'validation'    => 'required_if:status,1',
                 'channel_based' => true,
                 'locale_based'  => false,
             ], [
@@ -89,7 +89,7 @@ return [
             ], [
                 'name'          => 'webhook_secret_key',
                 'title'         => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.webhook-secret-key',
-                'type'          => 'text',
+                'type'          => 'password',
                 'depends'       => 'is_webhook_enabled:1',
                 'validation'    => 'required_if:is_webhook_enabled,1',
                 'info'          => url('myfatoorah/webhook'),

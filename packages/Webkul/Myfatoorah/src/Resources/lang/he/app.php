@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'קישור Apple Pay',
+                'description' => 'קישור Apple Pay בהגדרות MyFatoorah',
+                'save-btn'    => 'שמור',
+                'back-btn'    => 'חזרה',
+                'url'         => 'כתובת URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah דיווחה על התשלום :transaction עבור הזמנה זו בזמן שהסטטוס שלה היה :status. בדקו את התשלום ב-MyFatoorah והחזירו אותו אם אין בו צורך.',
+        'refund-failed'      => 'MyFatoorah לא הצליחה להחזיר :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - תשלום',
             'no-payment-gateways'       => 'אין שיטות תשלום זמינות בחשבונך, אנא פנה למנהל החשבון שלך.',
             'how-would-you-like-to-pay' => 'כיצד תרצה לשלם?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'שלם עם',
             'insert-card-details'       => 'הזן פרטי כרטיס',
             'pay-now'                   => 'שלם עכשיו',
+            'cancel'                    => 'ביטול',
             'invoice-success'           => 'החשבונית שולמה.',
             'invoice-failed'            => 'החשבונית לא שולמה עקב :error',
             'method-unavailable'        => 'שיטת תשלום זו אינה זמינה, אנא נסה שיטה אחרת',
@@ -53,29 +67,30 @@ return [
             'error-occurred'            => 'אירעה שגיאה בעת עיבוד הבקשה שלך.',
             'error-title'               => 'שגיאת תשלום',
             'back-to-cart'              => 'חזרה לעגלת קניות',
+            'invoice-pending'           => 'התשלום שלך עדיין בעיבוד. ההזמנה תעודכן ברגע ש-MyFatoorah תאשר אותו.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'שגיאת MyFatoorah',
         ],
 
         'components' => [
             'form' => [
-                'holder-name'             => 'שם על הכרטיס',
-                'card-number'             => 'מספר כרטיס',
-                'expiry-date'             => 'תאריך תפוגה',
-                'security-code'           => 'קוד אבטחה',
-                'card-holder-name-label'  => 'שם בעל הכרטיס',
-                'card-number-label'       => 'מספר כרטיס',
-                'expiry-date-label'       => 'תאריך תפוגה',
-                'security-code-label'     => 'קוד אבטחה',
-                'save-card'               => 'שמור מספר כרטיס לתשלומים עתידיים',
-                'add-card'                => 'השתמש בכרטיס אחר',
-                'deleteAlert'             => [
-                    'title'    => 'מחק כרטיס',
-                    'message'  => 'האם אתה בטוח שברצונך למחוק כרטיס זה?',
-                    'confirm'  => 'כן',
-                    'cancel'   => 'לא',
+                'holder-name'            => 'שם על הכרטיס',
+                'card-number'            => 'מספר כרטיס',
+                'expiry-date'            => 'תאריך תפוגה',
+                'security-code'          => 'קוד אבטחה',
+                'card-holder-name-label' => 'שם בעל הכרטיס',
+                'card-number-label'      => 'מספר כרטיס',
+                'expiry-date-label'      => 'תאריך תפוגה',
+                'security-code-label'    => 'קוד אבטחה',
+                'save-card'              => 'שמור מספר כרטיס לתשלומים עתידיים',
+                'add-card'               => 'השתמש בכרטיס אחר',
+                'deleteAlert'            => [
+                    'title'   => 'מחק כרטיס',
+                    'message' => 'האם אתה בטוח שברצונך למחוק כרטיס זה?',
+                    'confirm' => 'כן',
+                    'cancel'  => 'לא',
                 ],
             ],
         ],

@@ -2,9 +2,9 @@
 
 namespace Webkul\Myfatoorah\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
-use MyFatoorah\Library\MyFatoorah;
+use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
 
 class RegisterApplePay extends Command
 {
@@ -27,34 +27,41 @@ class RegisterApplePay extends Command
      */
     public function handle()
     {
-        if (! empty(core()->getConfigData('sales.payment_methods.myfatoorah.api_key'))) {
-
-            $response = json_decode($this->registerApplePay($this->ask('What is your domain ?'))->getBody(), true);
-
-            $this->info($response['IsSuccess'] ? 'Apple pay registered successfully' : $response['Message']);
-        } else {
+        if (empty(core()->getConfigData('sales.payment_methods.myfatoorah.api_key'))) {
             $this->info('API key not found');
+
+            return self::FAILURE;
         }
+
+        try {
+            $response = $this->registerApplePay((string) $this->ask('What is your domain ?'));
+        } catch (Exception $exception) {
+            $this->error($exception->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $this->info($response['IsSuccess'] ? 'Apple pay registered successfully' : $response['Message']);
+
+        return $response['IsSuccess'] ? self::SUCCESS : self::FAILURE;
     }
 
     /**
      * Register Apple Pay
      *
      * @param  string  $domain
-     * @return object|json
+     *
+     * @throws Exception
      */
-    public function registerApplePay($domain)
+    public function registerApplePay($domain): array
     {
-        $myfatoorah = new MyFatoorah([
-            'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-            'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
-            'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
-        ]);
+        $domain = preg_replace('#^https?://#i', '', trim($domain));
 
-        return Http::withHeaders([
-            'Authorization' => 'Bearer '.core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-        ])->post($myfatoorah->getApiURL().'/V2/RegisterApplePayDomain', [
-            'DomainName' => $domain,
-        ]);
+        $response = app(MyFatoorahPayment::class)->registerApplePayDomain('https://'.$domain);
+
+        return [
+            'IsSuccess' => (bool) ($response->IsSuccess ?? false),
+            'Message'   => (string) ($response->Message ?? ''),
+        ];
     }
 }

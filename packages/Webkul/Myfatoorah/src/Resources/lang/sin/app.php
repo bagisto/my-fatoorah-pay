@@ -2,14 +2,13 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
                         'title'              => 'MyFatoorah',
                         'description-title'  => 'විස්තරය',
                         'logo'               => 'ලොගෝ',
-
                         'description'        => 'ගෙවීම් ක්‍රම සහාය, කාඩ් දත්ත ගබඩා කිරීම, ප්‍රතිඥාව කාර්යක්ෂමතා සහ නියම-කාල තත්ත්ව යාවත්කාලීන කිරීම් සඳහා Webhook ඒකාබද්ධ කිරීම සහිත ආරක්ෂිත ගෙවීම් මොඩියුලයක්',
                         'api-key'            => 'API යතුර',
                         'test-mode'          => 'පරීක්ෂණ ක්‍රමය',
@@ -33,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Apple Pay සම්බන්ධ කරන්න',
+                'description' => 'MyFatoorah සැකසුම් තුළ Apple Pay සම්බන්ධ කරන්න',
+                'save-btn'    => 'සුරකින්න',
+                'back-btn'    => 'ආපසු',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'මෙම ඇණවුමේ තත්ත්වය :status ලෙස තිබියදී MyFatoorah විසින් :transaction ගෙවීම වාර්තා කරන ලදී. MyFatoorah හි ගෙවීම පරීක්ෂා කර අවශ්‍ය නොවේ නම් එය ආපසු ගෙවන්න.',
+        'refund-failed'      => 'MyFatoorah හට :amount ආපසු ගෙවීමට නොහැකි විය: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Checkout',
             'no-payment-gateways'       => 'ඔබගේ ගිණුමේ ගෙවීම් ක්‍රම කිසිවක් ලබා ගත නොහැක, කරුණාකර ඔබේ ගිණුම් කළමනාකරු අමතන්න.',
             'how-would-you-like-to-pay' => 'ඔබට ගෙවීමට කැමති ආකාරය කුමක්ද?',
@@ -44,6 +56,7 @@ return [
             'pay-with'                  => 'ගෙවීම',
             'insert-card-details'       => 'කාඩ් පතේ විස්තර ඇතුළු කරන්න',
             'pay-now'                   => 'දැන් ගෙවන්න',
+            'cancel'                    => 'අවලංගු කරන්න',
             'invoice-success'           => 'ඉන්වොයිසිය ගෙවා ඇත.',
             'invoice-failed'            => ':error නිසා ඉන්වොයිසිය ගෙවා නොමැත',
             'method-unavailable'        => 'මෙම ගෙවීම් ක්‍රමය අක්‍රීයයි, කරුණාකර වෙනත් ක්‍රමයක් උත්සාහ කරන්න',
@@ -54,9 +67,10 @@ return [
             'error-occurred'            => 'ඔබේ ඉල්ලීම සැකසීමේදී දෝෂයක් සිදු වී ඇත.',
             'error-title'               => 'ගෙවීම් දෝෂය',
             'back-to-cart'              => 'කරත්තයට ආපසු යන්න',
+            'invoice-pending'           => 'ඔබගේ ගෙවීම තවමත් සැකසෙමින් පවතී. MyFatoorah තහවුරු කළ විගස ඔබගේ ඇණවුම යාවත්කාලීන වේ.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'MyFatoorah දෝෂය',
         ],
 
@@ -73,10 +87,10 @@ return [
                 'save-card'              => 'අනාගත ගෙවීම් සඳහා කාඩ්පතේ අංකය සුරකින්න',
                 'add-card'               => 'වෙනත් කාඩ්පතක් භාවිතා කරන්න',
                 'deleteAlert'            => [
-                    'title'    => 'කාඩ්පත ඉවත් කරන්න',
-                    'message'  => 'ඔබට මෙම කාඩ්පත ඉවත් කිරීමට අවශ්‍ය බව විශ්වාසද?',
-                    'confirm'  => 'ඔව්',
-                    'cancel'   => 'නැත',
+                    'title'   => 'කාඩ්පත ඉවත් කරන්න',
+                    'message' => 'ඔබට මෙම කාඩ්පත ඉවත් කිරීමට අවශ්‍ය බව විශ්වාසද?',
+                    'confirm' => 'ඔව්',
+                    'cancel'  => 'නැත',
                 ],
             ],
         ],

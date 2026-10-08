@@ -2,6 +2,7 @@
 
 <v-payment-methods
     :methods="paymentMethods"
+    @payment-method-selected="setSelectedPaymentMethod"
     @processing="stepForward"
     @processed="stepProcessed"
 >
@@ -15,58 +16,59 @@
         type="text/x-template"
         id="v-payment-methods-template"
     >
-        <div class="mb-7">
-            <template v-if="! methods && ! myfatoorahPaymentMethods">
+        <div class="mb-7 max-md:last:!mb-0">
+            <template v-if="! methods">
                 <!-- Payment Method shimmer Effect -->
                 <x-shop::shimmer.checkout.onepage.payment-method />
             </template>
-    
-            <template v-else ref="mfatoorah">
+
+            <template v-else>
                 {!! view_render_event('bagisto.shop.checkout.onepage.payment_method.accordion.before') !!}
 
                 <!-- Accordion Blade Component -->
-                <x-shop::accordion class="!border-b-0">
+                <x-shop::accordion class="overflow-hidden !border-b-0 max-md:rounded-lg max-md:!border-none max-md:!bg-gray-100">
                     <!-- Accordion Blade Component Header -->
-                    <x-slot:header class="!p-0">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-2xl font-medium max-sm:text-xl">
+                    <x-slot:header class="px-0 py-4 max-md:p-3 max-md:text-sm max-md:font-medium max-sm:p-2">
+
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-medium max-md:text-base">
                                 @lang('shop::app.checkout.onepage.payment.payment-method')
                             </h2>
                         </div>
                     </x-slot>
-    
+
                     <!-- Accordion Blade Component Content -->
-                    <x-slot:content class="!p-0 mt-8">
-                        <div class="flex flex-wrap gap-7">
-                            <div 
-                                class="relative max-sm:max-w-full max-sm:flex-auto cursor-pointer"
+                    <x-slot:content class="mt-8 !p-0 max-md:mt-0 max-md:rounded-t-none max-md:border max-md:border-t-0 max-md:!p-4">
+                        <div class="flex flex-wrap gap-7 max-md:gap-4 max-sm:gap-2.5">
+                            <div
+                                class="relative cursor-pointer max-md:max-w-full max-md:flex-auto"
                                 v-for="(payment, index) in methods"
                             >
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.before') !!}
 
-                                <input 
-                                    type="radio" 
-                                    name="payment[method]" 
+                                <input
+                                    type="radio"
+                                    name="payment[method]"
                                     :value="payment.payment"
                                     :id="payment.method"
-                                    class="hidden peer"    
+                                    class="peer hidden"
                                     @change="store(payment)"
                                 >
-    
-                                <label 
-                                    :for="payment.method" 
-                                    class="absolute ltr:right-5 rtl:left-5 top-5 icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+
+                                <label
+                                    :for="payment.method"
+                                    class="icon-radio-unselect peer-checked:icon-radio-select absolute top-5 cursor-pointer text-2xl text-navyBlue ltr:right-5 rtl:left-5"
                                 >
                                 </label>
 
-                                <label 
-                                    :for="payment.method" 
-                                    class="w-[190px] p-5 block border border-[#E9E9E9] rounded-xl max-sm:w-full cursor-pointer"
+                                <label
+                                    :for="payment.method"
+                                    class="block w-[190px] cursor-pointer rounded-xl border border-zinc-200 p-5 max-md:flex max-md:w-full max-md:gap-5 max-md:rounded-lg max-md:ltr:pr-12 max-md:rtl:pl-12 max-sm:gap-4 max-sm:px-4 max-sm:py-2.5 max-sm:ltr:pr-12 max-sm:rtl:pl-12"
                                 >
                                     {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.before') !!}
 
                                     <img
-                                        class="max-w-[55px] max-h-[45px]"
+                                        class="max-h-11 max-w-14"
                                         :src="payment.image"
                                         width="55"
                                         height="55"
@@ -76,21 +78,24 @@
 
                                     {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.after') !!}
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
+                                    <div>
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
 
-                                    <p class="text-sm font-semibold mt-1.5">
-                                        @{{ payment.method_title }}
-                                    </p>
-                                    
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
+                                        <p class="mt-1.5 text-sm font-semibold max-md:mt-1 max-sm:mt-0">
+                                            @{{ payment.method_title }}
+                                        </p>
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!}
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
 
-                                    <p class="text-xs font-medium mt-2.5">
-                                        @{{ payment.description }}
-                                    </p> 
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!}
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
+                                        <p class="mt-2.5 text-xs font-medium text-zinc-500 max-md:mt-1 max-sm:mt-0">
+                                            @{{ payment.description }}
+                                        </p>
+
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
+
+                                    </div>
                                 </label>
 
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.after') !!}
@@ -98,59 +103,62 @@
                                 <!-- Todo implement the additionalDetails -->
                                 {{-- \Webkul\Payment\Payment::getAdditionalDetails($payment['method'] --}}
                             </div>
-                            
-                            <div 
-                                class="relative max-sm:max-w-full max-sm:flex-auto cursor-pointer"
-                                v-for="(payment, index) in myfatoorahPaymentMethods"
+
+                            <div
+                                class="relative cursor-pointer max-md:max-w-full max-md:flex-auto"
+                                v-for="(payment, index) in (mfpayments ? myfatoorahPaymentMethods : [])"
                             >
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.before') !!}
 
-                                <input 
-                                    type="radio" 
-                                    name="payment[method]" 
-                                    class="hidden peer"
-                                    :id="payment.PaymentMethodEn"
+                                <input
+                                    type="radio"
+                                    name="payment[method]"
+                                    class="peer hidden"
+                                    :id="'myfatoorah_' + payment.PaymentMethodCode"
+                                    :data-myfatoorah-method="payment.PaymentMethodCode"
                                     @change="store(mfpayments, payment.PaymentMethodCode)"
                                 >
-    
-                                <label 
-                                    :for="payment.PaymentMethodEn" 
-                                    class="absolute ltr:right-5 rtl:left-5 top-5 icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+
+                                <label
+                                    :for="'myfatoorah_' + payment.PaymentMethodCode"
+                                    class="icon-radio-unselect peer-checked:icon-radio-select absolute top-5 cursor-pointer text-2xl text-navyBlue ltr:right-5 rtl:left-5"
                                 >
                                 </label>
 
-                                <label 
-                                    :for="payment.PaymentMethodEn" 
-                                    class="w-[190px] p-5 block border border-[#E9E9E9] rounded-xl max-sm:w-full cursor-pointer"
+                                <label
+                                    :for="'myfatoorah_' + payment.PaymentMethodCode"
+                                    class="block w-[190px] cursor-pointer rounded-xl border border-zinc-200 p-5 max-md:flex max-md:w-full max-md:gap-5 max-md:rounded-lg max-md:ltr:pr-12 max-md:rtl:pl-12 max-sm:gap-4 max-sm:px-4 max-sm:py-2.5 max-sm:ltr:pr-12 max-sm:rtl:pl-12"
                                 >
                                     {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.before') !!}
 
                                     <img
-                                        class="max-w-[55px] max-h-[45px]"
+                                        class="max-h-11 max-w-14"
                                         :src="payment.ImageUrl"
                                         width="55"
                                         height="55"
-                                        :alt="payment.PaymentMethodEn"
-                                        :title="payment.PaymentMethodEn"
+                                        :alt="paymentTitle(payment)"
+                                        :title="paymentTitle(payment)"
                                     />
 
                                     {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.after') !!}
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
+                                    <div>
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
 
-                                    <p class="text-sm font-semibold mt-1.5">
-                                        @{{mfpayments.method_title}}
-                                    </p>
+                                        <p class="mt-1.5 text-sm font-semibold max-md:mt-1 max-sm:mt-0">
+                                            @{{ mfpayments.method_title }}
+                                        </p>
 
-                                    <p class="text-xs font-medium mt-2.5">
-                                        @{{ payment.PaymentMethodEn }}
-                                    </p>
-                                    
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
+                                        <p class="mt-2.5 text-xs font-medium text-zinc-500 max-md:mt-1 max-sm:mt-0">
+                                            @{{ paymentTitle(payment) }}
+                                        </p>
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!} 
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
 
-                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!}
+
+                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
+                                    </div>
                                 </label>
 
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.after') !!}
@@ -159,7 +167,7 @@
                     </x-slot>
                 </x-shop::accordion>
 
-                {!! view_render_event('bagisto.shop.checkout.onepage.index.payment_method.accordion.before') !!}
+                {!! view_render_event('bagisto.shop.checkout.onepage.payment_method.accordion.after') !!}
             </template>
         </div>
     </script>
@@ -176,43 +184,57 @@
                 },
             },
 
+            emits: ['payment-method-selected', 'processing', 'processed'],
+
             data() {
                 return {
                     myfatoorahPaymentMethods: [],
-                    
-                    mfpayments: null,
-                    
-                    paymentSession:null,
-                    
-                    jsEnvironment: null,
-                    
-                    saveCard: null,
-
-
-                }
+                };
             },
 
-            emits: ['processing', 'processed'],
+            computed: {
+                mfpayments() {
+                    return Object.values(this.methods || {}).find(method => method.method == 'myfatoorah') || null;
+                },
+            },
 
-            mounted() {
-                this.getMyfatoorahPaymentMethods();
+            watch: {
+                mfpayments: {
+                    immediate: true,
+
+                    handler(mfpayments, previous) {
+                        if (mfpayments && ! previous) {
+                            this.getMyfatoorahPaymentMethods();
+                        }
+                    },
+                },
             },
 
             methods: {
-                store(selectedMethod, myfatoorahPaymentMethods = null) {
+                store(selectedMethod, myfatoorahPaymentMethod = null) {
+                    this.$emit('payment-method-selected', selectedMethod.method);
 
-                    
-                        this.$emit('processing', 'review');
-                    
-                        this.$emitter.on('processed', (cart) => {
-                            console.log(cart);
-                        });
+                    this.$emit('processing', 'review');
 
-                        this.$axios.post("{{ route('shop.checkout.onepage.payment_methods.store') }}", {
+                    window.selectedMethod = myfatoorahPaymentMethod
+                        ? this.myfatoorahPaymentMethods.find(method => method.PaymentMethodCode == myfatoorahPaymentMethod)
+                        : null;
+
+                    this.$axios.post("{{ route('shop.checkout.onepage.payment_methods.store') }}", {
                             payment: selectedMethod
                         })
                         .then(response => {
                             this.$emit('processed', response.data.cart);
+
+                            this.$parent.loadMyFatoorahScript?.();
+
+                            // Used in mobile view.
+                            if (window.innerWidth <= 768) {
+                                window.scrollTo({
+                                    top: document.body.scrollHeight,
+                                    behavior: 'smooth'
+                                });
+                            }
                         })
                         .catch(error => {
                             this.$emit('processing', 'payment');
@@ -221,57 +243,30 @@
                                 window.location.href = error.response.data.redirect_url;
                             }
                         });
+                },
 
-                        selectedMethod.childMethod = myfatoorahPaymentMethods;
-
-                        window.selectedMethod = this.myfatoorahPaymentMethods.find((method) => method.PaymentMethodCode === myfatoorahPaymentMethods);
-
-                        this.$axios.post('{{ route('myfatoorah.checkout.orders.store') }}').then(() => {
-                            this.$parent.loadMyFatoorahScript(); 
-                        });
-
+                paymentTitle(payment) {
+                    return "{{ core()->getCurrentLocale()->code }}" == 'ar' ? payment.PaymentMethodAr : payment.PaymentMethodEn;
                 },
 
                 getMyfatoorahPaymentMethods() {
                     this.$axios.get("{{ route('myfatoorah.getMethods') }}")
                         .then(response => {
-                            let paymentMethods = Object.entries(response.data.paymentMethods);
-                            
-                            window.paymentMethods = response.data.paymentMethods;
-
                             window.saveCard = response.data.saveCard;
 
                             window.paymentSession = response.data.paymentSession;
 
                             window.jsEnvironment = response.data.jsEnvironment;
 
+                            const canUseApplePay = Boolean(window.ApplePaySession && window.ApplePaySession.canMakePayments && window.ApplePaySession.canMakePayments());
 
-                            paymentMethods.forEach( (payment) => {
-
-                                if((payment[1].PaymentMethodCode === 'ap' && payment[1].PaymentMethodEn === 'Apple Pay') || payment[1].PaymentMethodCode === 'gp' || payment[1].PaymentMethodCode === 'vm') {
-
-                                    for(let i = 0; i < this.myfatoorahPaymentMethods.length; i++) {
-
-                                        if(payment[1].PaymentMethodCode === this.myfatoorahPaymentMethods[i].PaymentMethodCode) {
-                                            this.myfatoorahPaymentMethods.splice(i, 1);
-                                        }
-                                    }
-                                       
-                                    this.myfatoorahPaymentMethods.push(payment[1]);
-                                    
-                                }
-                            });
-
-                            this.methods.forEach((element) => {
-                                if(element.method == 'myfatoorah') {
-                                    this.mfpayments = element;
-                                }
-                            });
+                            this.myfatoorahPaymentMethods = Object.values(response.data.paymentMethods)
+                                .filter(payment => ['ap', 'gp', 'vm'].includes(payment.PaymentMethodCode))
+                                .filter(payment => payment.PaymentMethodCode != 'ap' || canUseApplePay)
+                                .filter((payment, index, payments) => payments.findIndex(item => item.PaymentMethodCode == payment.PaymentMethodCode) == index);
                         })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                }
+                        .catch(error => {});
+                },
             },
         });
     </script>

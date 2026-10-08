@@ -3,17 +3,17 @@
 namespace Webkul\Myfatoorah\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use MyFatoorah\Library\API\MyFatoorahRefund;
 use MyFatoorah\Library\API\Payment\MyFatoorahPayment;
+use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
 use MyFatoorah\Library\API\Payment\MyFatoorahPaymentStatus;
 use MyFatoorah\Library\MyFatoorah;
-use MyFatoorah\Library\API\Payment\MyFatoorahPaymentEmbedded;
-use Webkul\Admin\Http\Controllers\Sales\RefundController as BaseRefundController;
-use Webkul\Myfatoorah\Commands\RegisterApplePay; 
-use Webkul\Myfatoorah\Cart;
-use Webkul\Myfatoorah\Http\Controllers\Sales\RefundController;
+use Webkul\Myfatoorah\Commands\RegisterApplePay;
+use Webkul\Myfatoorah\Listeners\Refund;
+use Webkul\Myfatoorah\Payment\Myfatoorah as MyfatoorahPaymentMethod;
 
 class MyfatoorahServiceProvider extends ServiceProvider
 {
@@ -24,10 +24,9 @@ class MyfatoorahServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         Route::middleware('web')->group(__DIR__.'/../Routes/route.php');
 
-        Route::middleware('web','admin')->group(__DIR__.'/../Routes/admin-route.php');
+        Route::middleware('web', 'admin')->group(__DIR__.'/../Routes/admin-route.php');
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
@@ -37,50 +36,23 @@ class MyfatoorahServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'myfatoorah');
 
-        $this->app->bind(BaseRefundController::class, RefundController::class);
-        
-        $mfConfig = [
-            'apiKey'      => core()->getConfigData('sales.payment_methods.myfatoorah.api_key'),
-            'isTest'      => (bool) core()->getConfigData('sales.payment_methods.myfatoorah.test_mode'),
-            'countryCode' => core()->getConfigData('sales.payment_methods.myfatoorah.country_iso'),
-        ];
+        Event::listen('sales.refund.save.after', [Refund::class, 'afterCreated']);
 
         $this->publishes([
-            __DIR__ . '/../Resources/views/shop/checkout/onepage/index.blade.php' => resource_path('views/vendor/shop/checkout/onepage/index.blade.php'),
-            __DIR__ . '/../Resources/views/shop/checkout/onepage/payment.blade.php' => resource_path('views/vendor/shop/checkout/onepage/payment.blade.php'),
+            __DIR__.'/../Resources/views/shop/checkout/onepage/index.blade.php'   => resource_path('views/vendor/shop/checkout/onepage/index.blade.php'),
+            __DIR__.'/../Resources/views/shop/checkout/onepage/payment.blade.php' => resource_path('views/vendor/shop/checkout/onepage/payment.blade.php'),
+            __DIR__.'/../../publishable'                                          => public_path('themes/myfatoorah'),
         ]);
 
-        if (! empty($mfConfig['apiKey'])) {
-
-            $this->app->bind(MyFatoorah::class, function () use ($mfConfig) {
-                return new MyFatoorah($mfConfig);
-            });
-
-            $this->app->bind(MyFatoorahPaymentEmbedded::class, function () use ($mfConfig) {
-                return new MyFatoorahPaymentEmbedded($mfConfig);
-            });
-
-            $this->app->bind(MyFatoorahPayment::class, function () use ($mfConfig) {
-                return new MyFatoorahPayment($mfConfig);
-            });
-
-            $this->app->bind(MyFatoorahRefund::class, function () use ($mfConfig) {
-                return new MyFatoorahRefund($mfConfig);
-            });
-
-            $this->app->bind(myFatoorahPaymentStatus::class, function () use ($mfConfig) {
-                return new myFatoorahPaymentStatus($mfConfig);
-            });
-
-            $this->app->bind('cart', Cart::class);
-
-            if (core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay')) {
-                $this->mergeConfigFrom(
-                    dirname(__DIR__).'/Config/admin.php', 'menu.admin'
-                );
-            }
+        if (
+            ! $this->app->runningInConsole()
+            && core()->getConfigData('sales.payment_methods.myfatoorah.api_key')
+            && core()->getConfigData('sales.payment_methods.myfatoorah.register_apple_pay')
+        ) {
+            $this->mergeConfigFrom(
+                dirname(__DIR__).'/Config/admin.php', 'menu.admin'
+            );
         }
-
     }
 
     /**
@@ -91,6 +63,26 @@ class MyfatoorahServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+
+        $this->app->bind(MyFatoorah::class, function () {
+            return new MyFatoorah($this->app->make(MyfatoorahPaymentMethod::class)->getLibraryConfig());
+        });
+
+        $this->app->bind(MyFatoorahPaymentEmbedded::class, function () {
+            return new MyFatoorahPaymentEmbedded($this->app->make(MyfatoorahPaymentMethod::class)->getLibraryConfig());
+        });
+
+        $this->app->bind(MyFatoorahPayment::class, function () {
+            return new MyFatoorahPayment($this->app->make(MyfatoorahPaymentMethod::class)->getLibraryConfig());
+        });
+
+        $this->app->bind(MyFatoorahRefund::class, function () {
+            return new MyFatoorahRefund($this->app->make(MyfatoorahPaymentMethod::class)->getLibraryConfig());
+        });
+
+        $this->app->bind(MyFatoorahPaymentStatus::class, function () {
+            return new MyFatoorahPaymentStatus($this->app->make(MyfatoorahPaymentMethod::class)->getLibraryConfig());
+        });
     }
 
     /**
@@ -108,8 +100,10 @@ class MyfatoorahServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/system.php', 'core'
         );
 
-        
-        
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/bagisto-vite.php', 'bagisto-vite.viters'
+        );
+
         $this->commands([RegisterApplePay::class]);
     }
 }

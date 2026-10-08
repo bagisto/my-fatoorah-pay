@@ -40,7 +40,9 @@
    ========================================================================== */
 .mf-payment-methods-container {
     /*max-width: 40rem;*/
-    width: fit-content;
+    width: min(100%, 28rem);
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Roboto', sans-serif;
 
     background-color: #fff;
 
@@ -49,10 +51,18 @@
     box-shadow: 0.063rem 0.063rem 0.625rem 0 rgba(144, 144, 144, 0.5);
 
     padding: 15px 10px;
-    margin: 0.5rem auto;
+    margin: 2rem auto 0.5rem;
 
     display: flex;
     flex-direction: column;
+}
+
+.mf-back-link {
+    display: block;
+    margin: 12px 8px 4px;
+    color: #060c3b;
+    font-size: 13px;
+    text-align: center;
 }
 
 /* PAYMENT METHODS SECTION

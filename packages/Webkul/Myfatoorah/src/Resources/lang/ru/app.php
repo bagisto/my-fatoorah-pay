@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'Привязка Apple Pay',
+                'description' => 'Привязка Apple Pay в настройках MyFatoorah',
+                'save-btn'    => 'Сохранить',
+                'back-btn'    => 'Назад',
+                'url'         => 'URL',
+            ],
+        ],
+
+        'unexpected-payment' => 'MyFatoorah сообщил о платеже :transaction по этому заказу, когда его статус был :status. Проверьте платёж в MyFatoorah и верните его, если он не нужен.',
+        'refund-failed'      => 'MyFatoorah не удалось вернуть :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'MyFatoorah - Оформление заказа',
             'no-payment-gateways'       => 'Нет доступных методов оплаты на вашем аккаунте, пожалуйста, свяжитесь с менеджером вашего аккаунта.',
             'how-would-you-like-to-pay' => 'Как вы хотите заплатить?',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'Оплатить с',
             'insert-card-details'       => 'Введите данные карты',
             'pay-now'                   => 'Оплатить сейчас',
+            'cancel'                    => 'Отмена',
             'invoice-success'           => 'Счет оплачен.',
             'invoice-failed'            => 'Счет не оплачен из-за :error',
             'method-unavailable'        => 'Этот метод оплаты неактивен, попробуйте другой',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'Произошла ошибка при обработке вашего запроса.',
             'error-title'               => 'Ошибка оплаты',
             'back-to-cart'              => 'Вернуться в корзину',
+            'invoice-pending'           => 'Ваш платёж ещё обрабатывается. Заказ будет обновлён, как только MyFatoorah его подтвердит.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'Ошибка MyFatoorah',
         ],
 
@@ -71,11 +86,11 @@ return [
                 'security-code-label'    => 'Код безопасности',
                 'save-card'              => 'Сохранить номер карты для будущих платежей',
                 'add-card'               => 'Использовать другую карту',
-                'deleteAlert'           => [
-                    'title'    => 'Удалить карту',
-                    'message'  => 'Вы уверены, что хотите удалить эту карту?',
-                    'confirm'  => 'Да',
-                    'cancel'   => 'Нет',
+                'deleteAlert'            => [
+                    'title'   => 'Удалить карту',
+                    'message' => 'Вы уверены, что хотите удалить эту карту?',
+                    'confirm' => 'Да',
+                    'cancel'  => 'Нет',
                 ],
             ],
         ],

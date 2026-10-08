@@ -2,7 +2,7 @@
 
 return [
     'admin' => [
-        'configurations' => [
+        'configurations'     => [
             'index' => [
                 'sales' => [
                     'payment-methods' => [
@@ -32,10 +32,23 @@ return [
                 ],
             ],
         ],
+
+        'settings'           => [
+            'map-apple-pay' => [
+                'title'       => 'ربط Apple Pay',
+                'description' => 'ربط Apple Pay في إعدادات MyFatoorah',
+                'save-btn'    => 'حفظ',
+                'back-btn'    => 'رجوع',
+                'url'         => 'الرابط',
+            ],
+        ],
+
+        'unexpected-payment' => 'أبلغت MyFatoorah عن الدفعة :transaction لهذا الطلب بينما كانت حالته :status. تحقق من الدفعة في MyFatoorah واستردها إذا لم تكن مطلوبة.',
+        'refund-failed'      => 'تعذر على MyFatoorah استرداد :amount: :message',
     ],
 
-    'shop' => [
-        'checkout' => [
+    'shop'  => [
+        'checkout'   => [
             'page-title'                => 'ماي فاتورة - الدفع',
             'no-payment-gateways'       => 'لا توجد طرق دفع متاحة على حسابك، يرجى الاتصال بمدير حسابك.',
             'how-would-you-like-to-pay' => 'كيف تود الدفع؟',
@@ -43,6 +56,7 @@ return [
             'pay-with'                  => 'ادفع بواسطة',
             'insert-card-details'       => 'أدخل تفاصيل البطاقة',
             'pay-now'                   => 'ادفع الآن',
+            'cancel'                    => 'إلغاء',
             'invoice-success'           => 'تم دفع الفاتورة.',
             'invoice-failed'            => 'لم يتم دفع الفاتورة بسبب :error',
             'method-unavailable'        => 'طريقة الدفع هذه غير نشطة، يرجى تجربة طريقة أخرى',
@@ -53,9 +67,10 @@ return [
             'error-occurred'            => 'حدث خطأ أثناء معالجة طلبك.',
             'error-title'               => 'خطأ في الدفع',
             'back-to-cart'              => 'العودة إلى السلة',
+            'invoice-pending'           => 'لا تزال عملية الدفع قيد المعالجة. سيتم تحديث طلبك فور تأكيد MyFatoorah.',
         ],
 
-        'error' => [
+        'error'      => [
             'page-title' => 'خطأ ماي فاتورة',
         ],
 
@@ -71,11 +86,11 @@ return [
                 'security-code-label'    => 'رمز الأمان',
                 'save-card'              => 'حفظ رقم البطاقة للدفع في المستقبل',
                 'add-card'               => 'استخدام بطاقة أخرى',
-                'delete-alert'           => [
-                    'title'    => 'حذف البطاقة',
-                    'message'  => 'هل أنت متأكد أنك تريد إزالة هذه البطاقة؟',
-                    'confirm'  => 'نعم',
-                    'cancel'   => 'لا',
+                'deleteAlert'            => [
+                    'title'   => 'حذف البطاقة',
+                    'message' => 'هل أنت متأكد أنك تريد إزالة هذه البطاقة؟',
+                    'confirm' => 'نعم',
+                    'cancel'  => 'لا',
                 ],
             ],
         ],
