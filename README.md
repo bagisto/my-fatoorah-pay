@@ -44,8 +44,9 @@ Webkul\Myfatoorah\Providers\MyfatoorahServiceProvider::class,
 ```bash
 composer dump-autoload
 
-php artisan optimize:clear
+php artisan myfatoorah:install
 ```
+
 
 The MyFatoorah Payment Gateway package is now registered.
 

@@ -28,8 +28,6 @@ class MyfatoorahServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../Routes/shop-routes.php');
 
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
-
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'my_fatoorah');
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'myfatoorah');
