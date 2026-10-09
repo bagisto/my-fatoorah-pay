@@ -68,7 +68,7 @@ class Myfatoorah extends Payment
     {
         $url = $this->getConfigData('logo');
 
-        return $url ? Storage::url($url) : bagisto_asset('images/myfatoorah.png', 'shop');
+        return $url ? Storage::url($url) : Storage::url('myfatoorah/myfatoorah.png');
     }
 
     /**

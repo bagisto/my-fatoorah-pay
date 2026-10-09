@@ -4,6 +4,7 @@ namespace Webkul\Myfatoorah\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Webkul\Myfatoorah\Console\Commands\InstallMyfatoorah;
 use Webkul\Myfatoorah\Listeners\Refund;
 
 class MyfatoorahServiceProvider extends ServiceProvider
@@ -16,6 +17,8 @@ class MyfatoorahServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(dirname(__DIR__).'/Config/payment-methods.php', 'payment_methods');
 
         $this->mergeConfigFrom(dirname(__DIR__).'/Config/system.php', 'core');
+
+        $this->registerCommands();
     }
 
     /**
@@ -31,6 +34,22 @@ class MyfatoorahServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'myfatoorah');
 
+        $this->publishes([
+            __DIR__.'/../Resources/assets/images' => storage_path('app/public/myfatoorah'),
+        ], 'public');
+
         Event::listen('sales.refund.save.after', [Refund::class, 'afterCreated']);
+    }
+
+    /**
+     * Register the console commands of this package.
+     */
+    protected function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallMyfatoorah::class,
+            ]);
+        }
     }
 }

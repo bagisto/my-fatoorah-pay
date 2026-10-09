@@ -1,0 +1,26 @@
+{
+    "name": "bagisto/laravel-myfatoorah-payment",
+    "description": "MyFatoorah Hosted Payment Page gateway for Bagisto.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bagisto",
+            "email": "support@bagisto.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Myfatoorah\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Myfatoorah\\Providers\\MyfatoorahServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "version": "1.0.0"
+}
