@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'Títol',
                         'description-title' => 'Descripció',
                         'logo' => 'Logotip',
                         'description' => 'El mòdul de pagament MyFatoorah permet pagar amb diverses opcions com Apple Pay, Google Pay i targetes de crèdit i dèbit.',

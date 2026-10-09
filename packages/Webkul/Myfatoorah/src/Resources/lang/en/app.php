@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'Title',
                         'description-title' => 'Description',
                         'logo' => 'Logo',
                         'description' => 'Myfatoorah Payment Module enable to make payment with multiple payment options like ApplePay, GooglePay, Credit and Debit cards.',

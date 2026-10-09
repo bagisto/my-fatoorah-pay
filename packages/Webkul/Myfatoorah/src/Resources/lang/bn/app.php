@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'শিরোনাম',
                         'description-title' => 'বর্ণনা',
                         'logo' => 'লোগো',
                         'description' => 'নিরাপদ পেমেন্ট মডিউল, পেমেন্ট পদ্ধতির সমর্থন, কার্ড ডেটা সংরক্ষণ, ফেরত সক্ষমতা, এবং রিয়েল-টাইম স্ট্যাটাস আপডেটের জন্য Webhook ইন্টিগ্রেশন',

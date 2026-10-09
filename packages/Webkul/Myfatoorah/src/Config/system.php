@@ -14,6 +14,14 @@ return [
                 'channel_based' => true,
                 'locale_based' => false,
             ], [
+                'name' => 'title',
+                'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.payment-title',
+                'type' => 'text',
+                'depends' => 'active:1',
+                'validation' => 'required_if:active,1',
+                'channel_based' => true,
+                'locale_based' => true,
+            ], [
                 'name' => 'description',
                 'title' => 'my_fatoorah::app.admin.configurations.index.sales.payment-methods.description-title',
                 'type' => 'textarea',

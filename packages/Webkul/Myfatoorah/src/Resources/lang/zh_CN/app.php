@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => '标题',
                         'description-title' => '描述',
                         'logo' => '标志',
                         'description' => '安全的支付模块，支持支付方式，卡数据存储，退款功能和Webhook集成，用于实时状态更新',

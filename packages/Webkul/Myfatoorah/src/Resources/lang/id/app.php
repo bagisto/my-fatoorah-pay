@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'Judul',
                         'description-title' => 'Deskripsi',
                         'logo' => 'Logo',
                         'description' => 'Modul pembayaran MyFatoorah memungkinkan pembayaran dengan berbagai pilihan seperti Apple Pay, Google Pay, serta kartu kredit dan debit.',

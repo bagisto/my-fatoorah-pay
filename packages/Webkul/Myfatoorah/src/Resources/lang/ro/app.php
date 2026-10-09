@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'Title',
                         'description-title' => 'Descriere',
                         'logo' => 'Siglă',
                         'description' => 'Modulul de plată MyFatoorah permite plata prin mai multe opțiuni, precum Apple Pay, Google Pay și carduri de credit și de debit.',

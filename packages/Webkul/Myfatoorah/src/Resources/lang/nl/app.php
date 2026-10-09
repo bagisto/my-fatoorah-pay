@@ -7,6 +7,7 @@ return [
                 'sales' => [
                     'payment-methods' => [
                         'title' => 'MyFatoorah',
+                        'payment-title' => 'Titel',
                         'description-title' => 'Beschrijving',
                         'logo' => 'Logo',
                         'description' => 'Veilig betalingssysteem met ondersteuning voor betaalmethoden, kaartgegevensopslag, terugbetalingsmogelijkheden en Webhook-integratie voor realtime statusupdates',
